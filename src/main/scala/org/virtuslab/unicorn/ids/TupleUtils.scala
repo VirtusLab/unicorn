@@ -1,4 +1,4 @@
-package play.api.db.slick.ids
+package org.virtuslab.unicorn.ids
 
 import scala.language.postfixOps
 

@@ -1,4 +1,4 @@
-package play.api.db.slick.ids
+package org.virtuslab.unicorn.ids
 
 import play.api.data.format.{ Formats, Formatter }
 import play.api.mvc.{ QueryStringBindable, PathBindable }
@@ -31,7 +31,7 @@ abstract class IdCompanion[I <: BaseId]
 }
 
 /** Marker trait */
-protected[db] trait Applicable[I <: BaseId] {
+protected[unicorn] trait Applicable[I <: BaseId] {
 
   /**
    * Factory method for I instance creation.
@@ -47,7 +47,7 @@ protected[db] trait Applicable[I <: BaseId] {
  * @tparam I type of Id
  * @author Krzysztof Romanowski, Jerzy Müller
  */
-protected[db] trait SlickImplicits[I <: BaseId] {
+protected[unicorn] trait SlickImplicits[I <: BaseId] {
   self: Applicable[I] =>
 
   /** Mapping for id */
@@ -65,7 +65,7 @@ protected[db] trait SlickImplicits[I <: BaseId] {
  * @tparam I type of Id
  * @author Krzysztof Romanowski, Jerzy Müller
  */
-protected[db] trait PlayImplicits[I <: BaseId] {
+protected[unicorn] trait PlayImplicits[I <: BaseId] {
   self: Applicable[I] =>
 
   /**

@@ -1,7 +1,7 @@
-package play.api.db.slick.ids.services
+package org.virtuslab.unicorn.ids.services
 
 import play.api.db.slick.Config.driver.simple._
-import play.api.db.slick.ids.{ IdTable, WithId, BaseId }
+import org.virtuslab.unicorn.ids.{ IdTable, WithId, BaseId }
 
 /**
  * Base class for all queries.
@@ -19,7 +19,7 @@ trait BaseQueries[A] {
 }
 
 /**
- * Base class for all queries with an [[db.BaseId]].
+ * Base class for all queries with an [[org.virtuslab.unicorn.ids.BaseId]].
  *
  * @tparam I type of id
  * @tparam A type of element that is queried

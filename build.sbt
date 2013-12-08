@@ -1,6 +1,8 @@
-name := "slick-typesafe-id"
+organization := "org.virtuslab"
 
-version := "0.3"
+name := "unicorn"
+
+version := "0.4"
 
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 

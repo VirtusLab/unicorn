@@ -1,4 +1,4 @@
-package play.api.db.slick.ids
+package org.virtuslab.unicorn.ids
 
 import java.sql.{ Date, Timestamp }
 import org.joda.time.{ LocalDate, DateTime }

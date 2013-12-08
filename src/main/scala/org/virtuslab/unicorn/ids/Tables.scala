@@ -1,4 +1,4 @@
-package play.api.db.slick.ids
+package org.virtuslab.unicorn.ids
 
 import scala.slick.lifted.{ NumericTypeMapper, BaseTypeMapper }
 import play.api.db.slick.Config.driver.simple._

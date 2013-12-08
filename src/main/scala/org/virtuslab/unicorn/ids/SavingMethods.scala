@@ -1,4 +1,4 @@
-package play.api.db.slick.ids
+package org.virtuslab.unicorn.ids
 
 import play.api.db.slick.Config.driver.simple.{ Column => _, _ }
 import scala.slick.lifted._

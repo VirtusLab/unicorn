@@ -1,9 +1,9 @@
-package play.api.db.slick.ids.services
+package org.virtuslab.unicorn.ids.services
 
 import java.sql.SQLException
 import play.api.db.slick.Config.driver.simple._
 import slick.session.Session
-import play.api.db.slick.ids.{ WithId, BaseId }
+import org.virtuslab.unicorn.ids.{ WithId, BaseId }
 
 /**
  * Base for services for entities that have no type-safe id created - for example join tables.
