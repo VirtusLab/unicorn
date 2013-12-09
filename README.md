@@ -25,7 +25,7 @@ Defining entities
 package model
 
 import scala.slick.session.Session
-import play.api.db.slick.ids._
+import org.virtuslab.unicorn.ids._
 
 /** Id class for type-safe joins and queries. */
 case class UserId(id: Long) extends AnyVal with BaseId
@@ -73,7 +73,7 @@ package service
 
 import model._
 import play.api.db.slick.Config.driver.simple._
-import play.api.db.slick.ids.services._
+import org.virtuslab.unicorn.ids.services._
 
 /**
  * Queries for users.
