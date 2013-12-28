@@ -28,7 +28,7 @@ trait BaseQueries[A] {
 trait BaseIdQueries[I <: BaseId, A <: WithId[I]] {
 
   /** @return table to operate on; it must be an IdTable */
-  protected def table: Table[A] with IdTable[I, A]
+  protected def table: IdTable[I, A]
 
   /** query that returns all */
   protected lazy val allQuery = Query(table)

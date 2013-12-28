@@ -54,7 +54,7 @@ trait BaseService[A] {
 }
 
 /**
- * Base trait for services where we use [[play.api.db.slick.ids.BaseId]]s.
+ * Base trait for services where we use [[org.virtuslab.unicorn.ids.BaseId]]s.
  *
  * @tparam I type of id
  * @tparam A type of entity
