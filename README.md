@@ -15,6 +15,17 @@ Authors:
 
 Feel free to use it, test it and to contribute!
 
+Getting unicorn
+---------------
+
+For latest version (Scala 2.10.x compatible) use:
+
+```scala
+libraryDependencies += "org.virtuslab" %% "unicorn" % "0.4.1"
+```
+
+Or see [Maven repository](http://maven-repository.com/artifact/org.virtuslab/unicorn_2.10/0.4), currently latest published is 0.4.
+
 Examples
 ========
 
