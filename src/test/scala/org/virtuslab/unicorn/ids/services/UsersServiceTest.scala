@@ -53,4 +53,20 @@ class UsersServiceTest extends AppTest {
       userOpt.map(_.lastName) shouldEqual Some(user.lastName)
       userOpt.flatMap(_.id) shouldNot be(None)
   }
+
+  it should "query existing user" in rollback {
+    implicit session =>
+    // setup
+      object UsersService extends UsersService
+      Users.ddl.create
+
+      val user = User(None, "test@email.com", "Krzysztof", "Nowak")
+      val userId = UsersService save user
+      val user2 = UsersService findExistingById userId
+
+      user2.email shouldEqual user.email
+      user2.firstName shouldEqual user.firstName
+      user2.lastName shouldEqual user.lastName
+      user2.id shouldNot be(None)
+  }
 }

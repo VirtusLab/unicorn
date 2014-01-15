@@ -1,10 +1,11 @@
 package org.virtuslab.unicorn.ids
 
-import org.scalatest.{BeforeAndAfterEach, FlatSpecLike, Matchers}
+import org.scalatest._
 import play.api.Play
 import play.api.db.slick.DB
 import play.api.test.FakeApplication
 import scala.slick.session.Session
+import play.api.test.FakeApplication
 
 trait BaseTest extends FlatSpecLike with Matchers
 
@@ -17,14 +18,15 @@ trait AppTest extends BaseTest with BeforeAndAfterEach {
     "db.default.password" -> ""
   )
 
-  implicit val app = new FakeApplication(additionalConfiguration = testDb)
+  implicit var app: FakeApplication = _
 
-  override protected def beforeEach(): Unit = {
-    super.beforeEach()
+  override protected def beforeEach(data: TestData): Unit = {
+    app = new FakeApplication(additionalConfiguration = testDb)
     Play.start(app)
+    super.beforeEach()
   }
 
-  override protected def afterEach(): Unit = {
+  override protected def afterEach(data: TestData): Unit = {
     Play.stop()
     super.afterEach()
   }

@@ -60,3 +60,38 @@ abstract class BaseTable[A](schemaName: Option[String], tableName: String)
    */
   def this(tableName: String) = this(None, tableName)
 }
+
+/**
+ * Base table for simple linking between two values
+ *
+ * @param schemaName name of schema (optional)
+ * @param tableName name of the table
+ * @tparam A type of one entity
+ * @tparam B type of other entity
+ * @author Krzysztof Romanowski, Jerzy Müller
+ */
+abstract class JunctionTable[A: BaseTypeMapper, B: BaseTypeMapper](schemaName: Option[String], tableName: String)
+  extends Table[(A, B)](schemaName, tableName) {
+
+  /**
+   * Auxiliary constructor without schema name.
+   * @param tableName name of table
+   */
+  def this(tableName: String) = this(None, tableName)
+
+  /** Type mapper for A type */
+  val aMapper = implicitly[BaseTypeMapper[A]]
+
+  /** Type mapper for B type */
+  val bMapper = implicitly[BaseTypeMapper[B]]
+
+  /**
+   * instead of def * = colA ~ colB write def columns = colA -> colB
+   * @return
+   */
+  def columns: (Column[A], Column[B])
+
+  def * = columns._1 ~ columns._2
+
+  def uniqueValues = index(s"${tableName}_uniq_idx", *, unique = true)
+}

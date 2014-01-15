@@ -1,7 +1,7 @@
 package org.virtuslab.unicorn.ids
 
 import java.sql.{ Date, Timestamp }
-import org.joda.time.{ LocalDate, DateTime }
+import org.joda.time.{Duration, LocalDate, DateTime}
 import scala.slick.lifted.MappedTypeMapper
 
 /**
@@ -9,7 +9,7 @@ import scala.slick.lifted.MappedTypeMapper
  *
  * @author Jerzy Müller, Krzysztof Romanowski
  */
-private[ids] trait CustomTypeMappers {
+trait CustomTypeMappers {
 
   /** Type mapper for [[org.joda.time.DateTime]] */
   implicit val dateTimeMapper = MappedTypeMapper.base[DateTime, Timestamp](
@@ -22,7 +22,13 @@ private[ids] trait CustomTypeMappers {
     dt => new Date(dt.toDate.getTime),
     d => new LocalDate(d.getTime)
   )
+
+  /** Type mapper for [[org.joda.time.Duration]] */
+  implicit val durationTypeMapper = MappedTypeMapper.base[Duration, Long](
+    d => d.getMillis,
+    l => Duration.millis(l)
+  )
 }
 
-/** Object for [[play.api.db.slick.ids.CustomTypeMappers]] if you prefer import rather than extend. */
+/** Object for [[org.virtuslab.unicorn.ids.CustomTypeMappers]] if you prefer import rather than extend. */
 object CustomTypeMappers extends CustomTypeMappers

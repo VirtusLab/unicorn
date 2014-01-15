@@ -86,6 +86,16 @@ trait BaseIdService[I <: BaseId, A <: WithId[I]] {
   def findById(id: I)(implicit session: Session): Option[A] = byIdQuery(id).firstOption
 
   /**
+    * Finds one element by id.
+    *
+    * @param id id of element
+    * @param session implicit session
+    * @return Option(element)
+    */
+   def findExistingById(id: I)(implicit session: Session): A =
+    findById(id).getOrElse(throw new NoSuchFieldException(s"For id: $id in table: ${table.tableName}"))
+
+  /**
    * Finds elements by given ids.
    *
    * @param ids ids of element
