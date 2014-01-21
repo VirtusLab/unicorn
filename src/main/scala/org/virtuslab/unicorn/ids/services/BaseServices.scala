@@ -1,9 +1,9 @@
 package org.virtuslab.unicorn.ids.services
 
 import java.sql.SQLException
-import play.api.db.slick.Config.driver.simple._
-import slick.session.Session
-import org.virtuslab.unicorn.ids.{ WithId, BaseId }
+// TODO - change to play-slick
+import scala.slick.driver.PostgresDriver.simple._
+import org.virtuslab.unicorn.ids.{IdTable, WithId, BaseId}
 
 /**
  * Base for services for entities that have no type-safe id created - for example join tables.
@@ -60,8 +60,8 @@ trait BaseService[A] {
  * @tparam A type of entity
  * @author Jerzy Müller
  */
-trait BaseIdService[I <: BaseId, A <: WithId[I]] {
-  self: BaseIdQueries[I, A] =>
+trait BaseIdService[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]] {
+  self: BaseIdQueries[I, A, T] =>
 
   /**
    * @param session implicit session param for query

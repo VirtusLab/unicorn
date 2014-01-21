@@ -2,7 +2,7 @@ package org.virtuslab.unicorn.ids
 
 import play.api.data.format.{ Formats, Formatter }
 import play.api.mvc.{ QueryStringBindable, PathBindable }
-import scala.slick.lifted.{ MappedTypeMapper, BaseTypeMapper, NumericTypeMapper }
+import scala.slick.lifted.MappedTo
 
 /**
  * Base trait for all ids in system.
@@ -10,7 +10,7 @@ import scala.slick.lifted.{ MappedTypeMapper, BaseTypeMapper, NumericTypeMapper 
  *
  * @author Krzysztof Romanowski, Jerzy Müller
  */
-trait BaseId extends Any {
+trait BaseId extends Any with MappedTo[Long] {
   def id: Long
 }
 
@@ -23,7 +23,6 @@ trait BaseId extends Any {
  */
 abstract class IdCompanion[I <: BaseId]
   extends PlayImplicits[I]
-  with SlickImplicits[I]
   with Applicable[I] {
 
   /** Ordering for ids - it is normal simple ordering on inner longs ascending */
@@ -39,24 +38,6 @@ protected[unicorn] trait Applicable[I <: BaseId] {
    * @return I instance
    */
   def apply(id: Long): I
-}
-
-/**
- * Implicits required by Slick.
- *
- * @tparam I type of Id
- * @author Krzysztof Romanowski, Jerzy Müller
- */
-protected[unicorn] trait SlickImplicits[I <: BaseId] {
-  self: Applicable[I] =>
-
-  /** Mapping for id */
-  implicit final val mapping: IdTable.NTM[I] =
-    new MappedTypeMapper[I, Long] with BaseTypeMapper[I] with NumericTypeMapper {
-      def map(t: I): Long = t.id
-
-      def comap(u: Long): I = SlickImplicits.this.apply(u)
-    }
 }
 
 /**

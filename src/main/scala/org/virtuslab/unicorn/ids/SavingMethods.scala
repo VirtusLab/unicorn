@@ -1,8 +1,7 @@
 package org.virtuslab.unicorn.ids
 
-import play.api.db.slick.Config.driver.simple.{ Column => _, _ }
-import scala.slick.lifted._
-import scala.slick.session.Session
+// TODO - change to play-slick
+import scala.slick.driver.PostgresDriver.simple._
 
 /**
  * Helper methods for saving entity.

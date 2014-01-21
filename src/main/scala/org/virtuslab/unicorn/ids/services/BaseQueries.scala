@@ -1,6 +1,8 @@
 package org.virtuslab.unicorn.ids.services
 
-import play.api.db.slick.Config.driver.simple._
+// TODO - change to play-slick
+import scala.slick.driver.PostgresDriver.simple._
+import scala.slick.lifted.Shape._
 import org.virtuslab.unicorn.ids.{ IdTable, WithId, BaseId }
 
 /**
@@ -25,21 +27,23 @@ trait BaseQueries[A] {
  * @tparam A type of element that is queried
  * @author Jerzy Müller
  */
-trait BaseIdQueries[I <: BaseId, A <: WithId[I]] {
+trait BaseIdQueries[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]] {
 
   /** @return table to operate on; it must be an IdTable */
-  protected def table: IdTable[I, A]
+  protected def table: T
+
+  protected def query: TableQuery[T]
 
   /** query that returns all */
-  protected lazy val allQuery = Query(table)
+  protected lazy val allQuery = query
 
   /** @return type mapper for I, required for querying */
-  protected implicit def mapping: IdTable.NTM[I] = table.mapping
+  protected implicit def mapping: BaseColumnType[I] = table.mapping
 
   /** Query element by id, parametrized version. */
   protected lazy val byIdQuery = for {
     id <- Parameters[I]
-    o <- table if o.id === id
+    o <- query if o.id === id
   } yield o
 
   /** Query all ids. */

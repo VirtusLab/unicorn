@@ -1,6 +1,7 @@
 package org.virtuslab.unicorn.ids.services
 
-import play.api.db.slick.Config.driver.simple._
+// TODO - change to play-slick
+import scala.slick.driver.PostgresDriver.simple._
 import scala.slick.lifted.Shape._
 import org.virtuslab.unicorn.ids.JunctionTable
 
@@ -14,35 +15,37 @@ trait JunctionQueries[A, B] {
 
   protected def table: JunctionTable[A, B]
 
+  protected def query: TableQuery[JunctionTable[A, B]]
+
   private implicit def aImpl = table.aMapper
 
   private implicit def bImpl = table.bMapper
 
   protected val getQuery = for {
     (a, b) <- Parameters[(A, B)]
-    en <- table if en.columns._1 === a && en.columns._2 === b
+    en <- query if en.columns._1 === a && en.columns._2 === b
   } yield en
 
   protected val getByAQuery = for {
     a <- Parameters[A]
-    en <- table if en.columns._1 === a
+    en <- query if en.columns._1 === a
   } yield en.columns._2
 
   protected val getByBQuery = for {
     b <- Parameters[B]
-    en <- table if en.columns._2 === b
+    en <- query if en.columns._2 === b
   } yield en.columns._1
 
   protected def getByAQueryFunc(a: A) = for {
-    en <- table if en.columns._1 === a
+    en <- query if en.columns._1 === a
   } yield en
 
   protected def getByBQueryFunc(b: B) = for {
-    en <- table if en.columns._2 === b
+    en <- query if en.columns._2 === b
   } yield en
 
   protected def getQueryFunc(a: A, b: B) = for {
-    en <- table if en.columns._1 === a && en.columns._2 === b
+    en <- query if en.columns._1 === a && en.columns._2 === b
   } yield en
 
 }
@@ -90,8 +93,8 @@ trait JunctionService[A, B] extends JunctionQueries[A, B] {
    * @return Option(elementId)
    */
   def save(a: A, b: B)(implicit session: Session) {
-    getQuery
-      .firstOption((a, b))
+    getQuery(a, b)
+      .firstOption()
       .orElse(Some(table.insert((a, b))))
   }
 
@@ -99,13 +102,13 @@ trait JunctionService[A, B] extends JunctionQueries[A, B] {
    * @param a element to query by
    * @return all b values for given a
    */
-  def forA(a: A)(implicit session: Session): Seq[B] = getByAQuery.list(a)
+  def forA(a: A)(implicit session: Session): Seq[B] = getByAQuery(a).list()
 
   /**
    * @param b element to query by
    * @return all a values for given b
    */
-  def forB(b: B)(implicit session: Session): Seq[A] = getByBQuery.list(b)
+  def forB(b: B)(implicit session: Session): Seq[A] = getByBQuery(b).list()
 
   /**
    * Delete all rows with given a value.
