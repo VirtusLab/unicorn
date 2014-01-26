@@ -21,10 +21,10 @@ Getting unicorn
 For latest version (Scala 2.10.x compatible) use:
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn" % "0.4.1"
+libraryDependencies += "org.virtuslab" %% "unicorn" % "0.4.2"
 ```
 
-Or see [Maven repository](http://maven-repository.com/artifact/org.virtuslab/unicorn_2.10/0.4), currently latest published is 0.4.
+Or see [Maven repository](http://maven-repository.com/artifact/org.virtuslab/unicorn_2.10), currently latest published is 0.4.1.
 
 Examples
 ========
