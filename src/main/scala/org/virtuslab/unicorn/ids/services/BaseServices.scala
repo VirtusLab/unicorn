@@ -147,7 +147,7 @@ trait BaseIdService[I <: BaseId, A <: WithId[I]] {
    * @return Sequence of ids
    */
   def saveAll(elems: Seq[A])(implicit session: Session): Seq[I] = session.withTransaction {
-    elems.map(elem => this.save(elem))
+    elems.toIndexedSeq map save
   }
 
 }

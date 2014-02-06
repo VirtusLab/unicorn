@@ -54,6 +54,20 @@ class UsersServiceTest extends AppTest {
       userOpt.flatMap(_.id) shouldNot be(None)
   }
 
+  it should "save and query multiple users" in rollback {
+    implicit session =>
+    // setup
+      object UsersService extends UsersService
+      Users.ddl.create
+
+      val users = (Stream from 1 take 10) map (n => User(None, "test@email.com", "Krzysztof" + n, "Nowak"))
+      UsersService saveAll users
+      val newUsers = UsersService.findAll()
+      newUsers.size shouldEqual 10
+      newUsers.headOption map (_.firstName) shouldEqual Some("Krzysztof1")
+      newUsers.lastOption map (_.firstName) shouldEqual Some("Krzysztof10")
+  }
+
   it should "query existing user" in rollback {
     implicit session =>
     // setup
