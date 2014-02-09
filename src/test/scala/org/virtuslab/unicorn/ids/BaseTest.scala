@@ -3,8 +3,7 @@ package org.virtuslab.unicorn.ids
 import org.scalatest._
 import play.api.Play
 import play.api.db.slick.DB
-import play.api.test.FakeApplication
-import scala.slick.session.Session
+import play.api.db.slick.Config.driver.simple._
 import play.api.test.FakeApplication
 
 trait BaseTest extends FlatSpecLike with Matchers

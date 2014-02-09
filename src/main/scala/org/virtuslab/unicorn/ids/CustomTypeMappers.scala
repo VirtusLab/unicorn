@@ -2,8 +2,7 @@ package org.virtuslab.unicorn.ids
 
 import java.sql.{ Date, Timestamp }
 import org.joda.time.{ Duration, LocalDate, DateTime }
-// TODO - change to play-slick
-import scala.slick.driver.PostgresDriver.simple._
+import play.api.db.slick.Config.driver.simple._
 
 /**
  * Custom Type mappers for Slick.

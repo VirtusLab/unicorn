@@ -1,7 +1,6 @@
 package org.virtuslab.unicorn.ids
 
-// TODO - change to play-slick
-import scala.slick.driver.PostgresDriver.simple._
+import play.api.db.slick.Config.driver.simple._
 
 /**
  * Base class for all tables that contains an id.
@@ -15,8 +14,7 @@ import scala.slick.driver.PostgresDriver.simple._
  */
 abstract class IdTable[I <: BaseId, A <: WithId[I]](tag: Tag, schemaName: Option[String], tableName: String)
                                                    (implicit val mapping: BaseColumnType[I])
-  extends BaseTable[A](tag, schemaName, tableName)
-  with SavingMethods[I, A, IdTable[I, A]] {
+  extends BaseTable[A](tag, schemaName, tableName) {
 
   /**
    * Auxiliary constructor without schema name.
@@ -26,15 +24,6 @@ abstract class IdTable[I <: BaseId, A <: WithId[I]](tag: Tag, schemaName: Option
 
   /** @return id column representation of this table */
   final def id = column[I]("id", O.PrimaryKey, O.AutoInc)
-
-  /**
-   * Method for inserting one element, to be implemented by subtypes.
-   *
-   * @param elem element to insert
-   * @param session implicit session
-   * @return
-   */
-  def insertOne(elem: A)(implicit session: Session): I
 }
 
 /**

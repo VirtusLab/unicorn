@@ -12,6 +12,8 @@ import scala.slick.lifted.MappedTo
  */
 trait BaseId extends Any with MappedTo[Long] {
   def id: Long
+
+  override def value = id
 }
 
 /**

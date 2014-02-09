@@ -1,17 +1,16 @@
-package org.virtuslab.unicorn.ids.services
+package org.virtuslab.unicorn.ids.repositories
 
-// TODO - change to play-slick
-import scala.slick.driver.PostgresDriver.simple._
+import play.api.db.slick.Config.driver.simple._
 import scala.slick.lifted.Shape._
 import org.virtuslab.unicorn.ids.JunctionTable
 
 /**
- * Base queries for junction tables
- * @tparam A type of one entity
- * @tparam B type of other entity
- * @author Krzysztof Romanowski
- */
-trait JunctionQueries[A, B] {
+* Base queries for junction tables
+* @tparam A type of one entity
+* @tparam B type of other entity
+* @author Krzysztof Romanowski
+*/
+private[repositories] trait JunctionQueries[A, B] {
 
   protected def table: JunctionTable[A, B]
 
@@ -51,12 +50,12 @@ trait JunctionQueries[A, B] {
 }
 
 /**
- * Service with basic methods for junction tables.
- * @tparam A type of one entity
- * @tparam B type of other entity
- * @author Krzysztof Romanowski
- */
-trait JunctionService[A, B] extends JunctionQueries[A, B] {
+* Repository with basic methods for junction tables.
+* @tparam A type of one entity
+* @tparam B type of other entity
+* @author Krzysztof Romanowski
+*/
+trait JunctionRepository[A, B] extends JunctionQueries[A, B] {
 
   /**
    * Deletes one element.

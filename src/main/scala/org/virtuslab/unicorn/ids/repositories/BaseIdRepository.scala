@@ -1,67 +1,19 @@
-package org.virtuslab.unicorn.ids.services
+package org.virtuslab.unicorn.ids.repositories
 
 import java.sql.SQLException
-// TODO - change to play-slick
-import scala.slick.driver.PostgresDriver.simple._
+import play.api.db.slick.Config.driver.simple._
 import org.virtuslab.unicorn.ids.{IdTable, WithId, BaseId}
 
 /**
- * Base for services for entities that have no type-safe id created - for example join tables.
- *
- * @tparam A type of entity
- * @author Jerzy Müller
- */
-trait BaseService[A] {
-  self: BaseQueries[A] =>
-
-  /**
-   * @param session implicit session param for query
-   * @return all elements of type A
-   */
-  def findAll()(implicit session: Session): Seq[A] = allQuery.list()
-
-  /**
-   * Deletes all elements in table.
-   * @param session implicit session param for query
-   * @return number of deleted elements
-   */
-  def deleteAll()(implicit session: Session): Int = allQuery.delete
-
-  /**
-   * Saves one element. Warning - if element already exist, it's not updated.
-   *
-   * @param elem element to save
-   * @param session implicit database session
-   * @return elem itself
-   */
-  def save(elem: A)(implicit session: Session): A = {
-    if (!exists(elem)) {
-      table.insert(elem)
-    }
-    elem
-  }
-
-  /**
-   * Checks if element exists in database. It have to be implemented by user,
-   * because this is service for entities without an id and generic method
-   * could not be created.
-   *
-   * @param elem element to check for
-   * @param session implicit database session
-   * @return true if element exists in database
-   */
-  protected def exists(elem: A)(implicit session: Session): Boolean
-}
-
-/**
- * Base trait for services where we use [[org.virtuslab.unicorn.ids.BaseId]]s.
- *
- * @tparam I type of id
- * @tparam A type of entity
- * @author Jerzy Müller
- */
-trait BaseIdService[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]] {
-  self: BaseIdQueries[I, A, T] =>
+* Base trait for repositories where we use [[org.virtuslab.unicorn.ids.BaseId]]s.
+*
+* @tparam I type of id
+* @tparam A type of entity
+* @author Jerzy Müller
+*/
+abstract class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]](tableName: String, val query: TableQuery[T])
+                                                                                (implicit val mapping: BaseColumnType[I])
+  extends BaseIdQueries[I, A, T] {
 
   /**
    * @param session implicit session param for query
@@ -83,7 +35,7 @@ trait BaseIdService[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]] {
    * @param session implicit session
    * @return Option(element)
    */
-  def findById(id: I)(implicit session: Session): Option[A] = byIdQuery(id).firstOption
+  def findById(id: I)(implicit session: Session): Option[A] = byIdFunc(id).firstOption
 
   /**
     * Finds one element by id.
@@ -93,7 +45,7 @@ trait BaseIdService[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]] {
     * @return Option(element)
     */
    def findExistingById(id: I)(implicit session: Session): A =
-    findById(id).getOrElse(throw new NoSuchFieldException(s"For id: $id in table: ${table.tableName}"))
+    findById(id).getOrElse(throw new NoSuchFieldException(s"For id: $id in table: $tableName"))
 
   /**
    * Finds elements by given ids.
@@ -132,10 +84,10 @@ trait BaseIdService[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]] {
       id =>
         val rowsUpdated = byIdFunc(id).update(elem)
         if (rowsUpdated == 1) id
-        else throw new SQLException(s"Error during save in table: ${table.tableName}, " +
+        else throw new SQLException(s"Error during save in table: $tableName, " +
           s"for id: $id - $rowsUpdated rows updated, expected: 1. Entity: $elem")
     }.getOrElse(
-      table.insertOne(elem)
+      (query returning query.map(_.id)) insert elem
     )
   }
 
