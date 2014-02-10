@@ -45,12 +45,13 @@ class UsersRepositoryTest extends AppTest {
   it should "save and query multiple users" in rollback {
     implicit session =>
     // setup
-      object UsersService extends UsersService
-      Users.ddl.create
+      val usersQuery: TableQuery[Users] = TableQuery[Users]
+      object UsersRepository extends BaseIdRepository[UserId, User, Users]("users", usersQuery)
+      usersQuery.ddl.create
 
       val users = (Stream from 1 take 10) map (n => User(None, "test@email.com", "Krzysztof" + n, "Nowak"))
-      UsersService saveAll users
-      val newUsers = UsersService.findAll()
+      UsersRepository saveAll users
+      val newUsers = UsersRepository.findAll()
       newUsers.size shouldEqual 10
       newUsers.headOption map (_.firstName) shouldEqual Some("Krzysztof1")
       newUsers.lastOption map (_.firstName) shouldEqual Some("Krzysztof10")

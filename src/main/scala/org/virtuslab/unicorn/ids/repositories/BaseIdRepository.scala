@@ -99,6 +99,7 @@ abstract class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]]
    * @return Sequence of ids
    */
   def saveAll(elems: Seq[A])(implicit session: Session): Seq[I] = session.withTransaction {
+    // conversion is required to force lazy collections
     elems.toIndexedSeq map save
   }
 
