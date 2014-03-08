@@ -22,18 +22,13 @@ private[repositories] trait BaseIdQueries[I <: BaseId, A <: WithId[I], T <: IdTa
   /** @return type mapper for I, required for querying */
   protected implicit def mapping: BaseColumnType[I]
 
-  /** Query element by id, parametrized version. */
-//  this query crashec the compiler :(
-//  protected lazy val byIdQuery = for {
-//    id <- Parameters[I]
-//    o <- query if o.id === id
-//  } yield o
+  val byIdQuery = Compiled(byIdFunc _)
 
   /** Query all ids. */
   protected lazy val allIdsQuery = allQuery.map(_.id)
 
   /** Query element by id, method version. */
-  protected def byIdFunc(id: I) = allQuery.filter(_.id === id)
+  protected def byIdFunc(id: Column[I]) = allQuery.filter(_.id === id)
 
   /** Query by multiple ids. */
   protected def byIdsQuery(ids: Seq[I]) = allQuery.filter(_.id inSet ids)

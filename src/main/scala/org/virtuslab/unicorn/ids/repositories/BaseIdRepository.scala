@@ -35,7 +35,7 @@ abstract class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]]
    * @param session implicit session
    * @return Option(element)
    */
-  def findById(id: I)(implicit session: Session): Option[A] = byIdFunc(id).firstOption
+  def findById(id: I)(implicit session: Session): Option[A] = byIdQuery(id).firstOption
 
   /**
     * Finds one element by id.
@@ -63,7 +63,7 @@ abstract class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]]
    * @param session implicit session
    * @return number of deleted elements (0 or 1)
    */
-  def deleteById(id: I)(implicit session: Session): Int = byIdFunc(id).delete
+  def deleteById(id: I)(implicit session: Session): Int = byIdQuery(id).delete
     .ensuring(_ <= 1, "Delete by id removed more than one row")
 
   /**
