@@ -25,11 +25,13 @@ class UsersRepositoryTest extends AppTest {
     override def * = (id.?, email, firstName, lastName) <> (User.tupled, User.unapply)
   }
 
-  "Users Service" should "save and query users" in rollback {
+  behavior of "Users repository"
+
+  it should "save and query users" in rollback {
     implicit session =>
     // setup
       val usersQuery: TableQuery[Users] = TableQuery[Users]
-      object UsersRepository extends BaseIdRepository[UserId, User, Users]("users", usersQuery)
+      object UsersRepository extends BaseIdRepository[UserId, User, Users]("USERS", usersQuery)
       usersQuery.ddl.create
 
       val user = User(None, "test@email.com", "Krzysztof", "Nowak")
@@ -46,7 +48,7 @@ class UsersRepositoryTest extends AppTest {
     implicit session =>
     // setup
       val usersQuery: TableQuery[Users] = TableQuery[Users]
-      object UsersRepository extends BaseIdRepository[UserId, User, Users]("users", usersQuery)
+      object UsersRepository extends BaseIdRepository[UserId, User, Users]("USERS", usersQuery)
       usersQuery.ddl.create
 
       val users = (Stream from 1 take 10) map (n => User(None, "test@email.com", "Krzysztof" + n, "Nowak"))
@@ -61,7 +63,7 @@ class UsersRepositoryTest extends AppTest {
     implicit session =>
     // setup
       val usersQuery: TableQuery[Users] = TableQuery[Users]
-      object UsersRepository extends BaseIdRepository[UserId, User, Users]("users", usersQuery)
+      object UsersRepository extends BaseIdRepository[UserId, User, Users]("USERS", usersQuery)
       usersQuery.ddl.create
 
       val user = User(None, "test@email.com", "Krzysztof", "Nowak")

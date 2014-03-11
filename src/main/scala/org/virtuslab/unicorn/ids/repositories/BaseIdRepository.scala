@@ -19,14 +19,14 @@ abstract class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]]
    * @param session implicit session param for query
    * @return all elements of type A
    */
-  def findAll()(implicit session: Session): Seq[A] = allQuery.list()
+  def findAll()(implicit session: Session): Seq[A] = query.list()
 
   /**
    * Deletes all elements in table.
    * @param session implicit session param for query
    * @return number of deleted elements
    */
-  def deleteAll()(implicit session: Session): Int = allQuery.delete
+  def deleteAll()(implicit session: Session): Int = query.delete
 
   /**
    * Finds one element by id.

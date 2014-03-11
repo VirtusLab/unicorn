@@ -14,6 +14,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.slick" %% "slick" % "2.0.0",
   "com.typesafe.play" %% "play-slick" % "0.6.0.1",
   "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
-  "com.typesafe.play" %% "play-test" % "2.2.0" % "test",
-  "com.h2database" % "h2" % "1.3.174" % "test"
+  "com.typesafe.play" %% "play-test" % "2.2.2" % "test",
+  "com.h2database" % "h2" % "1.3.175" % "test"
 )
+
+parallelExecution in Test := false
