@@ -92,7 +92,7 @@ trait BaseIdService[I <: BaseId, A <: WithId[I]] {
    * @param session implicit session
    * @return Option(id) of new element
    */
-  def clone(id: I)(implicit session: Session): Option[I] = findById(id).map(elem => table.insertOne(elem))
+  def copyAndSave(id: I)(implicit session: Session): Option[I] = findById(id).map(elem => table.insertOne(elem))
 
   /**
     * Finds one element by id.
