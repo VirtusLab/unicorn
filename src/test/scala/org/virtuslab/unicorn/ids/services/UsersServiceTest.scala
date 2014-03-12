@@ -83,4 +83,19 @@ class UsersServiceTest extends AppTest {
       user2.lastName shouldEqual user.lastName
       user2.id shouldNot be(None)
   }
+
+  it should "clone existing user" in rollback {
+    implicit session =>
+    // setup
+      object UsersService extends UsersService
+      Users.ddl.create
+
+      val user = User(None, "test@email.com", "Krzysztof", "Nowak")
+      val userId = UsersService save user
+      val user2Id = UsersService copyAndSave userId
+
+      user2Id shouldNot be(None)
+      user2Id shouldNot equal(userId)
+  }
+
 }
