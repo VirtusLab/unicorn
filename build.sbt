@@ -2,7 +2,7 @@ organization := "org.virtuslab"
 
 name := "unicorn"
 
-version := "0.4.3-SNAPSHOT"
+version := "0.4.3"
 
 scalaVersion := "2.10.3"
 
