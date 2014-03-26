@@ -1,11 +1,9 @@
-package org.virtuslab.unicorn.ids.services
+package org.virtuslab.unicorn.ids.repositories
 
 import org.virtuslab.unicorn.ids._
 import play.api.db.slick.Config.driver.simple._
-import scala.Some
-import scala.slick.session.Session
 
-class UsersServiceTest extends AppTest {
+class UsersRepositoryTest extends AppTest {
 
   case class UserId(id: Long) extends BaseId
 
@@ -16,7 +14,7 @@ class UsersServiceTest extends AppTest {
                   firstName: String,
                   lastName: String) extends WithId[UserId]
 
-  object Users extends IdTable[UserId, User]("USERS") {
+  class Users(tag: Tag) extends IdTable[UserId, User](tag, "USERS") {
 
     def email = column[String]("EMAIL", O.NotNull)
 
@@ -24,29 +22,21 @@ class UsersServiceTest extends AppTest {
 
     def lastName = column[String]("LAST_NAME", O.NotNull)
 
-    def base = email ~ firstName ~ lastName
-
-    override def * = id.? ~: base <>(User.apply _, User.unapply _)
-
-    override def insertOne(elem: User)(implicit session: Session): UserId =
-      saveBase(base, User.unapply _)(elem)
+    override def * = (id.?, email, firstName, lastName) <>(User.tupled, User.unapply)
   }
 
-  trait UsersQueries extends BaseIdQueries[UserId, User] {
-    override def table = Users
-  }
+  behavior of "Users repository"
 
-  trait UsersService extends BaseIdService[UserId, User] with UsersQueries
-
-  "Users Service" should "save and query users" in rollback {
+  it should "save and query users" in rollback {
     implicit session =>
     // setup
-      object UsersService extends UsersService
-      Users.ddl.create
+      val usersQuery: TableQuery[Users] = TableQuery[Users]
+      object UsersRepository extends BaseIdRepository[UserId, User, Users]("USERS", usersQuery)
+      usersQuery.ddl.create
 
       val user = User(None, "test@email.com", "Krzysztof", "Nowak")
-      val userId = UsersService save user
-      val userOpt = UsersService findById userId
+      val userId = UsersRepository save user
+      val userOpt = UsersRepository findById userId
 
       userOpt.map(_.email) shouldEqual Some(user.email)
       userOpt.map(_.firstName) shouldEqual Some(user.firstName)
@@ -57,12 +47,13 @@ class UsersServiceTest extends AppTest {
   it should "save and query multiple users" in rollback {
     implicit session =>
     // setup
-      object UsersService extends UsersService
-      Users.ddl.create
+      val usersQuery: TableQuery[Users] = TableQuery[Users]
+      object UsersRepository extends BaseIdRepository[UserId, User, Users]("USERS", usersQuery)
+      usersQuery.ddl.create
 
       val users = (Stream from 1 take 10) map (n => User(None, "test@email.com", "Krzysztof" + n, "Nowak"))
-      UsersService saveAll users
-      val newUsers = UsersService.findAll()
+      UsersRepository saveAll users
+      val newUsers = UsersRepository.findAll()
       newUsers.size shouldEqual 10
       newUsers.headOption map (_.firstName) shouldEqual Some("Krzysztof1")
       newUsers.lastOption map (_.firstName) shouldEqual Some("Krzysztof10")
@@ -71,12 +62,13 @@ class UsersServiceTest extends AppTest {
   it should "query existing user" in rollback {
     implicit session =>
     // setup
-      object UsersService extends UsersService
-      Users.ddl.create
+      val usersQuery: TableQuery[Users] = TableQuery[Users]
+      object UsersRepository extends BaseIdRepository[UserId, User, Users]("USERS", usersQuery)
+      usersQuery.ddl.create
 
       val user = User(None, "test@email.com", "Krzysztof", "Nowak")
-      val userId = UsersService save user
-      val user2 = UsersService findExistingById userId
+      val userId = UsersRepository save user
+      val user2 = UsersRepository findExistingById userId
 
       user2.email shouldEqual user.email
       user2.firstName shouldEqual user.firstName
@@ -87,12 +79,13 @@ class UsersServiceTest extends AppTest {
   it should "clone existing user" in rollback {
     implicit session =>
     // setup
-      object UsersService extends UsersService
-      Users.ddl.create
+      val usersQuery: TableQuery[Users] = TableQuery[Users]
+      object UsersRepository extends BaseIdRepository[UserId, User, Users]("USERS", usersQuery)
+      usersQuery.ddl.create
 
       val user = User(None, "test@email.com", "Krzysztof", "Nowak")
-      val userId = UsersService save user
-      val user2Id = UsersService copyAndSave userId
+      val userId = UsersRepository save user
+      val user2Id = UsersRepository copyAndSave userId
 
       user2Id shouldNot be(None)
       user2Id shouldNot equal(userId)

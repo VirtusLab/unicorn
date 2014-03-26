@@ -1,3 +1,10 @@
+WARNING
+=======
+
+This is Work in Progress branch for Slick 2.0 and play-slick 0.6.0. Code here could not work, or even not compile.
+
+You have been warned.
+
 Scala Slick type-safe ids
 =========================
 
