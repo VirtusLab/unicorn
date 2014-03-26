@@ -13,7 +13,7 @@ import play.api.db.slick.Config.driver.simple._
  * @tparam A type of entity
  * @author Jerzy Müller
  */
-abstract class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]](tableName: String, val query: TableQuery[T])
+class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]](tableName: String, val query: TableQuery[T])
                                                                                 (implicit val mapping: BaseColumnType[I])
   extends BaseIdQueries[I, A, T] {
 

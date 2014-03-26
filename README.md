@@ -1,10 +1,3 @@
-WARNING
-=======
-
-This is Work in Progress branch for Slick 2.0 and play-slick 0.6.0. Code here could not work, or even not compile.
-
-You have been warned.
-
 Scala Slick type-safe ids
 =========================
 
@@ -25,13 +18,15 @@ Feel free to use it, test it and to contribute!
 Getting unicorn
 ---------------
 
-For latest version (Scala 2.10.x compatible) use:
+For latest version (for Scala 2.10.x and Slick 2.0) use:
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn" % "0.4.3"
+libraryDependencies += "org.virtuslab" %% "unicorn" % "0.5.0-RC1"
 ```
 
 Or see [Maven repository](http://maven-repository.com/artifact/org.virtuslab/unicorn_2.10).
+
+For Slick 1.x see version `0.4.x`.
 
 Examples
 ========
@@ -66,56 +61,43 @@ case class User(id: Option[UserId],
                 lastName: String) extends WithId[UserId]
 
 /** Table definition for users. */
-object Users extends IdTable[UserId, User]("users") {
+class Users(tag: Tag) extends IdTable[UserId, User](tag, "USERS") {
 
-  def email = column[String]("email", O.NotNull)
+  def email = column[String]("EMAIL", O.NotNull)
 
-  def firstName = column[String]("first_name", O.NotNull)
+  def firstName = column[String]("FIRST_NAME", O.NotNull)
 
-  def lastName = column[String]("last_name", O.NotNull)
+  def lastName = column[String]("LAST_NAME", O.NotNull)
 
-  def base = email ~ firstName ~ lastName
-
-  override def * = id.? ~: base <> (User.apply _, User.unapply _)
-
-  override def insertOne(elem: User)(implicit session: Session): UserId =
-    saveBase(base, User.unapply _)(elem)
+  override def * = (id.?, email, firstName, lastName) <> (User.tupled, User.unapply)
 }
 ```
 
-Defining services
------------------
+Defining repositories
+---------------------
 
 ```scala
-package service
+package repositories
 
 import model._
 import play.api.db.slick.Config.driver.simple._
-import org.virtuslab.unicorn.ids.services._
+import org.virtuslab.unicorn.ids.repositories._
 
 /**
- * Queries for users.
- * It brings all base queries with it from [[service.BaseIdQueries]], but you can add yours as well.
- */
-trait UsersQueries extends BaseIdQueries[UserId, User] {
-  override def table = Users
-}
-
-/**
- * Service for users.
+ * Repository for users.
  *
- * It brings all base service methods with it from [[service.BaseIdService]], but you can add yours as well.
+ * It brings all base service methods with it from [[service.BaseIdRepository]], but you can add yours as well.
  *
- * It's a trait, so you can use your favourite DI method to instantiate/mix it to your application.
+ * Use your favourite DI method to instantiate it in your application.
  */
-trait UsersService extends BaseIdService[UserId, User] with UsersQueries
+class UsersRepository extends BaseIdRepository[UserId, User, Users]("USERS", TableQuery[Users])
 ```
 
 Usage
 -----
 
 ```scala
-package service
+package repositories
 
 import org.specs2.mutable.Specification
 import play.api.test.WithApplication
@@ -123,25 +105,21 @@ import play.api.db.slick.DB
 import model.User
 import scala.slick.session.Session
 
-class UsersServiceTest extends Specification {
+class UsersRepositoryTest extends AppTest {
 
-  "Users Service" should {
+  "Users repository" should "save and query users" in rollback { implicit session =>
+    // setup
+    val repository = new UsersRepository
+    usersQuery.ddl.create
 
-    "save and query users in" in new WithApplication {
-      DB.withSession {
-        implicit session: Session =>
-          object UsersService extends UsersService
+    val user = User(None, "test@email.com", "Krzysztof", "Nowak")
+    val userId = UsersRepository save user
+    val userOpt = UsersRepository findById userId
 
-          val user = User(None, "test@email.com", "Krzysztof", "Nowak")
-          val userId = UsersService save user
-          val userOpt = UsersService findById userId
-
-          userOpt.map(_.email) must be_=== (Some(user.email))
-          userOpt.map(_.firstName) must be_=== (Some(user.firstName))
-          userOpt.map(_.lastName) must be_=== (Some(user.lastName))
-          userOpt.flatMap(_.id) must not be_=== None
-      }
-    }
+    userOpt.map(_.email) shouldEqual Some(user.email)
+    userOpt.map(_.firstName) shouldEqual Some(user.firstName)
+    userOpt.map(_.lastName) shouldEqual Some(user.lastName)
+    userOpt.flatMap(_.id) shouldNot be(None)
   }
 }
 ```
