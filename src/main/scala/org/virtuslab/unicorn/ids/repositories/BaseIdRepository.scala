@@ -5,15 +5,17 @@ import play.api.db.slick.Config.driver.simple._
 import org.virtuslab.unicorn.ids.{IdTable, WithId, BaseId}
 
 /**
-* Base trait for repositories where we use [[org.virtuslab.unicorn.ids.BaseId]]s.
-*
-* @tparam I type of id
-* @tparam A type of entity
-* @author Jerzy Müller
-*/
+ * Base trait for repositories where we use [[org.virtuslab.unicorn.ids.BaseId]]s.
+ *
+ * @tparam I type of id
+ * @tparam A type of entity
+ * @author Jerzy Müller
+ */
 abstract class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]](tableName: String, val query: TableQuery[T])
                                                                                 (implicit val mapping: BaseColumnType[I])
   extends BaseIdQueries[I, A, T] {
+
+  protected def queryReturningId = query returning query.map(_.id)
 
   /**
    * @param session implicit session param for query
@@ -38,13 +40,22 @@ abstract class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]]
   def findById(id: I)(implicit session: Session): Option[A] = byIdQuery(id).firstOption
 
   /**
-    * Finds one element by id.
-    *
-    * @param id id of element
-    * @param session implicit session
-    * @return Option(element)
-    */
-   def findExistingById(id: I)(implicit session: Session): A =
+   * Clones element by id.
+   *
+   * @param id id of element to clone
+   * @param session implicit session
+   * @return Option(id) of new element
+   */
+  def copyAndSave(id: I)(implicit session: Session): Option[I] = findById(id).map(elem => queryReturningId insert elem)
+
+  /**
+   * Finds one element by id.
+   *
+   * @param id id of element
+   * @param session implicit session
+   * @return Option(element)
+   */
+  def findExistingById(id: I)(implicit session: Session): A =
     findById(id).getOrElse(throw new NoSuchFieldException(s"For id: $id in table: $tableName"))
 
   /**
@@ -80,15 +91,15 @@ abstract class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]]
    * @return Option(elementId)
    */
   def save(elem: A)(implicit session: Session): I = {
-    elem.id.map {
-      id =>
+    elem.id match {
+      case Some(id) =>
         val rowsUpdated = byIdFunc(id).update(elem)
         if (rowsUpdated == 1) id
         else throw new SQLException(s"Error during save in table: $tableName, " +
           s"for id: $id - $rowsUpdated rows updated, expected: 1. Entity: $elem")
-    }.getOrElse(
-      (query returning query.map(_.id)) insert elem
-    )
+      case None =>
+        queryReturningId insert elem
+    }
   }
 
   /**

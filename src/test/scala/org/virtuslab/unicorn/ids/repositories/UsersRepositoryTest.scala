@@ -22,7 +22,7 @@ class UsersRepositoryTest extends AppTest {
 
     def lastName = column[String]("LAST_NAME", O.NotNull)
 
-    override def * = (id.?, email, firstName, lastName) <> (User.tupled, User.unapply)
+    override def * = (id.?, email, firstName, lastName) <>(User.tupled, User.unapply)
   }
 
   behavior of "Users repository"
@@ -75,4 +75,20 @@ class UsersRepositoryTest extends AppTest {
       user2.lastName shouldEqual user.lastName
       user2.id shouldNot be(None)
   }
+
+  it should "clone existing user" in rollback {
+    implicit session =>
+    // setup
+      val usersQuery: TableQuery[Users] = TableQuery[Users]
+      object UsersRepository extends BaseIdRepository[UserId, User, Users]("USERS", usersQuery)
+      usersQuery.ddl.create
+
+      val user = User(None, "test@email.com", "Krzysztof", "Nowak")
+      val userId = UsersRepository save user
+      val user2Id = UsersRepository copyAndSave userId
+
+      user2Id shouldNot be(None)
+      user2Id shouldNot equal(userId)
+  }
+
 }
