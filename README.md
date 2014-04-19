@@ -18,15 +18,16 @@ Feel free to use it, test it and to contribute!
 Getting unicorn
 ---------------
 
-For latest version (for Scala 2.10.x and Slick 2.0) use:
+This branch is targeted at Slick 2.1.x, currently at `2.1.0-M1`.
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn" % "0.5.0-RC1"
+libraryDependencies += "org.virtuslab" %% "unicorn" % "0.6.0-M1"
 ```
 
 Or see [Maven repository](http://maven-repository.com/artifact/org.virtuslab/unicorn_2.10).
 
 For Slick 1.x see version `0.4.x`.
+For Slick 2.0.x see version `0.5.x`.
 
 Examples
 ========
