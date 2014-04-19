@@ -23,7 +23,7 @@ class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]](tableNam
    * @param session implicit session param for query
    * @return all elements of type A
    */
-  def findAll()(implicit session: Session): Seq[A] = query.list()
+  def findAll()(implicit session: Session): Seq[A] = query.list
 
   /**
    * Deletes all elements in table.
@@ -83,7 +83,7 @@ class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]](tableNam
    * @param session implicit session
    * @return Sequence of ids
    */
-  def allIds()(implicit session: Session): Seq[I] = allIdsQuery.list()
+  def allIds()(implicit session: Session): Seq[I] = allIdsQuery.list
 
   /**
    * Saves one element.
