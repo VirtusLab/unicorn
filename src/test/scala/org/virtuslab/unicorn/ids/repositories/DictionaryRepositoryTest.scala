@@ -29,7 +29,7 @@ class DictionaryRepositoryTest extends AppTest {
         } yield dictionaryEntry.value
 
         override protected def exists(entry: DictionaryEntry)(implicit session: Session): Boolean =
-          findQuery(entry).firstOption().nonEmpty
+          findQuery(entry).firstOption.nonEmpty
       }
       dictQuery.ddl.create
 

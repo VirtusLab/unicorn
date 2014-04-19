@@ -16,7 +16,7 @@ abstract class BaseRepository[A, T <: Table[A]](val query: TableQuery[T]) {
    * @param session implicit session param for query
    * @return all elements of type A
    */
-  def findAll()(implicit session: Session): Seq[A] = query.list()
+  def findAll()(implicit session: Session): Seq[A] = query.list
 
   /**
    * Deletes all elements in table.

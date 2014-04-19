@@ -81,7 +81,7 @@ trait JunctionRepository[A, B] extends JunctionQueries[A, B] {
    * @param session implicit session param for query
    * @return all elements of type (A, B)
    */
-  def findAll()(implicit session: Session): Seq[(A, B)] = Query(table).list()
+  def findAll()(implicit session: Session): Seq[(A, B)] = Query(table).list
 
   /**
    * Saves one element if it's not present in db already.
@@ -93,7 +93,7 @@ trait JunctionRepository[A, B] extends JunctionQueries[A, B] {
    */
   def save(a: A, b: B)(implicit session: Session) {
     getQuery(a, b)
-      .firstOption()
+      .firstOption
       .orElse(Some(table.insert((a, b))))
   }
 
@@ -101,13 +101,13 @@ trait JunctionRepository[A, B] extends JunctionQueries[A, B] {
    * @param a element to query by
    * @return all b values for given a
    */
-  def forA(a: A)(implicit session: Session): Seq[B] = getByAQuery(a).list()
+  def forA(a: A)(implicit session: Session): Seq[B] = getByAQuery(a).list
 
   /**
    * @param b element to query by
    * @return all a values for given b
    */
-  def forB(b: B)(implicit session: Session): Seq[A] = getByBQuery(b).list()
+  def forB(b: B)(implicit session: Session): Seq[A] = getByBQuery(b).list
 
   /**
    * Delete all rows with given a value.
