@@ -1,7 +1,8 @@
 package org.virtuslab.unicorn.ids.repositories
 
-import org.virtuslab.unicorn.ids.{BaseTable, AppTest}
-import play.api.db.slick.Config.driver.simple._
+import org.virtuslab.unicorn.ids.TestUnicorn._
+import org.virtuslab.unicorn.ids.TestUnicorn.simple._
+import org.virtuslab.unicorn.ids.AppTest
 
 class DictionaryRepositoryTest extends AppTest {
 

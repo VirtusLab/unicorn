@@ -9,7 +9,7 @@ object Dependencies {
 
   val testCore = Seq(
     "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
-    "com.h2database" % "h2" % "1.3.175" % "tes1t"
+    "com.h2database" % "h2" % "1.3.175" % "test"
   )
 
   val core = mainCore ++ testCore
