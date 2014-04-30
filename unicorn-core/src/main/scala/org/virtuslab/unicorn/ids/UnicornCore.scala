@@ -6,12 +6,16 @@ import org.virtuslab.unicorn.ids.repositories.{JunctionRepositories, IdRepositor
 /**
  * Created by Łukasz Dubiel on 29.04.14.
  */
-trait UnicornCore
-  extends Identifiers
+
+trait Unicorn extends Identifiers
   with Tables
-  with Repositories
-  with IdRepositories
-  with JunctionRepositories {
+  with Repositories {
+  self: JdbcDriver =>
+  type IdCompanion[I <: BaseId]
+}
+
+trait UnicornCore extends Unicorn {
   self: JdbcDriver =>
 
+  override type IdCompanion[I <: BaseId] = CoreCompanion[I]
 }

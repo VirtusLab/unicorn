@@ -4,7 +4,7 @@ import org.virtuslab.unicorn.ids._
 import TestUnicorn._
 import TestUnicorn.simple._
 
-class UsersRepositoryTest extends AppTest {
+class UsersRepositoryTest extends BaseTest {
 
   case class UserId(id: Long) extends BaseId
 
@@ -25,6 +25,7 @@ class UsersRepositoryTest extends AppTest {
   }
 
   val usersQuery: TableQuery[Users] = TableQuery[Users]
+
 
   object UsersRepository extends BaseIdRepository[UserId, User, Users]("users", usersQuery)
 

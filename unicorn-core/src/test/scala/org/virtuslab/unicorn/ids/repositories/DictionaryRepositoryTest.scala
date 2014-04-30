@@ -2,9 +2,9 @@ package org.virtuslab.unicorn.ids.repositories
 
 import org.virtuslab.unicorn.ids.TestUnicorn._
 import org.virtuslab.unicorn.ids.TestUnicorn.simple._
-import org.virtuslab.unicorn.ids.AppTest
+import org.virtuslab.unicorn.ids.BaseTest
 
-class DictionaryRepositoryTest extends AppTest {
+class DictionaryRepositoryTest extends BaseTest {
 
   type DictionaryEntry = (String, String)
 

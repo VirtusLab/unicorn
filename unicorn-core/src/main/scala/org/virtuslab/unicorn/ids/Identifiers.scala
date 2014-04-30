@@ -27,7 +27,7 @@ trait Identifiers {
    * @tparam I type of Id
    * @author Krzysztof Romanowski, Jerzy Müller
    */
-  abstract class IdCompanion[I <: BaseId] {
+  abstract class CoreCompanion[I <: BaseId] {
 
     /** Ordering for ids - it is normal simple ordering on inner longs ascending */
     implicit lazy val ordering: Ordering[I] = Ordering.by[I, Long](_.id)

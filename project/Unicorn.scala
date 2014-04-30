@@ -3,6 +3,8 @@ import sbt.Keys._
 
 object Unicorn extends Build {
 
+  val alsoOnTest = "compile->compile;test->test"
+
   val defaultSettings = Seq(
     organization := "org.virtuslab",
     version := "0.5.0-SNAPSHOT",
@@ -19,12 +21,12 @@ object Unicorn extends Build {
     )
 
   val `unicorn-play` = project
-    .settings(defaultSettings:_*)
+    .settings(defaultSettings: _*)
     .settings(
       libraryDependencies ++= Dependencies.core,
       libraryDependencies ++= Dependencies.play
     )
-    .dependsOn(`unicorn-core`)
+    .dependsOn(`unicorn-core` % alsoOnTest)
 
   val root = project.in(file(".")).aggregate(`unicorn-core`, `unicorn-play`).settings(
     name := "unicorn"

@@ -2,7 +2,7 @@ package org.virtuslab.unicorn.ids.repositories
 
 import scala.slick.driver.JdbcDriver
 
-trait Repositories {
+trait Repositories extends JunctionRepositories with IdRepositories {
   self: JdbcDriver =>
 
   import simple._

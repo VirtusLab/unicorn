@@ -2,10 +2,7 @@ package org.virtuslab.unicorn.ids
 
 import org.scalatest._
 
-
-trait BaseTest extends FlatSpecLike with Matchers
-
-trait AppTest extends BaseTest with BeforeAndAfterEach {
+trait BaseTest extends FlatSpecLike with Matchers with BeforeAndAfterEach {
 
   import TestUnicorn.simple._
 
