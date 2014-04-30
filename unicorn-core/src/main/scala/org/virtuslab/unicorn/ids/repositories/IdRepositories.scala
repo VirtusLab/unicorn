@@ -3,7 +3,6 @@ package org.virtuslab.unicorn.ids.repositories
 import java.sql.SQLException
 import org.virtuslab.unicorn.ids._
 import scala.Some
-import scala.slick.jdbc.JdbcBackend
 import scala.slick.driver.JdbcDriver
 
 trait IdRepositories extends Identifiers with Tables with Queries {
