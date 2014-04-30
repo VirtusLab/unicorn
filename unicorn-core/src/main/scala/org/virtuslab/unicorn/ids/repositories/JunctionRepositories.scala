@@ -1,68 +1,64 @@
 package org.virtuslab.unicorn.ids.repositories
 
-import scala.slick.lifted.Shape._
 import org.virtuslab.unicorn.ids.{Tables, Identifiers}
 import scala.slick.driver.JdbcDriver
-
+import scala.slick.lifted.Shape._
 
 trait JunctionRepositories extends Identifiers with Tables {
   self: JdbcDriver =>
 
   import simple._
 
-
   /**
-  * Base queries for junction tables
-  * @tparam A type of one entity
-  * @tparam B type of other entity
-  * @author Krzysztof Romanowski
-  */
-  private[repositories] trait JunctionQueries[A, B] {
+   * Base queries for junction tables
+   * @tparam First type of one entity
+   * @tparam Second type of other entity
+   */
+  private[repositories] trait JunctionQueries[First, Second] {
 
-    protected def table: JunctionTable[A, B]
+    protected def table: JunctionTable[First, Second]
 
-    protected def query: TableQuery[JunctionTable[A, B]]
+    protected def query: TableQuery[JunctionTable[First, Second]]
 
     private implicit def aImpl = table.aMapper
 
     private implicit def bImpl = table.bMapper
 
     protected val getQuery = for {
-      (a, b) <- Parameters[(A, B)]
+      (a, b) <- Parameters[(First, Second)]
       en <- query if en.columns._1 === a && en.columns._2 === b
     } yield en
 
     protected val getByAQuery = for {
-      a <- Parameters[A]
+      a <- Parameters[First]
       en <- query if en.columns._1 === a
     } yield en.columns._2
 
     protected val getByBQuery = for {
-      b <- Parameters[B]
+      b <- Parameters[Second]
       en <- query if en.columns._2 === b
     } yield en.columns._1
 
-    protected def getByAQueryFunc(a: A) = for {
+    protected def getByAQueryFunc(a: First) = for {
       en <- query if en.columns._1 === a
     } yield en
 
-    protected def getByBQueryFunc(b: B) = for {
+    protected def getByBQueryFunc(b: Second) = for {
       en <- query if en.columns._2 === b
     } yield en
 
-    protected def getQueryFunc(a: A, b: B) = for {
+    protected def getQueryFunc(a: First, b: Second) = for {
       en <- query if en.columns._1 === a && en.columns._2 === b
     } yield en
 
   }
 
   /**
-  * Repository with basic methods for junction tables.
-  * @tparam A type of one entity
-  * @tparam B type of other entity
-  * @author Krzysztof Romanowski
-  */
-  trait JunctionRepository[A, B] extends JunctionQueries[A, B] {
+   * Repository with basic methods for junction tables.
+   * @tparam First type of one entity
+   * @tparam Second type of other entity
+   */
+  trait JunctionRepository[First, Second] extends JunctionQueries[First, Second] {
 
     /**
      * Deletes one element.
@@ -71,7 +67,7 @@ trait JunctionRepositories extends Identifiers with Tables {
      * @param session implicit session
      * @return number of deleted elements (0 or 1)
      */
-    def delete(elem: (A, B))(implicit session: Session): Int =
+    def delete(elem: (First, Second))(implicit session: Session): Int =
       getQueryFunc(elem._1, elem._2).delete
 
     /**
@@ -81,14 +77,14 @@ trait JunctionRepositories extends Identifiers with Tables {
      * @param session implicit database session
      * @return true if element exists in database
      */
-    def exists(elem: (A, B))(implicit session: Session) =
+    def exists(elem: (First, Second))(implicit session: Session): Boolean =
       getQueryFunc(elem._1, elem._2).firstOption.isDefined
 
     /**
      * @param session implicit session param for query
-     * @return all elements of type (A, B)
+     * @return all elements of type (First, Second)
      */
-    def findAll()(implicit session: Session): Seq[(A, B)] = Query(table).list()
+    def findAll()(implicit session: Session): Seq[(First, Second)] = Query(table).list
 
     /**
      * Saves one element if it's not present in db already.
@@ -98,29 +94,29 @@ trait JunctionRepositories extends Identifiers with Tables {
      * @param session implicit session
      * @return Option(elementId)
      */
-    def save(a: A, b: B)(implicit session: Session) {
-      getQuery(a, b)
-        .firstOption()
-        .orElse(Some(table.insert((a, b))))
+    def save(a: First, b: Second)(implicit session: Session): Unit = {
+      if (getQuery((a, b)).firstOption.isEmpty) {
+        table.insert((a, b))
+      }
     }
 
     /**
      * @param a element to query by
      * @return all b values for given a
      */
-    def forA(a: A)(implicit session: Session): Seq[B] = getByAQuery(a).list()
+    def forA(a: First)(implicit session: Session): Seq[Second] = getByAQuery(a).list
 
     /**
      * @param b element to query by
      * @return all a values for given b
      */
-    def forB(b: B)(implicit session: Session): Seq[A] = getByBQuery(b).list()
+    def forB(b: Second)(implicit session: Session): Seq[First] = getByBQuery(b).list
 
     /**
      * Delete all rows with given a value.
      * @param a element to query by
      */
-    def deleteForA(a: A)(implicit session: Session): Int = {
+    def deleteForA(a: First)(implicit session: Session): Int = {
       getByAQueryFunc(a).delete
     }
 
@@ -128,7 +124,7 @@ trait JunctionRepositories extends Identifiers with Tables {
      * Delete all rows with given b value.
      * @param b element to query by
      */
-    def deleteForB(b: B)(implicit session: Session): Int = {
+    def deleteForB(b: Second)(implicit session: Session): Int = {
       getByBQueryFunc(b).delete
     }
 

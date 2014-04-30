@@ -10,18 +10,18 @@ trait Repositories extends JunctionRepositories with IdRepositories {
   /**
    * Base for services for entities that have no type-safe id created - for example join tables.
    *
-   * @tparam A type of entity
+   * @tparam Entity type of entity
    * @tparam T type of table
    * @param query base table query
    * @author Jerzy Müller
    */
-  abstract class BaseRepository[A, T <: Table[A]](val query: TableQuery[T]) {
+  abstract class BaseRepository[Entity, T <: Table[Entity]](val query: TableQuery[T]) {
 
     /**
      * @param session implicit session param for query
      * @return all elements of type A
      */
-    def findAll()(implicit session: Session): Seq[A] = query.list()
+    def findAll()(implicit session: Session): Seq[Entity] = query.list
 
     /**
      * Deletes all elements in table.
@@ -37,7 +37,7 @@ trait Repositories extends JunctionRepositories with IdRepositories {
      * @param session implicit database session
      * @return elem itself
      */
-    def save(elem: A)(implicit session: Session): A = {
+    def save(elem: Entity)(implicit session: Session): Entity = {
       if (!exists(elem)) {
         query.insert(elem)
       }
@@ -53,7 +53,7 @@ trait Repositories extends JunctionRepositories with IdRepositories {
      * @param session implicit database session
      * @return true if element exists in database
      */
-    protected def exists(elem: A)(implicit session: Session): Boolean
+    protected def exists(elem: Entity)(implicit session: Session): Boolean
 
   }
 

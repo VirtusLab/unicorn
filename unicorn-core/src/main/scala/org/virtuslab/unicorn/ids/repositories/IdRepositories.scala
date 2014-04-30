@@ -13,13 +13,14 @@ trait IdRepositories extends Identifiers with Tables with Queries {
   /**
    * Base trait for repositories where we use [[org.virtuslab.unicorn.ids.Identifiers.BaseId]]s.
    *
-   * @tparam I type of id
-   * @tparam A type of entity
+   * @tparam Id type of id
+   * @tparam Entity type of entity
+   * @tparam Table type of table
    * @author Jerzy Müller
    */
-  class BaseIdRepository[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]](tableName: String, val query: TableQuery[T])
-                                                                         (implicit val mapping: BaseColumnType[I])
-    extends BaseIdQueries[I, A, T] {
+  class BaseIdRepository[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](tableName: String, val query: TableQuery[Table])
+                                                                                          (implicit val mapping: BaseColumnType[Id])
+    extends BaseIdQueries[Id, Entity, Table] {
 
     protected def queryReturningId = query returning query.map(_.id)
 
@@ -27,7 +28,7 @@ trait IdRepositories extends Identifiers with Tables with Queries {
      * @param session implicit session param for query
      * @return all elements of type A
      */
-    def findAll()(implicit session: Session): Seq[A] = query.list()
+    def findAll()(implicit session: Session): Seq[Entity] = query.list
 
     /**
      * Deletes all elements in table.
@@ -43,7 +44,7 @@ trait IdRepositories extends Identifiers with Tables with Queries {
      * @param session implicit session
      * @return Option(element)
      */
-    def findById(id: I)(implicit session: Session): Option[A] = byIdQuery(id).firstOption
+    def findById(id: Id)(implicit session: Session): Option[Entity] = byIdQuery(id).firstOption
 
     /**
      * Clones element by id.
@@ -52,7 +53,7 @@ trait IdRepositories extends Identifiers with Tables with Queries {
      * @param session implicit session
      * @return Option(id) of new element
      */
-    def copyAndSave(id: I)(implicit session: Session): Option[I] = findById(id).map(elem => queryReturningId insert elem)
+    def copyAndSave(id: Id)(implicit session: Session): Option[Id] = findById(id).map(elem => queryReturningId insert elem)
 
     /**
      * Finds one element by id.
@@ -61,7 +62,7 @@ trait IdRepositories extends Identifiers with Tables with Queries {
      * @param session implicit session
      * @return Option(element)
      */
-    def findExistingById(id: I)(implicit session: Session): A =
+    def findExistingById(id: Id)(implicit session: Session): Entity =
       findById(id).getOrElse(throw new NoSuchFieldException(s"For id: $id in table: $tableName"))
 
     /**
@@ -71,7 +72,7 @@ trait IdRepositories extends Identifiers with Tables with Queries {
      * @param session implicit session
      * @return Seq(element)
      */
-    def findByIds(ids: Seq[I])(implicit session: Session): Seq[A] = byIdsQuery(ids).list
+    def findByIds(ids: Seq[Id])(implicit session: Session): Seq[Entity] = byIdsQuery(ids).list
 
     /**
      * Deletes one element by id.
@@ -80,14 +81,14 @@ trait IdRepositories extends Identifiers with Tables with Queries {
      * @param session implicit session
      * @return number of deleted elements (0 or 1)
      */
-    def deleteById(id: I)(implicit session: Session): Int = byIdQuery(id).delete
+    def deleteById(id: Id)(implicit session: Session): Int = byIdQuery(id).delete
       .ensuring(_ <= 1, "Delete by id removed more than one row")
 
     /**
      * @param session implicit session
      * @return Sequence of ids
      */
-    def allIds()(implicit session: Session): Seq[I] = allIdsQuery.list()
+    def allIds()(implicit session: Session): Seq[Id] = allIdsQuery.list
 
     /**
      * Saves one element.
@@ -96,7 +97,7 @@ trait IdRepositories extends Identifiers with Tables with Queries {
      * @param session implicit session
      * @return Option(elementId)
      */
-    def save(elem: A)(implicit session: Session): I = {
+    def save(elem: Entity)(implicit session: Session): Id = {
       elem.id match {
         case Some(id) =>
           val rowsUpdated = byIdFunc(id).update(elem)
@@ -115,10 +116,10 @@ trait IdRepositories extends Identifiers with Tables with Queries {
      * @param session implicit database session
      * @return Sequence of ids
      */
-    def saveAll(elems: Seq[A])(implicit session: Session): Seq[I] = session.withTransaction {
+    def saveAll(elems: Seq[Entity])(implicit session: Session): Seq[Id] = session.withTransaction {
       // conversion is required to force lazy collections
       elems.toIndexedSeq map save
     }
-
   }
+
 }

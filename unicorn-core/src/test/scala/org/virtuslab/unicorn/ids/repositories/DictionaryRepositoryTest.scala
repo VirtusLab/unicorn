@@ -1,8 +1,8 @@
 package org.virtuslab.unicorn.ids.repositories
 
+import org.virtuslab.unicorn.ids.BaseTest
 import org.virtuslab.unicorn.ids.TestUnicorn._
 import org.virtuslab.unicorn.ids.TestUnicorn.simple._
-import org.virtuslab.unicorn.ids.BaseTest
 
 class DictionaryRepositoryTest extends BaseTest {
 
@@ -28,26 +28,26 @@ class DictionaryRepositoryTest extends BaseTest {
     } yield dictionaryEntry.value
 
     override protected def exists(entry: DictionaryEntry)(implicit session: Session): Boolean =
-      findQuery(entry).firstOption().nonEmpty
+      findQuery(entry).firstOption.nonEmpty
   }
 
   "Dictionary repository" should "save and query users" in rollback {
     implicit session =>
-    // setup
-    dictQuery.ddl.create
+      // setup
+      dictQuery.ddl.create
 
-    // when
-    val entry = ("key", "value")
-    DictionaryRepository save entry
+      // when
+      val entry = ("key", "value")
+      DictionaryRepository save entry
 
-    // then
-    DictionaryRepository.findAll() should contain(entry)
+      // then
+      DictionaryRepository.findAll() should contain(entry)
 
-    // when
-    DictionaryRepository.deleteAll()
+      // when
+      DictionaryRepository.deleteAll()
 
-    // then
-    DictionaryRepository.findAll() shouldBe 'empty
+      // then
+      DictionaryRepository.findAll() shouldBe 'empty
   }
 
 }

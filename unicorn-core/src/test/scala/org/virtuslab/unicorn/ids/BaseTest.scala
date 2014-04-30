@@ -10,16 +10,16 @@ trait BaseTest extends FlatSpecLike with Matchers with BeforeAndAfterEach {
 
   val dbDriver = "org.h2.Driver"
 
-  val DB = TestUnicorn.profile.backend.Database.forURL(dbURL,driver=dbDriver)
+  val DB = TestUnicorn.profile.backend.Database.forURL(dbURL, driver = dbDriver)
 
   /**
    * Runs function in rolled-back transaction.
    *
    * @param func function to run in rolled-back transaction
-   * @tparam A type returned by `f`
+   * @tparam Result type returned by `f`
    * @return value returned from `f`
    */
-  def rollback[A](func: Session => A): A = DB.withTransaction {
+  def rollback[Result](func: Session => Result): Result = DB.withTransaction {
     session: Session =>
       val out = func(session)
       session.rollback()

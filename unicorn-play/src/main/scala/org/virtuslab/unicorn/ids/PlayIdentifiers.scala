@@ -1,51 +1,51 @@
 package org.virtuslab.unicorn.ids
 
-import scala.slick.driver.JdbcDriver
-import play.api.mvc.{QueryStringBindable, PathBindable}
 import play.api.data.format.{Formats, Formatter}
+import play.api.mvc.{QueryStringBindable, PathBindable}
+import scala.slick.driver.JdbcDriver
 
-/**
- * Created by Łukasz Dubiel on 30.04.14.
- */
 trait PlayIdentifiers extends Identifiers {
   self: JdbcDriver =>
 
-  abstract class PlayCompanion[I <: BaseId] extends CoreCompanion[I] with Applicable[I] with PlayImplicits[I]
+  abstract class PlayCompanion[Id <: BaseId]
+    extends CoreCompanion[Id]
+    with Applicable[Id]
+    with PlayImplicits[Id]
 
   /** Marker trait */
-  protected[unicorn] trait Applicable[I <: BaseId] {
+  protected[unicorn] trait Applicable[Id <: BaseId] {
 
     /**
      * Factory method for I instance creation.
      * @param id long from which I instance is created
      * @return I instance
      */
-    def apply(id: Long): I
+    def apply(id: Long): Id
   }
 
   /**
    * Implicits required by Play.
    *
-   * @tparam I type of Id
+   * @tparam Id type of Id
    * @author Krzysztof Romanowski, Jerzy Müller
    */
-  protected[unicorn] trait PlayImplicits[I <: BaseId] {
-    self: Applicable[I] =>
+  protected[unicorn] trait PlayImplicits[Id <: BaseId] {
+    self: Applicable[Id] =>
 
     /**
      * Type mapper for route files.
      * @param longBinder path bindable for Long type.
      * @return path bindable for I
      */
-    implicit def pathBindable(implicit longBinder: PathBindable[Long]): PathBindable[I] =
+    implicit def pathBindable(implicit longBinder: PathBindable[Long]): PathBindable[Id] =
       longBinder.transform(apply, _.id)
 
     /** Implicit for mapping id to routes params for play */
-    implicit val toPathBindable: QueryStringBindable[I] =
+    implicit val toPathBindable: QueryStringBindable[Id] =
       QueryStringBindable.bindableLong.transform(apply, _.id)
 
     /** Form formatter for I */
-    implicit lazy val idMappingFormatter: Formatter[I] = new Formatter[I] {
+    implicit lazy val idMappingFormatter: Formatter[Id] = new Formatter[Id] {
 
       override val format = Some(("format.numeric", Nil))
 
@@ -55,8 +55,9 @@ trait PlayIdentifiers extends Identifiers {
           case errors => errors.map(_.copy(message = "id.invalid"))
         }
 
-      override def unbind(key: String, value: I): Map[String, String] =
+      override def unbind(key: String, value: Id): Map[String, String] =
         Map(key -> value.id.toString)
     }
   }
+
 }

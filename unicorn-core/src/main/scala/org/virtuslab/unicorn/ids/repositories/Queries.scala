@@ -1,29 +1,29 @@
 package org.virtuslab.unicorn.ids.repositories
 
 import org.virtuslab.unicorn.ids._
-import scala.slick.lifted.Shape._
 import scala.slick.driver.JdbcDriver
+import scala.slick.lifted.Shape._
 
 trait Queries extends Identifiers with Tables {
   self: JdbcDriver =>
 
   import profile.simple._
 
-
   /**
    * Base class for all queries with an [[org.virtuslab.unicorn.ids.Identifiers.BaseId]].
    *
-   * @tparam I type of id
-   * @tparam A type of element that is queried
+   * @tparam Id type of id
+   * @tparam Entity type of elements that are queried
+   * @tparam Table type of table
    * @author Jerzy Müller
    */
-  private[repositories] trait BaseIdQueries[I <: BaseId, A <: WithId[I], T <: IdTable[I, A]] {
+  private[repositories] trait BaseIdQueries[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]] {
 
     /** @return query to operate on */
-    protected def query: TableQuery[T]
+    protected def query: TableQuery[Table]
 
     /** @return type mapper for I, required for querying */
-    protected implicit def mapping: BaseColumnType[I]
+    protected implicit def mapping: BaseColumnType[Id]
 
     val byIdQuery = Compiled(byIdFunc _)
 
@@ -31,10 +31,10 @@ trait Queries extends Identifiers with Tables {
     protected lazy val allIdsQuery = query.map(_.id)
 
     /** Query element by id, method version. */
-    protected def byIdFunc(id: Column[I]) = query.filter(_.id === id)
+    protected def byIdFunc(id: Column[Id]) = query.filter(_.id === id)
 
     /** Query by multiple ids. */
-    protected def byIdsQuery(ids: Seq[I]) = query.filter(_.id inSet ids)
+    protected def byIdsQuery(ids: Seq[Id]) = query.filter(_.id inSet ids)
   }
 
 }

@@ -1,21 +1,21 @@
 package org.virtuslab.unicorn.ids
 
+import org.virtuslab.unicorn.ids.repositories.Repositories
 import scala.slick.driver.JdbcDriver
-import org.virtuslab.unicorn.ids.repositories.{JunctionRepositories, IdRepositories, Repositories}
 
-/**
- * Created by Łukasz Dubiel on 29.04.14.
- */
+import scala.language.higherKinds
 
-trait Unicorn extends Identifiers
+trait Unicorn
+  extends Identifiers
   with Tables
   with Repositories {
   self: JdbcDriver =>
-  type IdCompanion[I <: BaseId]
+
+  type IdCompanion[Id <: BaseId]
 }
 
 trait UnicornCore extends Unicorn {
   self: JdbcDriver =>
 
-  override type IdCompanion[I <: BaseId] = CoreCompanion[I]
+  override type IdCompanion[Id <: BaseId] = CoreCompanion[Id]
 }

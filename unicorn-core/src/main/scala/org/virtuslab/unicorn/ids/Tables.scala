@@ -13,22 +13,21 @@ trait Tables extends Identifiers with TypeMappers {
    * @param schemaName name of schema (optional)
    * @param tableName name of the table
    * @param mapping mapping for id of this table
-   * @tparam I type of id
-   * @tparam A type of table
-   * @author Krzysztof Romanowski, Jerzy Müller
+   * @tparam Id type of id
+   * @tparam Entity type of entities in table
    */
-  abstract class IdTable[I <: BaseId, A <: WithId[I]](tag: Tag, schemaName: Option[String], tableName: String)
-                                                     (implicit val mapping: BaseColumnType[I])
-    extends BaseTable[A](tag, schemaName, tableName) {
+  abstract class IdTable[Id <: BaseId, Entity <: WithId[Id]](tag: Tag, schemaName: Option[String], tableName: String)
+                                                            (implicit val mapping: BaseColumnType[Id])
+    extends BaseTable[Entity](tag, schemaName, tableName) {
 
     /**
      * Auxiliary constructor without schema name.
      * @param tableName name of table
      */
-    def this(tag: Tag, tableName: String)(implicit mapping: BaseColumnType[I]) = this(tag, None, tableName)
+    def this(tag: Tag, tableName: String)(implicit mapping: BaseColumnType[Id]) = this(tag, None, tableName)
 
     /** @return id column representation of this table */
-    final def id = column[I]("id", O.PrimaryKey, O.AutoInc)
+    final def id = column[Id]("id", O.PrimaryKey, O.AutoInc)
   }
 
   /**
@@ -36,12 +35,12 @@ trait Tables extends Identifiers with TypeMappers {
    *
    * @param schemaName name of schema (optional)
    * @param tableName name of the table
-   * @tparam A type of table
+   * @tparam Entity type of entities in table
    * @author Krzysztof Romanowski, Jerzy Müller
    */
-  abstract class BaseTable[A](tag: Tag, schemaName: Option[String], tableName: String)
-      extends Table[A](tag, schemaName, tableName)
-      with CustomTypeMappers {
+  abstract class BaseTable[Entity](tag: Tag, schemaName: Option[String], tableName: String)
+    extends Table[Entity](tag, schemaName, tableName)
+    with CustomTypeMappers {
 
     /**
      * Auxiliary constructor without schema name.
@@ -55,12 +54,12 @@ trait Tables extends Identifiers with TypeMappers {
    *
    * @param schemaName name of schema (optional)
    * @param tableName name of the table
-   * @tparam A type of one entity
-   * @tparam B type of other entity
+   * @tparam First type of one entity
+   * @tparam Second type of other entity
    * @author Krzysztof Romanowski, Jerzy Müller
    */
-  abstract class JunctionTable[A : BaseColumnType, B : BaseColumnType](tag: Tag, schemaName: Option[String], tableName: String)
-    extends Table[(A, B)](tag, schemaName, tableName) {
+  abstract class JunctionTable[First: BaseColumnType, Second: BaseColumnType](tag: Tag, schemaName: Option[String], tableName: String)
+    extends Table[(First, Second)](tag, schemaName, tableName) {
 
     /**
      * Auxiliary constructor without schema name.
@@ -69,19 +68,20 @@ trait Tables extends Identifiers with TypeMappers {
     def this(tag: Tag, tableName: String) = this(tag, None, tableName)
 
     /** Type mapper for A type */
-    val aMapper = implicitly[BaseColumnType[A]]
+    val aMapper = implicitly[BaseColumnType[First]]
 
     /** Type mapper for B type */
-    val bMapper = implicitly[BaseColumnType[B]]
+    val bMapper = implicitly[BaseColumnType[Second]]
 
     /**
      * instead of def * = colA ~ colB write def columns = colA -> colB
      * @return
      */
-    def columns: (Column[A], Column[B])
+    def columns: (Column[First], Column[Second])
 
     def * = (columns._1, columns._2)
 
     def uniqueValues = index(s"${tableName}_uniq_idx", *, unique = true)
   }
+
 }
