@@ -19,33 +19,35 @@ class DictionaryRepositoryTest extends AppTest {
     def * = (key, value)
   }
 
+  val dictQuery: TableQuery[Dictionary] = TableQuery[Dictionary]
+
+  object DictionaryRepository extends BaseRepository[DictionaryEntry, Dictionary](dictQuery) {
+
+    protected def findQuery(entry: DictionaryEntry) = for {
+      dictionaryEntry <- query if dictionaryEntry.key === entry._1 && dictionaryEntry.value === entry._2
+    } yield dictionaryEntry.value
+
+    override protected def exists(entry: DictionaryEntry)(implicit session: Session): Boolean =
+      findQuery(entry).firstOption().nonEmpty
+  }
+
   "Dictionary repository" should "save and query users" in rollback {
     implicit session =>
     // setup
-      val dictQuery: TableQuery[Dictionary] = TableQuery[Dictionary]
-      object DictionaryRepository extends BaseRepository[DictionaryEntry, Dictionary](dictQuery) {
+    dictQuery.ddl.create
 
-        protected def findQuery(entry: DictionaryEntry) = for {
-          dictionaryEntry <- query if dictionaryEntry.key === entry._1 && dictionaryEntry.value === entry._2
-        } yield dictionaryEntry.value
+    // when
+    val entry = ("key", "value")
+    DictionaryRepository save entry
 
-        override protected def exists(entry: DictionaryEntry)(implicit session: Session): Boolean =
-          findQuery(entry).firstOption().nonEmpty
-      }
-      dictQuery.ddl.create
+    // then
+    DictionaryRepository.findAll() should contain(entry)
 
-      // when
-      val entry = ("key", "value")
-      DictionaryRepository save entry
+    // when
+    DictionaryRepository.deleteAll()
 
-      // then
-      DictionaryRepository.findAll() should contain(entry)
-
-      // when
-      DictionaryRepository.deleteAll()
-
-      // then
-      DictionaryRepository.findAll() shouldBe 'empty
+    // then
+    DictionaryRepository.findAll() shouldBe 'empty
   }
 
 }
