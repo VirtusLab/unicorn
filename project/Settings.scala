@@ -1,3 +1,4 @@
+import com.typesafe.sbt.SbtScalariform
 import sbt.Keys._
 import sbt._
 
@@ -20,5 +21,5 @@ object Settings {
       "-unchecked",
       "-Xlint"
     )
-  )
+  ) ++ SbtScalariform.scalariformSettings
 }

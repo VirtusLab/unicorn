@@ -1,11 +1,10 @@
 package org.virtuslab.unicorn.ids
 
-import play.api.data.format.{Formats, Formatter}
-import play.api.mvc.{QueryStringBindable, PathBindable}
-import scala.slick.driver.JdbcDriver
+import play.api.data.format.{ Formats, Formatter }
+import play.api.mvc.{ QueryStringBindable, PathBindable }
 
-trait PlayIdentifiers extends Identifiers {
-  self: JdbcDriver =>
+protected[unicorn] trait PlayIdentifiers extends Identifiers {
+  self: HasJdbcDriver =>
 
   abstract class PlayCompanion[Id <: BaseId]
     extends CoreCompanion[Id]
@@ -27,7 +26,6 @@ trait PlayIdentifiers extends Identifiers {
    * Implicits required by Play.
    *
    * @tparam Id type of Id
-   * @author Krzysztof Romanowski, Jerzy Müller
    */
   protected[unicorn] trait PlayImplicits[Id <: BaseId] {
     self: Applicable[Id] =>

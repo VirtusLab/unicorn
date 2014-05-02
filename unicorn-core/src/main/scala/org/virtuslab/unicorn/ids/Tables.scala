@@ -1,11 +1,9 @@
 package org.virtuslab.unicorn.ids
 
-import scala.slick.driver.JdbcDriver
+protected[unicorn] trait Tables extends TypeMappers {
+  self: HasJdbcDriver with Identifiers =>
 
-trait Tables extends Identifiers with TypeMappers {
-  self: JdbcDriver =>
-
-  import profile.simple._
+  import driver.simple._
 
   /**
    * Base class for all tables that contains an id.
@@ -16,9 +14,8 @@ trait Tables extends Identifiers with TypeMappers {
    * @tparam Id type of id
    * @tparam Entity type of entities in table
    */
-  abstract class IdTable[Id <: BaseId, Entity <: WithId[Id]](tag: Tag, schemaName: Option[String], tableName: String)
-                                                            (implicit val mapping: BaseColumnType[Id])
-    extends BaseTable[Entity](tag, schemaName, tableName) {
+  abstract class IdTable[Id <: BaseId, Entity <: WithId[Id]](tag: Tag, schemaName: Option[String], tableName: String)(implicit val mapping: BaseColumnType[Id])
+      extends BaseTable[Entity](tag, schemaName, tableName) {
 
     /**
      * Auxiliary constructor without schema name.
@@ -36,11 +33,10 @@ trait Tables extends Identifiers with TypeMappers {
    * @param schemaName name of schema (optional)
    * @param tableName name of the table
    * @tparam Entity type of entities in table
-   * @author Krzysztof Romanowski, Jerzy Müller
    */
   abstract class BaseTable[Entity](tag: Tag, schemaName: Option[String], tableName: String)
-    extends Table[Entity](tag, schemaName, tableName)
-    with CustomTypeMappers {
+      extends Table[Entity](tag, schemaName, tableName)
+      with CustomTypeMappers {
 
     /**
      * Auxiliary constructor without schema name.
@@ -56,10 +52,9 @@ trait Tables extends Identifiers with TypeMappers {
    * @param tableName name of the table
    * @tparam First type of one entity
    * @tparam Second type of other entity
-   * @author Krzysztof Romanowski, Jerzy Müller
    */
   abstract class JunctionTable[First: BaseColumnType, Second: BaseColumnType](tag: Tag, schemaName: Option[String], tableName: String)
-    extends Table[(First, Second)](tag, schemaName, tableName) {
+      extends Table[(First, Second)](tag, schemaName, tableName) {
 
     /**
      * Auxiliary constructor without schema name.

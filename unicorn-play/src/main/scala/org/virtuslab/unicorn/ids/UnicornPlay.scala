@@ -1,11 +1,18 @@
 package org.virtuslab.unicorn.ids
 
-import scala.slick.driver.JdbcDriver
+import play.api.db.slick.Config
 
-trait UnicornPlay
-  extends PlayIdentifiers
-  with Unicorn {
-  self: JdbcDriver =>
+protected[unicorn] trait UnicornPlay
+    extends Unicorn
+    with PlayIdentifiers {
+  self: HasJdbcDriver =>
 
   override type IdCompanion[Id <: BaseId] = PlayCompanion[Id]
+}
+
+object UnicornPlay
+    extends UnicornPlay
+    with HasJdbcDriver {
+
+  override val driver = Config.driver
 }

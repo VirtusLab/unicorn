@@ -1,14 +1,41 @@
 package org.virtuslab.unicorn.ids.repositories
 
 import java.sql.SQLException
-import org.virtuslab.unicorn.ids._
+import org.virtuslab.unicorn.ids.{ HasJdbcDriver, Identifiers, Tables }
 import scala.Some
 import scala.slick.driver.JdbcDriver
 
-trait IdRepositories extends Identifiers with Tables with Queries {
-  self: JdbcDriver =>
+protected[unicorn] trait IdRepositories {
+  self: HasJdbcDriver with Identifiers with Tables =>
 
-  import simple._
+  import driver.simple._
+
+  /**
+   * Base class for all queries with an [[org.virtuslab.unicorn.ids.Identifiers.BaseId]].
+   *
+   * @tparam Id type of id
+   * @tparam Entity type of elements that are queried
+   * @tparam Table type of table
+   */
+  protected trait BaseIdQueries[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]] {
+
+    /** @return query to operate on */
+    protected def query: TableQuery[Table]
+
+    /** @return type mapper for I, required for querying */
+    protected implicit def mapping: BaseColumnType[Id]
+
+    val byIdQuery = Compiled(byIdFunc _)
+
+    /** Query all ids. */
+    protected lazy val allIdsQuery = query.map(_.id)
+
+    /** Query element by id, method version. */
+    protected def byIdFunc(id: Column[Id]) = query.filter(_.id === id)
+
+    /** Query by multiple ids. */
+    protected def byIdsQuery(ids: Seq[Id]) = query.filter(_.id inSet ids)
+  }
 
   /**
    * Base trait for repositories where we use [[org.virtuslab.unicorn.ids.Identifiers.BaseId]]s.
@@ -16,11 +43,12 @@ trait IdRepositories extends Identifiers with Tables with Queries {
    * @tparam Id type of id
    * @tparam Entity type of entity
    * @tparam Table type of table
-   * @author Jerzy Müller
    */
+  // format: OFF
   class BaseIdRepository[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](tableName: String, val query: TableQuery[Table])
                                                                                           (implicit val mapping: BaseColumnType[Id])
-    extends BaseIdQueries[Id, Entity, Table] {
+      extends BaseIdQueries[Id, Entity, Table] {
+    // format: ON
 
     protected def queryReturningId = query returning query.map(_.id)
 

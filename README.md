@@ -12,6 +12,7 @@ Contributors
 Authors:
 * [Jerzy Müller](https://github.com/Kwestor)
 * [Krzysztof Romanowski](https://github.com/romanowski)
+* [Łukasz Dubiel](https://github.com/bambuchaAdm)
 
 Feel free to use it, test it and to contribute!
 

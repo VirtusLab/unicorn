@@ -5,17 +5,14 @@ import java.sql.Timestamp
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.LocalDate
-import scala.slick.driver.JdbcDriver
 
 trait TypeMappers {
-  self: JdbcDriver =>
+  self: HasJdbcDriver =>
 
-  import simple._
+  import driver.simple._
 
   /**
    * Custom Type mappers for Slick.
-   *
-   * @author Jerzy Müller, Krzysztof Romanowski
    */
   trait CustomTypeMappers {
 
@@ -42,4 +39,3 @@ trait TypeMappers {
   object CustomTypeMappers extends CustomTypeMappers
 
 }
-  

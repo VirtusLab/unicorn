@@ -1,11 +1,13 @@
 package org.virtuslab.unicorn.ids.repositories
 
-import scala.slick.driver.JdbcDriver
+import org.virtuslab.unicorn.ids.{ HasJdbcDriver, Tables, Identifiers }
 
-trait Repositories extends JunctionRepositories with IdRepositories {
-  self: JdbcDriver =>
+protected[unicorn] trait Repositories
+    extends JunctionRepositories
+    with IdRepositories {
+  self: HasJdbcDriver with Identifiers with Tables =>
 
-  import simple._
+  import driver.simple._
 
   /**
    * Base for services for entities that have no type-safe id created - for example join tables.
@@ -13,7 +15,6 @@ trait Repositories extends JunctionRepositories with IdRepositories {
    * @tparam Entity type of entity
    * @tparam T type of table
    * @param query base table query
-   * @author Jerzy Müller
    */
   abstract class BaseRepository[Entity, T <: Table[Entity]](val query: TableQuery[T]) {
 

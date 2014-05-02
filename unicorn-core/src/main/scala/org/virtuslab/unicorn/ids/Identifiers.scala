@@ -1,17 +1,13 @@
 package org.virtuslab.unicorn.ids
 
-import scala.slick.driver.JdbcDriver
+protected[unicorn] trait Identifiers {
+  self: HasJdbcDriver =>
 
-trait Identifiers {
-  self: JdbcDriver =>
-
-  import simple._
+  import driver.simple._
 
   /**
    * Base trait for all ids in system.
    * It is existential trait so it can have only defs.
-   *
-   * @author Krzysztof Romanowski, Jerzy Müller
    */
   trait BaseId extends Any with MappedTo[Long] {
     def id: Long

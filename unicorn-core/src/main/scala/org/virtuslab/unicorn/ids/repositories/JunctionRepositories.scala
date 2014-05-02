@@ -1,13 +1,13 @@
 package org.virtuslab.unicorn.ids.repositories
 
-import org.virtuslab.unicorn.ids.{Tables, Identifiers}
+import org.virtuslab.unicorn.ids.{ HasJdbcDriver, Tables, Identifiers }
 import scala.slick.driver.JdbcDriver
 import scala.slick.lifted.Shape._
 
-trait JunctionRepositories extends Identifiers with Tables {
-  self: JdbcDriver =>
+protected[unicorn] trait JunctionRepositories {
+  self: HasJdbcDriver with Tables with Identifiers =>
 
-  import simple._
+  import driver.simple._
 
   /**
    * Base queries for junction tables

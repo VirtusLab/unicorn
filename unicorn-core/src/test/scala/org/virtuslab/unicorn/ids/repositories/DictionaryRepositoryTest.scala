@@ -2,7 +2,7 @@ package org.virtuslab.unicorn.ids.repositories
 
 import org.virtuslab.unicorn.ids.BaseTest
 import org.virtuslab.unicorn.ids.TestUnicorn._
-import org.virtuslab.unicorn.ids.TestUnicorn.simple._
+import org.virtuslab.unicorn.ids.TestUnicorn.driver.simple._
 
 class DictionaryRepositoryTest extends BaseTest {
 
