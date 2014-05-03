@@ -1,0 +1,7 @@
+language: scala
+scala:
+  - "2.10.4"
+jdk:
+  - openjdk6
+  - openjdk7
+sbt_args: -no-colors

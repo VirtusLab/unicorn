@@ -1,3 +1,4 @@
 *.MF eol=lf
 *.sbt eol=lf
 *.scala eol=lf
+*.yml eol=lf
