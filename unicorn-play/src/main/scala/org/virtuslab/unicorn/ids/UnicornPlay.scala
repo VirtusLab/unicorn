@@ -4,15 +4,12 @@ import play.api.db.slick.Config
 
 protected[unicorn] trait UnicornPlay
     extends Unicorn
-    with PlayIdentifiers {
-  self: HasJdbcDriver =>
+    with PlayIdentifiers
+    with HasJdbcDriver {
+
+  override val driver = Config.driver
 
   override type IdCompanion[Id <: BaseId] = PlayCompanion[Id]
 }
 
-object UnicornPlay
-    extends UnicornPlay
-    with HasJdbcDriver {
-
-  override val driver = Config.driver
-}
+object UnicornPlay extends UnicornPlay
