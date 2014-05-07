@@ -8,12 +8,12 @@ class UsersRepositoryTest extends BaseTest {
 
   case class UserId(id: Long) extends BaseId
 
-  case class User(id: Option[UserId],
+  case class UserRow(id: Option[UserId],
     email: String,
     firstName: String,
     lastName: String) extends WithId[UserId]
 
-  class Users(tag: Tag) extends IdTable[UserId, User](tag, "USERS") {
+  class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
 
     def email = column[String]("EMAIL", O.NotNull)
 
@@ -21,19 +21,19 @@ class UsersRepositoryTest extends BaseTest {
 
     def lastName = column[String]("LAST_NAME", O.NotNull)
 
-    override def * = (id.?, email, firstName, lastName) <> (User.tupled, User.unapply)
+    override def * = (id.?, email, firstName, lastName) <> (UserRow.tupled, UserRow.unapply)
   }
 
   val usersQuery: TableQuery[Users] = TableQuery[Users]
 
-  object UsersRepository extends BaseIdRepository[UserId, User, Users](usersQuery)
+  object UsersRepository extends BaseIdRepository[UserId, UserRow, Users](usersQuery)
 
   "Users Service" should "save and query users" in rollback {
     implicit session =>
       // setup
       usersQuery.ddl.create
 
-      val user = User(None, "test@email.com", "Krzysztof", "Nowak")
+      val user = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
       val userId = UsersRepository save user
       val userOpt = UsersRepository findById userId
 
@@ -48,7 +48,7 @@ class UsersRepositoryTest extends BaseTest {
       // setup
       usersQuery.ddl.create
 
-      val users = (Stream from 1 take 10) map (n => User(None, "test@email.com", "Krzysztof" + n, "Nowak"))
+      val users = (Stream from 1 take 10) map (n => UserRow(None, "test@email.com", "Krzysztof" + n, "Nowak"))
       UsersRepository saveAll users
       val newUsers = UsersRepository.findAll()
       newUsers.size shouldEqual 10
@@ -61,7 +61,7 @@ class UsersRepositoryTest extends BaseTest {
       // setup
       usersQuery.ddl.create
 
-      val user = User(None, "test@email.com", "Krzysztof", "Nowak")
+      val user = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
       val userId = UsersRepository save user
       val user2 = UsersRepository findExistingById userId
 
