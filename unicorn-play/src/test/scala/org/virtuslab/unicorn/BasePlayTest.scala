@@ -2,14 +2,12 @@ package org.virtuslab.unicorn
 
 import org.scalatest._
 import play.api.Play
-import play.api.db.slick.Config.driver.simple._
-import play.api.db.slick.DB
 import play.api.test.FakeApplication
 import org.virtuslab.unicorn.ids.{ UnicornPlay, RollbackHelper }
 
-trait BasePlayTest extends FlatSpecLike with Matchers with BeforeAndAfterEach with RollbackHelper {
+class TestPlaySlick
 
-  override lazy val unicorn = UnicornPlay
+trait BasePlayTest extends FlatSpecLike with Matchers with BeforeAndAfterEach with RollbackHelper with BeforeAndAfterAll {
 
   private val testDb = Map(
     "db.default.driver" -> "org.h2.Driver",
@@ -18,17 +16,29 @@ trait BasePlayTest extends FlatSpecLike with Matchers with BeforeAndAfterEach wi
     "db.default.password" -> ""
   )
 
-  implicit var app: FakeApplication = _
+  implicit val app: FakeApplication = {
+    val fake = new FakeApplication(additionalConfiguration = testDb)
+    Play.start(fake)
+    fake
+  }
+
+  override lazy val unicorn = UnicornPlay
 
   override protected def beforeEach(data: TestData): Unit = {
-    app = new FakeApplication(additionalConfiguration = testDb)
-    Play.start(app)
+    import scala.slick.jdbc.StaticQuery
+    DB.withSession(session =>
+      StaticQuery.queryNA[Int]("DROP ALL OBJECTS").execute()(session)
+    )
     super.beforeEach()
   }
 
   override protected def afterEach(data: TestData): Unit = {
-    Play.stop()
+
     super.afterEach()
+  }
+
+  override protected def afterAll(): Unit = {
+    Play.stop()
   }
 
   override def DB = play.api.db.slick.DB(app).asInstanceOf[unicorn.driver.profile.backend.DatabaseDef]

@@ -7,7 +7,7 @@ protected[unicorn] trait UnicornPlay
     with PlayIdentifiers
     with HasJdbcDriver {
 
-  override val driver = Config.driver
+  override lazy val driver = Config.driver
 
   override type IdCompanion[Id <: BaseId] = PlayCompanion[Id]
 }
