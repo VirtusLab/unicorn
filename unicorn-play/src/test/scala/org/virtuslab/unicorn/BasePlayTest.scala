@@ -5,8 +5,11 @@ import play.api.Play
 import play.api.db.slick.Config.driver.simple._
 import play.api.db.slick.DB
 import play.api.test.FakeApplication
+import org.virtuslab.unicorn.ids.{ UnicornPlay, RollbackHelper }
 
-trait BasePlayTest extends FlatSpecLike with Matchers with BeforeAndAfterEach {
+trait BasePlayTest extends FlatSpecLike with Matchers with BeforeAndAfterEach with RollbackHelper {
+
+  override lazy val unicorn = UnicornPlay
 
   private val testDb = Map(
     "db.default.driver" -> "org.h2.Driver",
@@ -28,17 +31,5 @@ trait BasePlayTest extends FlatSpecLike with Matchers with BeforeAndAfterEach {
     super.afterEach()
   }
 
-  /**
-   * Runs function in rolled-back transaction.
-   *
-   * @param func function to run in rolled-back transaction
-   * @tparam A type returned by `f`
-   * @return value returned from `f`
-   */
-  def rollback[A](func: Session => A): A = DB.withTransaction {
-    session: Session =>
-      val out = func(session)
-      session.rollback()
-      out
-  }
+  override def DB = play.api.db.slick.DB(app).asInstanceOf[unicorn.driver.profile.backend.DatabaseDef]
 }

@@ -1,10 +1,15 @@
 package org.virtuslab.unicorn.ids.repositories
 
-import org.virtuslab.unicorn.ids.BaseTest
-import org.virtuslab.unicorn.ids.TestUnicorn.{ BaseId, WithId, IdTable, BaseIdRepository }
-import org.virtuslab.unicorn.ids.TestUnicorn.driver.simple._
+import org.virtuslab.unicorn.ids._
+import org.scalatest.{ FlatSpecLike, Matchers }
+import scala.Some
 
-class UsersRepositoryTest extends BaseTest {
+trait AbstractUserTable {
+
+  val unicorn: Unicorn with HasJdbcDriver
+
+  import unicorn._
+  import unicorn.driver.simple._
 
   case class UserId(id: Long) extends BaseId
 
@@ -27,6 +32,13 @@ class UsersRepositoryTest extends BaseTest {
   val usersQuery: TableQuery[Users] = TableQuery[Users]
 
   object UsersRepository extends BaseIdRepository[UserId, UserRow, Users](usersQuery)
+}
+
+trait UsersRepositoryTest {
+
+  self: FlatSpecLike with Matchers with RollbackHelper with AbstractUserTable =>
+
+  import unicorn.driver.simple._
 
   "Users Service" should "save and query users" in rollback {
     implicit session =>
@@ -71,3 +83,5 @@ class UsersRepositoryTest extends BaseTest {
       user2.id shouldNot be(None)
   }
 }
+
+class CoreUserRepositoryTest extends BaseTest with UsersRepositoryTest with AbstractUserTable

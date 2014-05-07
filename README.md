@@ -19,34 +19,55 @@ Feel free to use it, test it and to contribute!
 Getting unicorn
 ---------------
 
-For latest version (for Scala 2.10.x and Slick 2.0) use:
+For core latest version (for Scala 2.10.x and Slick 2.0) use:
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn" % "0.5.0-RC1"
+libraryDependencies += "org.virtuslab" %% "unicorn-core" % "0.5.0-RC2"
 ```
+
+and play (same Scala 2.10.x and Slick 2.0):
+
+```scala
+libraryDependencies += "org.virtuslab" %% "unicorn-play" % "0.5.0-RC2"
+```
+
 
 Or see [Maven repository](http://maven-repository.com/artifact/org.virtuslab/unicorn_2.10).
 
 For Slick 1.x see version `0.4.x`.
 
-Examples
-========
+Core Examples
+=============
+
+Prepare Unicorn to work
+-----------------------
+
+Let's bake our cake to use proper driver (in example case H2)
+
+```
+package com.example
+
+import org.virtuslab.unicorn.ids.{HasJdbcDriver, UnicornCore}
+import scala.slick.driver.H2Driver
+
+object Unicorn extends UnicornCore with HasJdbcDriver {
+  val driver = H2Driver
+}
+```
 
 Defining entities
 -----------------
 
 ```scala
-package model
+package com.example.tables
 
-import scala.slick.session.Session
-import org.virtuslab.unicorn.ids._
+import package com.example.Unicorn._
+import package com.example.Unicorn.driver.simple._
 
 /** Id class for type-safe joins and queries. */
 case class UserId(id: Long) extends AnyVal with BaseId
 
-/** Companion object for id class, extends IdMapping
-  * and brings all required implicits to scope when needed.
-  */
+/** Companion object for id class and ordering fpr Id */
 object UserId extends IdCompanion[UserId]
 
 /** User entity.
@@ -56,21 +77,21 @@ object UserId extends IdCompanion[UserId]
   * @param lastName lastName
   * @param firstName firstName
   */
-case class User(id: Option[UserId],
-                email: String,
-                firstName: String,
-                lastName: String) extends WithId[UserId]
+case class UserRow(id: Option[UserId],
+                   email: String,
+                   firstName: String,
+                   lastName: String) extends WithId[UserId]
 
 /** Table definition for users. */
-class Users(tag: Tag) extends IdTable[UserId, User](tag, "USERS") {
+class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
 
   def email = column[String]("EMAIL", O.NotNull)
 
-  def firstName = column[String]("FIRST_NAME", O.NotNull)
+   def firstName = column[String]("FIRST_NAME", O.NotNull)
 
   def lastName = column[String]("LAST_NAME", O.NotNull)
 
-  override def * = (id.?, email, firstName, lastName) <> (User.tupled, User.unapply)
+  override def * = (id.?, email, firstName, lastName) <> (UserRow.tupled, UserRow.unapply)
 }
 ```
 
@@ -78,9 +99,9 @@ Defining repositories
 ---------------------
 
 ```scala
-package repositories
+package com.example.repositories
 
-import model._
+import com.example.tables._
 import play.api.db.slick.Config.driver.simple._
 import org.virtuslab.unicorn.ids.repositories._
 
@@ -91,31 +112,28 @@ import org.virtuslab.unicorn.ids.repositories._
  *
  * Use your favourite DI method to instantiate it in your application.
  */
-class UsersRepository extends BaseIdRepository[UserId, User, Users]("USERS", TableQuery[Users])
+class UsersRepository extends BaseIdRepository[UserId, UserRow, Users](TableQuery[Users])
 ```
 
 Usage
 -----
 
 ```scala
-package repositories
+package com.example.test
 
-import org.specs2.mutable.Specification
-import play.api.test.WithApplication
-import play.api.db.slick.DB
-import model.User
-import scala.slick.session.Session
+import com.example.repositories.UserRepository
 
-class UsersRepositoryTest extends AppTest {
+class UsersRepositoryTest extends BaseTest {
 
-  "Users repository" should "save and query users" in rollback { implicit session =>
+  val userRepository = new UserRepository
+
+  "Users Service" should "save and query users" in rollback { implicit session =>
     // setup
-    val repository = new UsersRepository
     usersQuery.ddl.create
 
-    val user = User(None, "test@email.com", "Krzysztof", "Nowak")
-    val userId = UsersRepository save user
-    val userOpt = UsersRepository findById userId
+    val user = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
+    val userId = userRepository save user
+    val userOpt = userRepository findById userId
 
     userOpt.map(_.email) shouldEqual Some(user.email)
     userOpt.map(_.firstName) shouldEqual Some(user.firstName)
@@ -124,3 +142,9 @@ class UsersRepositoryTest extends AppTest {
   }
 }
 ```
+
+
+Play Examples
+=============
+
+

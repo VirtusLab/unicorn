@@ -2,15 +2,13 @@ package org.virtuslab.unicorn.ids
 
 import org.scalatest._
 
-trait BaseTest extends FlatSpecLike with Matchers with BeforeAndAfterEach {
+trait RollbackHelper {
 
-  import TestUnicorn.driver.simple._
+  val unicorn: Unicorn with HasJdbcDriver
 
-  val dbURL = "jdbc:h2:mem:unicorn"
+  import unicorn.driver.simple._
 
-  val dbDriver = "org.h2.Driver"
-
-  val DB = TestUnicorn.driver.profile.backend.Database.forURL(dbURL, driver = dbDriver)
+  def DB: unicorn.driver.profile.backend.DatabaseDef
 
   /**
    * Runs function in rolled-back transaction.
@@ -25,4 +23,15 @@ trait BaseTest extends FlatSpecLike with Matchers with BeforeAndAfterEach {
       session.rollback()
       out
   }
+}
+
+trait BaseTest extends FlatSpecLike with Matchers with BeforeAndAfterEach with RollbackHelper {
+
+  override lazy val unicorn = TestUnicorn
+
+  val dbURL = "jdbc:h2:mem:unicorn"
+
+  val dbDriver = "org.h2.Driver"
+
+  override val DB = unicorn.driver.profile.backend.Database.forURL(dbURL, driver = dbDriver)
 }
