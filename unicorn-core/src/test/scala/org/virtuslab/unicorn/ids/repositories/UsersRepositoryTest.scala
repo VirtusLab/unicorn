@@ -26,7 +26,7 @@ class UsersRepositoryTest extends BaseTest {
 
   val usersQuery: TableQuery[Users] = TableQuery[Users]
 
-  object UsersRepository extends BaseIdRepository[UserId, User, Users]("users", usersQuery)
+  object UsersRepository extends BaseIdRepository[UserId, User, Users](usersQuery)
 
   "Users Service" should "save and query users" in rollback {
     implicit session =>

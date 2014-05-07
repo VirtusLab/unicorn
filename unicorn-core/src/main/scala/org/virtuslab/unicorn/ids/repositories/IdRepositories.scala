@@ -45,12 +45,14 @@ protected[unicorn] trait IdRepositories {
    * @tparam Table type of table
    */
   // format: OFF
-  class BaseIdRepository[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](tableName: String, val query: TableQuery[Table])
+  class BaseIdRepository[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](val query: TableQuery[Table])
                                                                                           (implicit val mapping: BaseColumnType[Id])
       extends BaseIdQueries[Id, Entity, Table] {
     // format: ON
 
     protected def queryReturningId = query returning query.map(_.id)
+
+    val tableName = query.baseTableRow.tableName
 
     /**
      * @param session implicit session param for query
