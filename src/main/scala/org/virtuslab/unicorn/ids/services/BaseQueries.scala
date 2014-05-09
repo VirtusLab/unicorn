@@ -49,5 +49,5 @@ trait BaseIdQueries[I <: BaseId, A <: WithId[I]] {
   protected def byIdFunc(id: I) = allQuery.filter(_.id === id)
 
   /** Query by multiple ids. */
-  protected def byIdsQuery(ids: Seq[I]) = allQuery.filter(_.id inSet ids)
+  protected def byIdsQuery(ids: Traversable[I]) = allQuery.filter(_.id inSet ids)
 }

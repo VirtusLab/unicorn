@@ -111,7 +111,7 @@ trait BaseIdService[I <: BaseId, A <: WithId[I]] {
    * @param session implicit session
    * @return Seq(element)
    */
-  def findByIds(ids: Seq[I])(implicit session: Session): Seq[A] = byIdsQuery(ids).list
+  def findByIds(ids: Traversable[I])(implicit session: Session): Seq[A] = byIdsQuery(ids).list
 
   /**
    * Deletes one element by id.
