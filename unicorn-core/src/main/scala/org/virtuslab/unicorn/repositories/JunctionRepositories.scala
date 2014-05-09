@@ -1,6 +1,6 @@
-package org.virtuslab.unicorn.ids.repositories
+package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.ids.{ HasJdbcDriver, Tables, Identifiers }
+import org.virtuslab.unicorn.{ HasJdbcDriver, Tables, Identifiers }
 import scala.slick.driver.JdbcDriver
 import scala.slick.lifted.Shape._
 

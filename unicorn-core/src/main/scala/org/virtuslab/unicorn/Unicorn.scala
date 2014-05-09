@@ -1,6 +1,6 @@
-package org.virtuslab.unicorn.ids
+package org.virtuslab.unicorn
 
-import org.virtuslab.unicorn.ids.repositories.Repositories
+import org.virtuslab.unicorn.repositories.Repositories
 import scala.slick.driver.JdbcDriver
 
 import scala.language.higherKinds

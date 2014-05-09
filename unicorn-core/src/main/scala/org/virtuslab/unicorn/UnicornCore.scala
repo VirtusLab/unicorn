@@ -1,4 +1,4 @@
-package org.virtuslab.unicorn.ids
+package org.virtuslab.unicorn
 
 /**
  * Cake for unicorn-core.

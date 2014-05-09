@@ -1,4 +1,4 @@
-package org.virtuslab.unicorn.ids
+package org.virtuslab.unicorn
 
 import play.api.data.format.{ Formats, Formatter }
 import play.api.mvc.{ QueryStringBindable, PathBindable }
@@ -35,15 +35,15 @@ protected[unicorn] trait PlayIdentifiers extends Identifiers {
      * @param longBinder path bindable for Long type.
      * @return path bindable for I
      */
-    implicit def pathBindable(implicit longBinder: PathBindable[Long]): PathBindable[Id] =
+    implicit final def pathBindable(implicit longBinder: PathBindable[Long]): PathBindable[Id] =
       longBinder.transform(apply, _.id)
 
     /** Implicit for mapping id to routes params for play */
-    implicit val toPathBindable: QueryStringBindable[Id] =
+    implicit final val toPathBindable: QueryStringBindable[Id] =
       QueryStringBindable.bindableLong.transform(apply, _.id)
 
     /** Form formatter for I */
-    implicit lazy val idMappingFormatter: Formatter[Id] = new Formatter[Id] {
+    implicit final lazy val idMappingFormatter: Formatter[Id] = new Formatter[Id] {
 
       override val format = Some(("format.numeric", Nil))
 

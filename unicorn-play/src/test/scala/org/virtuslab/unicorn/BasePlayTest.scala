@@ -3,7 +3,6 @@ package org.virtuslab.unicorn
 import org.scalatest._
 import play.api.Play
 import play.api.test.FakeApplication
-import org.virtuslab.unicorn.ids.{ UnicornPlay, RollbackHelper }
 
 trait BasePlayTest
     extends FlatSpecLike

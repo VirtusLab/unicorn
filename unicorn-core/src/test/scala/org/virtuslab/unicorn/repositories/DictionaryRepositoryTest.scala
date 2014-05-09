@@ -1,8 +1,9 @@
-package org.virtuslab.unicorn.ids.repositories
+package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.ids.BaseTest
-import org.virtuslab.unicorn.ids.TestUnicorn._
-import org.virtuslab.unicorn.ids.TestUnicorn.driver.simple._
+import org.virtuslab.unicorn.{ TestUnicorn, BaseTest }
+import TestUnicorn._
+import TestUnicorn.driver.simple._
+import org.virtuslab.unicorn.BaseTest
 
 class DictionaryRepositoryTest extends BaseTest {
 

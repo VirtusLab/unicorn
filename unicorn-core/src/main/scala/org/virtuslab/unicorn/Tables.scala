@@ -1,4 +1,4 @@
-package org.virtuslab.unicorn.ids
+package org.virtuslab.unicorn
 
 protected[unicorn] trait Tables extends TypeMappers {
   self: HasJdbcDriver with Identifiers =>
@@ -63,10 +63,10 @@ protected[unicorn] trait Tables extends TypeMappers {
     def this(tag: Tag, tableName: String) = this(tag, None, tableName)
 
     /** Type mapper for A type */
-    val aMapper = implicitly[BaseColumnType[First]]
+    final val aMapper = implicitly[BaseColumnType[First]]
 
     /** Type mapper for B type */
-    val bMapper = implicitly[BaseColumnType[Second]]
+    final val bMapper = implicitly[BaseColumnType[Second]]
 
     /**
      * instead of def * = colA ~ colB write def columns = colA -> colB
@@ -74,9 +74,9 @@ protected[unicorn] trait Tables extends TypeMappers {
      */
     def columns: (Column[First], Column[Second])
 
-    def * = (columns._1, columns._2)
+    final def * = (columns._1, columns._2)
 
-    def uniqueValues = index(s"${tableName}_uniq_idx", *, unique = true)
+    final def uniqueValues = index(s"${tableName}_uniq_idx", *, unique = true)
   }
 
 }

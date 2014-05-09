@@ -1,4 +1,4 @@
-package org.virtuslab.unicorn.ids
+package org.virtuslab.unicorn
 
 import play.api.db.slick.Config
 

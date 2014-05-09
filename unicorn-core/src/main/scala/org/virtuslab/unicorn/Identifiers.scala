@@ -1,4 +1,4 @@
-package org.virtuslab.unicorn.ids
+package org.virtuslab.unicorn
 
 protected[unicorn] trait Identifiers {
   self: HasJdbcDriver =>
@@ -24,7 +24,7 @@ protected[unicorn] trait Identifiers {
   abstract class CoreCompanion[Id <: BaseId] {
 
     /** Ordering for ids - it is normal simple ordering on inner longs ascending */
-    implicit lazy val ordering: Ordering[Id] = Ordering.by[Id, Long](_.id)
+    implicit final lazy val ordering: Ordering[Id] = Ordering.by[Id, Long](_.id)
   }
 
   /**

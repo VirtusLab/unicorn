@@ -1,7 +1,6 @@
-package org.virtuslab.unicorn.ids
+package org.virtuslab.unicorn
 
-import org.virtuslab.unicorn.BasePlayTest
-import org.virtuslab.unicorn.ids.UnicornPlay._
+import UnicornPlay._
 import play.api.data.format.Formatter
 import play.api.mvc.{ PathBindable, QueryStringBindable }
 

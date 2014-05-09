@@ -1,8 +1,9 @@
-package org.virtuslab.unicorn.ids.repositories
+package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.ids._
+import org.virtuslab.unicorn._
 import org.scalatest.{ FlatSpecLike, Matchers }
 import scala.Some
+import org.virtuslab.unicorn.{ RollbackHelper, BaseTest }
 
 trait AbstractUserTable {
 

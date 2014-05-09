@@ -1,10 +1,7 @@
-package org.virtuslab.unicorn.ids
+package org.virtuslab.unicorn
 
-import java.sql.Date
-import java.sql.Timestamp
-import org.joda.time.DateTime
-import org.joda.time.Duration
-import org.joda.time.LocalDate
+import java.sql.{ Timestamp, Date }
+import org.joda.time.{ Duration, LocalDate, DateTime }
 
 trait TypeMappers {
   self: HasJdbcDriver =>
@@ -35,7 +32,7 @@ trait TypeMappers {
     )
   }
 
-  /** Object for [[org.virtuslab.unicorn.ids.TypeMappers.CustomTypeMappers]] if you prefer import rather than extend. */
+  /** Object for [[org.virtuslab.unicorn.TypeMappers.CustomTypeMappers]] if you prefer import rather than extend. */
   object CustomTypeMappers extends CustomTypeMappers
 
 }
