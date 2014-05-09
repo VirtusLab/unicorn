@@ -12,7 +12,7 @@ publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
 
-pomExtra := (
+pomExtra :=
   <url>https://github.com/VirtusLab/unicorn</url>
   <licenses>
     <license>
@@ -37,4 +37,3 @@ pomExtra := (
       <url>https://github.com/Kwestor</url>
     </developer>
   </developers>
-)
