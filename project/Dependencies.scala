@@ -11,7 +11,8 @@ object Dependencies {
 
   val testCore = Seq(
     "org.scalatest" %% "scalatest" % "2.1.5" % "test",
-    "com.h2database" % "h2" % "1.3.175" % "test"
+    "com.h2database" % "h2" % "1.3.175" % "test",
+  "ch.qos.logback" % "logback-classic" % "1.0.13" % "test"
   )
 
   def core(scalaVersion: String) = mainCore(scalaVersion) ++ testCore

@@ -8,7 +8,6 @@ object Settings {
 
   val common = Seq(
     organization := "org.virtuslab",
-    version := "0.5.0-SNAPSHOT",
     scalaVersion := "2.10.4",
     resolvers += Resolver.typesafeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("releases"),

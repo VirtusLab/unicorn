@@ -5,9 +5,12 @@ import play.api.Play
 import play.api.test.FakeApplication
 import org.virtuslab.unicorn.ids.{ UnicornPlay, RollbackHelper }
 
-class TestPlaySlick
-
-trait BasePlayTest extends FlatSpecLike with Matchers with BeforeAndAfterEach with RollbackHelper with BeforeAndAfterAll {
+trait BasePlayTest
+    extends FlatSpecLike
+    with Matchers
+    with BeforeAndAfterEach
+    with RollbackHelper
+    with BeforeAndAfterAll {
 
   private val testDb = Map(
     "db.default.driver" -> "org.h2.Driver",
@@ -32,13 +35,9 @@ trait BasePlayTest extends FlatSpecLike with Matchers with BeforeAndAfterEach wi
     super.beforeEach()
   }
 
-  override protected def afterEach(data: TestData): Unit = {
-
-    super.afterEach()
-  }
-
   override protected def afterAll(): Unit = {
     Play.stop()
+    super.afterEach()
   }
 
   override def DB = play.api.db.slick.DB(app).asInstanceOf[unicorn.driver.profile.backend.DatabaseDef]
