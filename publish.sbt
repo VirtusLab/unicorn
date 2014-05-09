@@ -6,13 +6,15 @@ publishTo := {
     Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
+xerial.sbt.Sonatype.sonatypeSettings
+
 publishMavenStyle := true
 
 publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
 
-pomExtra := (
+pomExtra :=
   <url>https://github.com/VirtusLab/unicorn</url>
   <licenses>
     <license>
@@ -37,4 +39,3 @@ pomExtra := (
       <url>https://github.com/Kwestor</url>
     </developer>
   </developers>
-)
