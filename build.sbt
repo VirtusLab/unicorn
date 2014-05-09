@@ -1,23 +1,26 @@
-organization := "org.virtuslab"
+val unicornVersion = "0.5.0-SNAPSHOT"
 
-name := "unicorn"
+val `unicorn-core` = project
+  .settings(Settings.common: _*)
+  .settings(
+    version := unicornVersion,
+    libraryDependencies ++= Dependencies.core(scalaVersion.value),
+    crossScalaVersions := Seq("2.10.4", "2.11.0")
+  )
 
-version := "0.5.0-RC1"
+val `unicorn-play` = project
+  .settings(Settings.common: _*)
+  .settings(
+    version := unicornVersion,
+    libraryDependencies ++= Dependencies.core(scalaVersion.value),
+    libraryDependencies ++= Dependencies.play
+  )
+  .dependsOn(`unicorn-core` % Settings.alsoOnTest)
 
-scalaVersion := "2.10.3"
-
-resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
-
-resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
-
-resolvers += Resolver.typesafeRepo("releases")
-
-libraryDependencies ++= Seq(
-  "com.typesafe.slick" %% "slick" % "2.0.0",
-  "com.typesafe.play" %% "play-slick" % "0.6.0.1",
-  "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
-  "com.typesafe.play" %% "play-test" % "2.2.2" % "test",
-  "com.h2database" % "h2" % "1.3.175" % "test"
-)
-
-parallelExecution in Test := false
+val unicorn = project
+  .in(file("."))
+  .aggregate(`unicorn-core`, `unicorn-play`)
+  .settings(
+    name := "unicorn",
+    version := unicornVersion
+  )
