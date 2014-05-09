@@ -1,9 +1,6 @@
-val unicornVersion = "0.5.0-SNAPSHOT"
-
 val `unicorn-core` = project
   .settings(Settings.common: _*)
   .settings(
-    version := unicornVersion,
     libraryDependencies ++= Dependencies.core(scalaVersion.value),
     crossScalaVersions := Seq("2.10.4", "2.11.0")
   )
@@ -11,7 +8,6 @@ val `unicorn-core` = project
 val `unicorn-play` = project
   .settings(Settings.common: _*)
   .settings(
-    version := unicornVersion,
     libraryDependencies ++= Dependencies.core(scalaVersion.value),
     libraryDependencies ++= Dependencies.play
   )
@@ -20,7 +16,8 @@ val `unicorn-play` = project
 val unicorn = project
   .in(file("."))
   .aggregate(`unicorn-core`, `unicorn-play`)
+  .dependsOn(`unicorn-core`, `unicorn-play`)
+  .settings(Settings.core: _*)
   .settings(
-    name := "unicorn",
-    version := unicornVersion
+    name := "unicorn"
   )
