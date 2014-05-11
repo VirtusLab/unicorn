@@ -22,7 +22,7 @@ protected[unicorn] trait JunctionRepositories {
      * @param session implicit session
      * @return number of deleted elements (0 or 1)
      */
-    def delete(elem: (First, Second))(implicit session: Session): Int = ???
+    def delete(first: First, second: Second)(implicit session: Session): Int = ???
 
     /**
      * Checks if element exists in database.
