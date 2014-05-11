@@ -21,12 +21,6 @@ protected[unicorn] trait JunctionRepositories {
 
     private implicit def bImpl = ???
 
-    protected val getQuery = ???
-
-    protected val getByAQuery = ???
-
-    protected val getByBQuery = ???
-
     protected def getByAQueryFunc(a: First) = ???
 
     protected def getByBQueryFunc(b: Second) = ???
@@ -74,7 +68,7 @@ protected[unicorn] trait JunctionRepositories {
      * @param session implicit session
      * @return Option(elementId)
      */
-    def save(a: First, b: Second)(implicit session: Session): Unit = ???
+    def save(a: First, b: Second)(implicit session: Session): Unit = query.insert((a, b))
 
     /**
      * @param a element to query by

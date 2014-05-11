@@ -4,6 +4,7 @@ import org.virtuslab.unicorn.TestUnicorn
 import TestUnicorn._
 import TestUnicorn.driver.simple._
 import org.virtuslab.unicorn.BaseTest
+import org.scalatest.BeforeAndAfterEach
 
 /**
  * Created by Łukasz Dubiel on 25.03.14.
@@ -35,7 +36,6 @@ class JunctionRepositoryTest extends BaseTest {
     def * = (id.?, name, email) <> (Customer.tupled, Customer.unapply)
   }
 
-  //FIXME
   class OrderCustomerJunctionTable(tag: Tag) extends JunctionTable[OrderId, CustomerId](tag, "order_customer") {
     def orderId = column[OrderId]("ORDER_ID")
     def customerId = column[CustomerId]("CUSTOMER_ID")
@@ -49,22 +49,40 @@ class JunctionRepositoryTest extends BaseTest {
 
   object exampleJunctionRepository extends JunctionRepository[OrderId, CustomerId, OrderCustomerJunctionTable](junctionQueries)
 
-  "Junction table" should "link between tables" in rollback { implicit session =>
+  val order = Order(None, 100)
+  val customer = Customer(None, "Ala", "ala@example.com")
+
+  def createTables(implicit session: Session) = {
     orderQueries.ddl.create
     customerQueries.ddl.create
     junctionQueries.ddl.create
+  }
 
-    val order = Order(None, 100)
-
+  def addExampleEntry(implicit session: Session): (OrderId, CustomerId) = {
     orderQueries += order
     val savedOrder = orderQueries.first
 
-    val customer = Customer(None, "Ala", "ala@example.com")
     customerQueries += customer
     val savedCustomer = customerQueries.first
 
     exampleJunctionRepository.save(savedOrder.id.get, savedCustomer.id.get)
 
+    (orderQueries.first.id.get, customerQueries.first.id.get)
+  }
+
+  it should "save pairs" in rollback { implicit session =>
+    createTables
+    addExampleEntry
+
     junctionQueries.run should have size 1
   }
+
+  it should "able to find by first" in rollback { implicit session =>
+    createTables
+    val (orderId, _) = addExampleEntry
+
+    exampleJunctionRepository.forA(orderId) shouldNot have size 0
+
+  }
+
 }
