@@ -59,7 +59,7 @@ protected[unicorn] trait JunctionRepositories {
      * @param b element to query by
      * @return all a values for given b
      */
-    def forB(b: Second)(implicit session: Session): Seq[First] = ???
+    def forB(b: Second)(implicit session: Session): Seq[First] = query.filter(_.columns._2 === b).map(_.columns._1).run
 
     /**
      * Delete all rows with given a value.
