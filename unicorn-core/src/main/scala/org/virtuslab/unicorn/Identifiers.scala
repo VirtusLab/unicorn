@@ -1,9 +1,8 @@
 package org.virtuslab.unicorn
 
-protected[unicorn] trait Identifiers {
-  self: HasJdbcDriver =>
+import scala.slick.lifted.MappedTo
 
-  import driver.simple._
+trait Identifiers {
 
   /**
    * Base trait for all ids in system.
