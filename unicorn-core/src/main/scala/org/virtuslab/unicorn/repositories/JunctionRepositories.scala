@@ -18,11 +18,12 @@ protected[unicorn] trait JunctionRepositories {
     /**
      * Deletes one element.
      *
-     * @param elem element
+     * @param first element of junction
+     * @param second element of junction
      * @param session implicit session
      * @return number of deleted elements (0 or 1)
      */
-    def delete(first: First, second: Second)(implicit session: Session): Int = ???
+    def delete(first: First, second: Second)(implicit session: Session): Int = query.filter(row => row.columns._1 === first && row.columns._2 === second).delete
 
     /**
      * Checks if element exists in database.
