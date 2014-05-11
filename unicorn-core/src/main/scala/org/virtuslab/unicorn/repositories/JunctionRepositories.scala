@@ -66,13 +66,13 @@ protected[unicorn] trait JunctionRepositories {
      * Delete all rows with given a value.
      * @param a element to query by
      */
-    def deleteForA(a: First)(implicit session: Session): Int = ???
+    def deleteForA(a: First)(implicit session: Session): Int = query.filter(_.columns._1 === a).delete
 
     /**
      * Delete all rows with given b value.
      * @param b element to query by
      */
-    def deleteForB(b: Second)(implicit session: Session): Int = ???
+    def deleteForB(b: Second)(implicit session: Session): Int = query.filter(_.columns._2 === b).delete
 
   }
 
