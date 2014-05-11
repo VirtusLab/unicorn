@@ -82,7 +82,13 @@ class JunctionRepositoryTest extends BaseTest {
     val (orderId, _) = addExampleEntry
 
     exampleJunctionRepository.forA(orderId) shouldNot have size 0
+  }
 
+  it should "able o find by second" in rollback { implicit session =>
+    createTables
+    val (_, customerId) = addExampleEntry
+
+    exampleJunctionRepository.forB(customerId) shouldNot have size 0
   }
 
 }
