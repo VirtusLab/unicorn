@@ -9,32 +9,11 @@ protected[unicorn] trait JunctionRepositories {
   import driver.simple._
 
   /**
-   * Base queries for junction tables
-   * @tparam First type of one entity
-   * @tparam Second type of other entity
-   */
-  private[repositories] trait JunctionQueries[First, Second, Table <: JunctionTable[First, Second]] {
-
-    val query: SlickQuery[Table]
-
-    private implicit def aImpl = ???
-
-    private implicit def bImpl = ???
-
-    protected def getByAQueryFunc(a: First) = ???
-
-    protected def getByBQueryFunc(b: Second) = ???
-
-    protected def getQueryFunc(a: First, b: Second) = ???
-
-  }
-
-  /**
    * Repository with basic methods for junction tables.
    * @tparam First type of one entity
    * @tparam Second type of other entity
    */
-  class JunctionRepository[First, Second, Table <: JunctionTable[First, Second]](val query: TableQuery[Table]) extends JunctionQueries[First, Second, Table] {
+  class JunctionRepository[First: BaseColumnType, Second: BaseColumnType, Table <: JunctionTable[First, Second]](val query: TableQuery[Table]) {
 
     /**
      * Deletes one element.
@@ -74,7 +53,7 @@ protected[unicorn] trait JunctionRepositories {
      * @param a element to query by
      * @return all b values for given a
      */
-    def forA(a: First)(implicit session: Session): Seq[Second] = ???
+    def forA(a: First)(implicit session: Session): Seq[Second] = query.filter(_.columns._1 === a).map(_.columns._2).run
 
     /**
      * @param b element to query by
