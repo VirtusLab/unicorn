@@ -1,7 +1,6 @@
 package org.virtuslab.unicorn.repositories
 
 import org.virtuslab.unicorn.{ HasJdbcDriver, Tables, Identifiers }
-import scala.slick.lifted.{ TableQuery => SlickQuery }
 
 protected[unicorn] trait JunctionRepositories {
   self: HasJdbcDriver with Tables with Identifiers =>
@@ -28,17 +27,18 @@ protected[unicorn] trait JunctionRepositories {
     /**
      * Checks if element exists in database.
      *
-     * @param elem element to check for
+     * @param first element of junction
+     * @param second element of junction
      * @param session implicit database session
      * @return true if element exists in database
      */
-    def exists(elem: (First, Second))(implicit session: Session): Boolean = ???
+    def exists(first: First, second: Second)(implicit session: Session): Boolean = query.filter(row => row.columns._1 === first && row.columns._2 === second).exists.run
 
     /**
      * @param session implicit session param for query
      * @return all elements of type (First, Second)
      */
-    def findAll()(implicit session: Session): Seq[(First, Second)] = ???
+    def findAll()(implicit session: Session): Seq[(First, Second)] = query.run
 
     /**
      * Saves one element if it's not present in db already.
