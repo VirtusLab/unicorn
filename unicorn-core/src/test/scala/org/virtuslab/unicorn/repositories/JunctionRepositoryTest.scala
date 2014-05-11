@@ -71,4 +71,26 @@ class JunctionRepositoryTest extends BaseTest {
     junctionQueries.run should have size 1
   }
 
+  it should "delete all items with given first" in rollback { implicit session =>
+    createTables
+    val orderId = OrderId(100)
+    exampleJunctionRepository.save(orderId, CustomerId(200))
+    exampleJunctionRepository.save(orderId, CustomerId(201))
+
+    exampleJunctionRepository.deleteForA(orderId)
+
+    junctionQueries.run shouldBe empty
+  }
+
+  it should "delete all items with given second" in rollback { implicit session =>
+    createTables
+    val customerId = CustomerId(200)
+    exampleJunctionRepository.save(OrderId(100), customerId)
+    exampleJunctionRepository.save(OrderId(101), customerId)
+
+    exampleJunctionRepository.deleteForB(customerId)
+
+    junctionQueries.run shouldBe empty
+  }
+
 }
