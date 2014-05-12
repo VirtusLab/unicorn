@@ -56,7 +56,7 @@ protected[unicorn] trait JunctionRepositories {
      * @param session implicit database session
      * @return true if element exists in database
      */
-    def exists(first: First, second: Second)(implicit session: Session): Boolean = existsQuery(first, second).run
+    def exists(first: First, second: Second)(implicit session: Session): Boolean = existsQuery((first, second)).run
 
     /**
      * @param session implicit session param for query
