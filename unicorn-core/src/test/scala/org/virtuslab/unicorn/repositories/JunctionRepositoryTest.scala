@@ -11,6 +11,8 @@ import org.scalatest.BeforeAndAfterEach
  */
 class JunctionRepositoryTest extends BaseTest {
 
+  behavior of classOf[JunctionRepository[_, _, _]].getSimpleName
+
   case class OrderId(id: Long) extends BaseId
 
   object OrderId extends IdCompanion[OrderId]
@@ -42,34 +44,36 @@ class JunctionRepositoryTest extends BaseTest {
     junctionQueries.run should have size 1
   }
 
-  it should "load all pairs" in rollback { implicit session =>
+  it should "find all pairs" in rollback { implicit session =>
     createTables
 
-    junctionQueries += (OrderId(100), CustomerId(200))
-    junctionQueries += (OrderId(101), CustomerId(200))
+    junctionQueries += ((OrderId(100), CustomerId(200)))
+    junctionQueries += ((OrderId(101), CustomerId(200)))
 
     exampleJunctionRepository.findAll should have size 2
   }
 
-  it should "able to find by first" in rollback { implicit session =>
+  it should "find by first" in rollback { implicit session =>
     createTables
     val orderId = OrderId(100)
     exampleJunctionRepository.save(orderId, CustomerId(200))
     exampleJunctionRepository.save(orderId, CustomerId(201))
+    exampleJunctionRepository.save(OrderId(101), CustomerId(201))
 
     exampleJunctionRepository.forA(orderId) should have size 2
   }
 
-  it should "able o find by second" in rollback { implicit session =>
+  it should "find by second" in rollback { implicit session =>
     createTables
     val customerId = CustomerId(200)
     exampleJunctionRepository.save(OrderId(100), customerId)
     exampleJunctionRepository.save(OrderId(101), customerId)
+    exampleJunctionRepository.save(OrderId(101), CustomerId(100))
 
     exampleJunctionRepository.forB(customerId) should have size 2
   }
 
-  it should "able to delete by first" in rollback { implicit session =>
+  it should "delete by first" in rollback { implicit session =>
     createTables
     val orderId = OrderId(100)
     exampleJunctionRepository.save(orderId, CustomerId(200))
@@ -102,7 +106,7 @@ class JunctionRepositoryTest extends BaseTest {
     junctionQueries.run shouldBe empty
   }
 
-  it should "albe to check that one pair exists" in rollback { implicit session =>
+  it should "check that one pair exists" in rollback { implicit session =>
     createTables
     val customerId = CustomerId(200)
     exampleJunctionRepository.save(OrderId(100), customerId)
