@@ -14,7 +14,8 @@ protected[unicorn] trait JunctionRepositories {
    */
   class JunctionRepository[First: BaseColumnType, Second: BaseColumnType, Table <: JunctionTable[First, Second]](val query: TableQuery[Table]) {
 
-    protected def findOneQueryFun(first: Column[First], second: Column[Second]) = query.filter(row => row.columns._1 === first && row.columns._2 === second)
+    protected def findOneQueryFun(first: Column[First], second: Column[Second]) =
+      query.filter(row => row.columns._1 === first && row.columns._2 === second)
 
     protected val findOneQueryCompiled = Compiled(findOneQueryFun _)
 
@@ -46,7 +47,8 @@ protected[unicorn] trait JunctionRepositories {
      * @param session implicit session
      * @return number of deleted elements (0 or 1)
      */
-    def delete(first: First, second: Second)(implicit session: Session): Int = findOneQueryCompiled((first, second)).delete
+    def delete(first: First, second: Second)(implicit session: Session): Int =
+      findOneQueryCompiled((first, second)).delete
 
     /**
      * Checks if element exists in database.
@@ -56,7 +58,8 @@ protected[unicorn] trait JunctionRepositories {
      * @param session implicit database session
      * @return true if element exists in database
      */
-    def exists(first: First, second: Second)(implicit session: Session): Boolean = existsQuery((first, second)).run
+    def exists(first: First, second: Second)(implicit session: Session): Boolean =
+      existsQuery((first, second)).run
 
     /**
      * @param session implicit session param for query

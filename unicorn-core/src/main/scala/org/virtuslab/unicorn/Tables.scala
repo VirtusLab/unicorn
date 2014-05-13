@@ -1,7 +1,5 @@
 package org.virtuslab.unicorn
 
-import scala.slick.lifted.{ Column => SlickColumn }
-
 protected[unicorn] trait Tables extends TypeMappers {
   self: HasJdbcDriver with Identifiers =>
 
@@ -68,7 +66,7 @@ protected[unicorn] trait Tables extends TypeMappers {
      * instead of def * = colA ~ colB write def columns = colA -> colB
      * @return
      */
-    def columns: (SlickColumn[First], SlickColumn[Second])
+    def columns: (Column[First], Column[Second])
 
     final def * = (columns._1, columns._2)
 

@@ -4,11 +4,7 @@ import org.virtuslab.unicorn.TestUnicorn
 import TestUnicorn._
 import TestUnicorn.driver.simple._
 import org.virtuslab.unicorn.BaseTest
-import org.scalatest.BeforeAndAfterEach
 
-/**
- * Created by Łukasz Dubiel on 25.03.14.
- */
 class JunctionRepositoryTest extends BaseTest {
 
   behavior of classOf[JunctionRepository[_, _, _]].getSimpleName
