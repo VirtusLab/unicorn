@@ -130,13 +130,24 @@ protected[unicorn] trait IdRepositories {
       elem.id match {
         case Some(id) =>
           val rowsUpdated = byIdFunc(id).update(elem)
+          afterSave(elem)
           if (rowsUpdated == 1) id
           else throw new SQLException(s"Error during save in table: $tableName, " +
             s"for id: $id - $rowsUpdated rows updated, expected: 1. Entity: $elem")
         case None =>
-          queryReturningId insert elem
+          val result = queryReturningId insert elem
+          afterSave(elem)
+          result
       }
     }
+
+    /**
+     * Hook executed after element is saved - if you want to do some stuff then, override it.
+     *
+     * @param elem element to save
+     * @param session implicit session
+     */
+    protected def afterSave(elem: Entity)(implicit session: Session): Unit = {}
 
     /**
      * Saves multiple elements.

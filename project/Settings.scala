@@ -5,7 +5,7 @@ import xerial.sbt.Sonatype
 
 object Settings {
 
-  val unicornVersion = "0.6.0-M4"
+  val unicornVersion = "0.6.0-M5"
 
   val alsoOnTest = "compile->compile;test->test"
 

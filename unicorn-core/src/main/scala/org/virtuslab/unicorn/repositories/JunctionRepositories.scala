@@ -73,9 +73,10 @@ protected[unicorn] trait JunctionRepositories {
      * @param a one element
      * @param b other element
      * @param session implicit session
-     * @return Option(elementId)
      */
-    def save(a: First, b: Second)(implicit session: Session): Unit = query.insert((a, b))
+    def save(a: First, b: Second)(implicit session: Session): Unit = {
+      if (!exists(a, b)) query.insert((a, b))
+    }
 
     /**
      * @param a element to query by
