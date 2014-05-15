@@ -5,7 +5,7 @@ import xerial.sbt.Sonatype
 
 object Settings {
 
-  val unicornVersion = "0.5.2-SNAPSHOT"
+  val unicornVersion = "0.6.0-M6"
 
   val alsoOnTest = "compile->compile;test->test"
 
@@ -37,7 +37,9 @@ object Settings {
           <url>https://github.com/Kwestor</url>
         </developer>
       </developers>
-  ) ++ Sonatype.sonatypeSettings
+  ) ++
+    Sonatype.sonatypeSettings ++
+    ScoverageSbtPlugin.instrumentSettings
 
   // common settings for play and core modules
   val common = core ++ Seq(
@@ -46,6 +48,7 @@ object Settings {
     resolvers += Resolver.sonatypeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("snapshots"),
     parallelExecution in Test := false,
+    parallelExecution in ScoverageSbtPlugin.scoverageTest := false,
     incOptions := incOptions.value.withNameHashing(true),
     scalacOptions ++= Seq(
       "-feature",
@@ -54,5 +57,4 @@ object Settings {
       "-Xlint"
     )
   ) ++ SbtScalariform.scalariformSettings
-
 }
