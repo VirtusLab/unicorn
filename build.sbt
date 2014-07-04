@@ -1,8 +1,7 @@
 val `unicorn-core` = project
   .settings(Settings.common: _*)
   .settings(
-    libraryDependencies ++= Dependencies.core(scalaVersion.value),
-    crossScalaVersions := Seq("2.10.4", "2.11.0")
+    libraryDependencies ++= Dependencies.core(scalaVersion.value)
   )
 
 val `unicorn-play` = project

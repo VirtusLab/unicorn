@@ -5,7 +5,7 @@ import xerial.sbt.Sonatype
 
 object Settings {
 
-  val unicornVersion = "0.6.0-M6"
+  val unicornVersion = "0.6.0-M7"
 
   val alsoOnTest = "compile->compile;test->test"
 
@@ -13,7 +13,9 @@ object Settings {
   val core = Seq(
     organization := "org.virtuslab",
     version := unicornVersion,
-    pomExtra := <url>https://github.com/VirtusLab/unicorn</url>
+    scalaVersion := "2.10.4",
+    crossScalaVersions := Seq("2.10.4", "2.11.1"),
+      pomExtra := <url>https://github.com/VirtusLab/unicorn</url>
       <licenses>
         <license>
           <name>Apache-style</name>
@@ -41,7 +43,6 @@ object Settings {
 
   // common settings for play and core modules
   val common = core ++ Seq(
-    scalaVersion := "2.10.4",
     resolvers += Resolver.typesafeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("snapshots"),
