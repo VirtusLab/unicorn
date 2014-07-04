@@ -3,6 +3,7 @@ package org.virtuslab.unicorn.repositories
 import java.sql.SQLException
 import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
 import scala.Some
+import scala.slick.lifted.MappedToBase
 
 protected[unicorn] trait IdRepositories {
   self: HasJdbcDriver with Identifiers with Tables =>
@@ -16,7 +17,7 @@ protected[unicorn] trait IdRepositories {
    * @tparam Entity type of elements that are queried
    * @tparam Table type of table
    */
-  protected trait BaseIdQueries[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]] {
+  protected trait BaseIdQueries[Id <: MappedToBase, Entity <: WithId[Id], Table <: IdTable[Id, Entity]] {
 
     /** @return query to operate on */
     protected def query: TableQuery[Table]
@@ -44,7 +45,7 @@ protected[unicorn] trait IdRepositories {
    * @tparam Table type of table
    */
   // format: OFF
-  class BaseIdRepository[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](protected val query: TableQuery[Table])
+  class BaseIdRepository[Id <: MappedToBase, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](protected val query: TableQuery[Table])
                                                                                           (implicit val mapping: BaseColumnType[Id])
       extends BaseIdQueries[Id, Entity, Table] {
     // format: ON

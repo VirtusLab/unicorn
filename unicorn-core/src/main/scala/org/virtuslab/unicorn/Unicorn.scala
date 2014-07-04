@@ -4,6 +4,7 @@ import org.virtuslab.unicorn.repositories.Repositories
 import scala.slick.driver.JdbcDriver
 
 import scala.language.higherKinds
+import scala.slick.lifted.MappedToBase
 
 trait HasJdbcDriver {
   val driver: JdbcDriver
@@ -19,5 +20,5 @@ protected[unicorn] trait Unicorn
   self: HasJdbcDriver =>
 
   /** Abstract type for companions for Ids*/
-  type IdCompanion[Id <: BaseId]
+  type IdCompanion[Id <: MappedToBase]
 }

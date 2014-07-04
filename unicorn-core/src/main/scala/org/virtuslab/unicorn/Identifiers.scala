@@ -1,16 +1,20 @@
 package org.virtuslab.unicorn
 
-import scala.slick.lifted.MappedTo
+import scala.slick.lifted.{ MappedToBase, MappedTo }
 
 trait Identifiers {
 
   /**
-   * Base trait for all ids in system.
+   * Base trait for all Long ids in system.
+   */
+  trait BaseId extends Any with MappedId[Long]
+
+  /**
+   * Base trait for implementing ids.
    * It is existential trait so it can have only defs.
    */
-  trait BaseId extends Any with MappedTo[Long] {
-    def id: Long
-
+  trait MappedId[T] extends Any with MappedTo[T] {
+    def id: T
     override def value = id
   }
 
@@ -20,10 +24,10 @@ trait Identifiers {
    *
    * @tparam Id type of Id
    */
-  abstract class CoreCompanion[Id <: BaseId] {
+  abstract class CoreCompanion[Id <: MappedToBase] {
 
-    /** Ordering for ids - it is normal simple ordering on inner longs ascending */
-    implicit final lazy val ordering: Ordering[Id] = Ordering.by[Id, Long](_.id)
+    /** Ordering for ids */
+    implicit def basic_ordering(implicit ord: Ordering[Id#Underlying]) = Ordering.by[Id, Id#Underlying](_.value)(ord)
   }
 
   /**
