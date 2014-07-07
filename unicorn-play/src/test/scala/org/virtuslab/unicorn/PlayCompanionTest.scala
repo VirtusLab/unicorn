@@ -5,6 +5,7 @@ import play.api.data.format.Formatter
 import play.api.mvc.{ PathBindable, QueryStringBindable }
 
 class PlayCompanionTest extends BasePlayTest {
+  import play.api.data.format.Formats._
 
   case class UserId(id: Long) extends BaseId
 
