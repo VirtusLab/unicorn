@@ -64,12 +64,6 @@ protected[unicorn] trait Tables extends TypeMappers {
      */
     def this(tag: Tag, tableName: String) = this(tag, None, tableName)
 
-    /** Type mapper for A type */
-    final val aMapper = implicitly[BaseColumnType[First]]
-
-    /** Type mapper for B type */
-    final val bMapper = implicitly[BaseColumnType[Second]]
-
     /**
      * instead of def * = colA ~ colB write def columns = colA -> colB
      * @return

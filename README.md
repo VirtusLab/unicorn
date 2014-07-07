@@ -20,19 +20,21 @@ Feel free to use it, test it and to contribute!
 Getting unicorn
 ---------------
 
-For core latest version (for Scala 2.10.x and Slick 2.0) use:
+For core latest version (for Scala 2.10.x and Slick 2.1.x) use:
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn-core" % "0.5.2"
+libraryDependencies += "org.virtuslab" %% "unicorn-core" % "0.6.0-M3"
 ```
 
-For play version (same Scala 2.10.x and Slick 2.0):
+For play version (same Scala 2.10.x and Slick 2.1.x):
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn-play" % "0.5.2"
+libraryDependencies += "org.virtuslab" %% "unicorn-play" % "0.6.0-M3"
 ```
 
 Or see [Maven repository](http://maven-repository.com/artifact/org.virtuslab/unicorn_2.10).
+
+For Slick 2.0.x see version `0.5.x`.
 
 For Slick 1.x see version `0.4.x`.
 
