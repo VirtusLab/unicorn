@@ -5,11 +5,6 @@ import scala.slick.lifted.{ MappedToBase, MappedTo }
 trait Identifiers {
 
   /**
-   * Base trait for all Long ids in system.
-   */
-  trait BaseId extends Any with MappedId[Long]
-
-  /**
    * Base trait for implementing ids.
    * It is existential trait so it can have only defs.
    */
@@ -17,6 +12,11 @@ trait Identifiers {
     def id: T
     override def value = id
   }
+
+  /**
+    * Base trait for all Long ids in system.
+   */
+  trait BaseId extends Any with MappedId[Long]
 
   /**
    * Base class for companion objects for id classes.
