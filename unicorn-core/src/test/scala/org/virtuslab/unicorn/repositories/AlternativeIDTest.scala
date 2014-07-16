@@ -32,7 +32,7 @@ trait UUIDTable extends AlternativeIds {
   class UniquePersons(tag: Tag) extends IdTable[UniqueUserId, PersonRow](tag, "U_USERS") {
     def name = column[String]("NAME", O.NotNull)
 
-    override def * = (id.?, name) <>(PersonRow.tupled, PersonRow.unapply)
+    override def * = (id.?, name) <> (PersonRow.tupled, PersonRow.unapply)
   }
 
   //provides custom ddl query to generate UUID primary keys
