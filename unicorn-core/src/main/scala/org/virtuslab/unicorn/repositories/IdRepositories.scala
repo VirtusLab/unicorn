@@ -2,7 +2,6 @@ package org.virtuslab.unicorn.repositories
 
 import java.sql.SQLException
 import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
-import scala.Some
 import scala.slick.lifted.MappedToBase
 
 protected[unicorn] trait IdRepositories {
@@ -46,7 +45,7 @@ protected[unicorn] trait IdRepositories {
    */
   // format: OFF
   class BaseIdRepository[Id <: MappedToBase, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](protected val query: TableQuery[Table])
-                                                                                          (implicit val mapping: BaseColumnType[Id])
+                                                                                                (implicit val mapping: BaseColumnType[Id])
       extends BaseIdQueries[Id, Entity, Table] {
     // format: ON
 

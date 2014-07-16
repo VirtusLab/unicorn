@@ -14,7 +14,7 @@ trait Identifiers {
   }
 
   /**
-    * Base trait for all Long ids in system.
+   * Base trait for all Long ids in system.
    */
   trait BaseId extends Any with MappedId[Long]
 

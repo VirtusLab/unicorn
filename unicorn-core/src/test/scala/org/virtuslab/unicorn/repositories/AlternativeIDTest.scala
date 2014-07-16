@@ -2,14 +2,18 @@ package org.virtuslab.unicorn.repositories
 
 import java.util.UUID
 
-import org.scalatest.{ Matchers, FlatSpecLike }
-import org.virtuslab.unicorn.{ BaseTest, RollbackHelper, Unicorn, HasJdbcDriver }
+import org.scalatest.{ FlatSpecLike, Matchers }
 import org.virtuslab.unicorn.TestUnicorn._
+import org.virtuslab.unicorn.{ BaseTest, HasJdbcDriver, RollbackHelper, Unicorn }
 
 trait AlternativeIds {
+
   trait Uid extends Any with MappedId[UUID]
+
   case class UniqueUserId(id: UUID) extends Uid
+
   case class ClassicId(id: Long) extends BaseId
+
 }
 
 /**
@@ -18,28 +22,36 @@ trait AlternativeIds {
  */
 trait UUIDTable extends AlternativeIds {
   val unicorn: Unicorn with HasJdbcDriver
+
   import unicorn._
-  import driver.simple._
   import driver.profile._
+  import driver.simple._
 
   case class PersonRow(id: Option[UniqueUserId], name: String) extends WithId[UniqueUserId]
+
   class UniquePersons(tag: Tag) extends IdTable[UniqueUserId, PersonRow](tag, "U_USERS") {
     def name = column[String]("NAME", O.NotNull)
-    override def * = (id.?, name) <> (PersonRow.tupled, PersonRow.unapply)
+
+    override def * = (id.?, name) <>(PersonRow.tupled, PersonRow.unapply)
   }
 
   //provides custom ddl query to generate UUID primary keys
   object UniquePersons {
-    val customDDL = DDL("""CREATE TABLE IF NOT EXISTS "U_USERS" ("id" UUID default RANDOM_UUID() PRIMARY KEY , "NAME" VARCHAR(255) NOT NULL);""", "DROP TABLE U_USERS;")
+    val customDDL = DDL(
+      """CREATE TABLE IF NOT EXISTS "U_USERS" ("id" UUID default RANDOM_UUID() PRIMARY KEY , "NAME" VARCHAR(255) NOT NULL);""",
+      "DROP TABLE U_USERS;")
     val ddl = createDDLInvoker(customDDL)
   }
+
   val personsQuery = TableQuery[UniquePersons]
+
   object PersonsRepository extends BaseIdRepository[UniqueUserId, PersonRow, UniquePersons](personsQuery)
+
 }
 
 trait PersonUUIDTest {
-
   self: FlatSpecLike with Matchers with RollbackHelper with UUIDTable =>
+
   "Persons Repository" should "work fine with UUID id" in rollback { implicit session =>
     UniquePersons.ddl.create
 
