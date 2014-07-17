@@ -1,4 +1,5 @@
 import com.typesafe.sbt.SbtScalariform
+import scoverage.ScoverageSbtPlugin._
 import sbt.Keys._
 import sbt._
 import xerial.sbt.Sonatype
@@ -39,7 +40,9 @@ object Settings {
           <url>https://github.com/Kwestor</url>
         </developer>
       </developers>
-  ) ++ Sonatype.sonatypeSettings
+  ) ++
+    Sonatype.sonatypeSettings ++
+    instrumentSettings
 
   // common settings for play and core modules
   val common = core ++ Seq(
@@ -47,6 +50,7 @@ object Settings {
     resolvers += Resolver.sonatypeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("snapshots"),
     parallelExecution in Test := false,
+    parallelExecution in  ScoverageTest := false,
     incOptions := incOptions.value.withNameHashing(true),
     scalacOptions ++= Seq(
       "-feature",
@@ -55,5 +59,4 @@ object Settings {
       "-Xlint"
     )
   ) ++ SbtScalariform.scalariformSettings
-
 }
