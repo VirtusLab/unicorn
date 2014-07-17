@@ -4,7 +4,6 @@ import play.api.db.slick.Config
 
 protected[unicorn] trait UnicornPlay
     extends Unicorn
-    with PlayIdentifiers
     with HasJdbcDriver {
 
   override lazy val driver = Config.driver

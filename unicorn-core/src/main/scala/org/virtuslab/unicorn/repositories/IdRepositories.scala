@@ -1,11 +1,11 @@
 package org.virtuslab.unicorn.repositories
 
 import java.sql.SQLException
-import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
+import org.virtuslab.unicorn.{ WithId, BaseId, HasJdbcDriver, Tables }
 import scala.Some
 
 protected[unicorn] trait IdRepositories {
-  self: HasJdbcDriver with Identifiers with Tables =>
+  self: HasJdbcDriver with Tables =>
 
   import driver.simple._
 
