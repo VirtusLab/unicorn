@@ -3,7 +3,7 @@ package org.virtuslab.unicorn
 import scala.slick.lifted.MappedToBase
 
 protected[unicorn] trait Tables extends TypeMappers {
-  self: HasJdbcDriver with Identifiers =>
+  self: HasJdbcDriver =>
 
   import driver.simple._
 

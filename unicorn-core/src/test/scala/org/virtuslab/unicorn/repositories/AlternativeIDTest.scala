@@ -3,7 +3,7 @@ package org.virtuslab.unicorn.repositories
 import java.util.UUID
 
 import org.scalatest.{ FlatSpecLike, Matchers }
-import org.virtuslab.unicorn.TestUnicorn._
+import org.virtuslab.unicorn._
 import org.virtuslab.unicorn.{ BaseTest, HasJdbcDriver, RollbackHelper, Unicorn }
 
 trait AlternativeIds {

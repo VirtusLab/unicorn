@@ -6,7 +6,6 @@ import scala.slick.lifted.MappedToBase
 
 protected[unicorn] trait UnicornPlay
     extends Unicorn
-    with PlayIdentifiers
     with HasJdbcDriver {
 
   override lazy val driver = Config.driver

@@ -1,9 +1,8 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.TestUnicorn
-import TestUnicorn._
-import TestUnicorn.driver.simple._
-import org.virtuslab.unicorn.BaseTest
+import org.virtuslab.unicorn._
+import org.virtuslab.unicorn.TestUnicorn._
+import org.virtuslab.unicorn.TestUnicorn.driver.simple._
 
 class JunctionRepositoryTest extends BaseTest {
 

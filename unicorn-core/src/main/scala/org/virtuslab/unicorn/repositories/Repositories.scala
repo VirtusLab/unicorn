@@ -1,11 +1,11 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.{ HasJdbcDriver, Tables, Identifiers }
+import org.virtuslab.unicorn.{ HasJdbcDriver, Tables }
 
 protected[unicorn] trait Repositories
     extends JunctionRepositories
     with IdRepositories {
-  self: HasJdbcDriver with Identifiers with Tables =>
+  self: HasJdbcDriver with Tables =>
 
   import driver.simple._
 
