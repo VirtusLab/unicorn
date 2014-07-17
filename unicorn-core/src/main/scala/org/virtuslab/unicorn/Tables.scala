@@ -1,7 +1,7 @@
 package org.virtuslab.unicorn
 
 protected[unicorn] trait Tables extends TypeMappers {
-  self: HasJdbcDriver with Identifiers =>
+  self: HasJdbcDriver =>
 
   import driver.simple._
 
