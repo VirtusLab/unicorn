@@ -25,8 +25,10 @@ protected[unicorn] trait Tables extends TypeMappers {
      */
     def this(tag: Tag, tableName: String)(implicit mapping: BaseColumnType[Id]) = this(tag, None, tableName)
 
+    protected val idColumnName: String = "id"
+
     /** @return id column representation of this table */
-    final def id = column[Id]("id", O.PrimaryKey, O.AutoInc)
+    final def id = column[Id](idColumnName, O.PrimaryKey, O.AutoInc)
   }
 
   /**
