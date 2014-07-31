@@ -49,8 +49,8 @@ protected[unicorn] trait PlayIdentifiers extends Identifiers {
 
       override def bind(key: String, data: Map[String, String]) =
         Formats.longFormat.bind(key, data).right.map(apply).left.map {
-          case errors if data.get(key).forall(_.isEmpty) => errors.map(_.copy(message = "id.empty"))
-          case errors => errors.map(_.copy(message = "id.invalid"))
+          case errors if data.get(key).forall(_.isEmpty) => errors.map(error => error.copy(messages = error.messages :+ "id.empty"))
+          case errors => errors.map(error => error.copy(messages = error.messages :+ "id.invalid"))
         }
 
       override def unbind(key: String, value: Id): Map[String, String] =
