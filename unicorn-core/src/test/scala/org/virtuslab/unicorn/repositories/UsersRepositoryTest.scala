@@ -7,12 +7,12 @@ import org.virtuslab.unicorn.{ RollbackHelper, BaseTest }
 
 trait AbstractUserTable {
 
-  val unicorn: Unicorn with HasJdbcDriver
+  val unicorn: Unicorn[Long] with HasJdbcDriver
 
   import unicorn._
   import unicorn.driver.simple._
 
-  case class UserId(id: Long) extends BaseId
+  case class UserId(id: Long) extends MappedId
 
   case class UserRow(id: Option[UserId],
     email: String,
@@ -37,7 +37,7 @@ trait AbstractUserTable {
 
 trait UsersRepositoryTest {
 
-  self: FlatSpecLike with Matchers with RollbackHelper with AbstractUserTable =>
+  self: FlatSpecLike with Matchers with RollbackHelper[Long] with AbstractUserTable =>
 
   import unicorn.driver.simple._
 
@@ -85,4 +85,6 @@ trait UsersRepositoryTest {
   }
 }
 
-class CoreUserRepositoryTest extends BaseTest with UsersRepositoryTest with AbstractUserTable
+class CoreUserRepositoryTest extends BaseTest[Long] with UsersRepositoryTest with AbstractUserTable {
+  override lazy val unicorn = TestUnicorn
+}

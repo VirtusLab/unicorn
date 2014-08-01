@@ -2,8 +2,8 @@ package org.virtuslab.unicorn
 
 import scala.slick.lifted.MappedToBase
 
-protected[unicorn] trait Tables extends TypeMappers {
-  self: HasJdbcDriver with Identifiers =>
+protected[unicorn] trait Tables[Underlying] extends TypeMappers {
+  self: HasJdbcDriver with Identifiers[Underlying] =>
 
   import driver.simple._
 
@@ -16,7 +16,7 @@ protected[unicorn] trait Tables extends TypeMappers {
    * @tparam Id type of id
    * @tparam Entity type of entities in table
    */
-  abstract class IdTable[Id <: MappedToBase, Entity <: WithId[Id]](tag: Tag, schemaName: Option[String], tableName: String)(implicit val mapping: BaseColumnType[Id])
+  abstract class IdTable[Id <: MappedId, Entity <: WithId[Id]](tag: Tag, schemaName: Option[String], tableName: String)(implicit val mapping: BaseColumnType[Id])
       extends BaseTable[Entity](tag, schemaName, tableName) {
 
     /**

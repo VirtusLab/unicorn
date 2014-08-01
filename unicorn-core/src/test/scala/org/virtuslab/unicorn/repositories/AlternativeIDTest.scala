@@ -3,29 +3,29 @@ package org.virtuslab.unicorn.repositories
 import java.util.UUID
 
 import org.scalatest.{ FlatSpecLike, Matchers }
-import org.virtuslab.unicorn.TestUnicorn._
-import org.virtuslab.unicorn.{ BaseTest, HasJdbcDriver, RollbackHelper, Unicorn }
+import org.virtuslab.unicorn._
+import scala.slick.driver.{ H2Driver, JdbcDriver }
+import scala.Some
 
-trait AlternativeIds {
+object UUIDUnicorn extends UnicornCore[UUID] with HasJdbcDriver {
+  override val driver: JdbcDriver = H2Driver
+}
 
-  trait Uid extends Any with MappedId[UUID]
-
-  case class UniqueUserId(id: UUID) extends Uid
-
-  case class ClassicId(id: Long) extends BaseId
-
+trait UUIDTestUnicorn {
+  val unicorn: Unicorn[UUID] with HasJdbcDriver = UUIDUnicorn
 }
 
 /**
  * This class is simplified clone of Users from UsersRepositoryTest.
  * It uses UUID ids instead of Long
  */
-trait UUIDTable extends AlternativeIds {
-  val unicorn: Unicorn with HasJdbcDriver
+trait UUIDTable extends UUIDTestUnicorn {
 
   import unicorn._
   import driver.profile._
   import driver.simple._
+
+  case class UniqueUserId(id: UUID) extends MappedId
 
   case class PersonRow(id: Option[UniqueUserId], name: String) extends WithId[UniqueUserId]
 
@@ -49,8 +49,8 @@ trait UUIDTable extends AlternativeIds {
 
 }
 
-trait PersonUUIDTest {
-  self: FlatSpecLike with Matchers with RollbackHelper with UUIDTable =>
+trait PersonUUIDTest extends FlatSpecLike {
+  self: FlatSpecLike with Matchers with RollbackHelper[UUID] with UUIDTable =>
 
   "Persons Repository" should "work fine with UUID id" in rollback { implicit session =>
     UniquePersons.ddl.create
@@ -65,4 +65,4 @@ trait PersonUUIDTest {
   }
 }
 
-class AlternativeIDTest extends BaseTest with UUIDTable with PersonUUIDTest
+class AlternativeIDTest extends BaseTest[UUID] with UUIDTable with PersonUUIDTest

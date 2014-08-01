@@ -1,12 +1,16 @@
 package org.virtuslab.unicorn
 
-import scala.slick.lifted.MappedToBase
-
 /**
  * Cake for unicorn-core.
  */
-trait UnicornCore extends Unicorn {
+trait UnicornCore[Id] extends Unicorn[Id] {
   self: HasJdbcDriver =>
 
-  override type IdCompanion[Id <: MappedToBase] = CoreCompanion[Id]
+  override type IdCompanion[T <: MappedId] = CoreCompanion[T]
+}
+
+trait LongUnicornCore extends UnicornCore[Long] {
+  self: HasJdbcDriver =>
+
+  type BaseId = MappedId
 }

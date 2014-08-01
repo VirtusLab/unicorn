@@ -1,11 +1,10 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.{ TestUnicorn, BaseTest }
+import org.virtuslab.unicorn.{ LongTestUnicorn, TestUnicorn, BaseTest }
 import TestUnicorn._
 import TestUnicorn.driver.simple._
-import org.virtuslab.unicorn.BaseTest
 
-class DictionaryRepositoryTest extends BaseTest {
+class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
   type DictionaryEntry = (String, String)
 

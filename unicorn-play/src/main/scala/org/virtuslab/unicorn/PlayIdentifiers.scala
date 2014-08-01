@@ -1,21 +1,19 @@
 package org.virtuslab.unicorn
 
-import play.api.data.format.{ Formats, Formatter }
+import play.api.data.format.Formatter
 import play.api.mvc.QueryStringBindable.Parsing
-import play.api.mvc.{ QueryStringBindable, PathBindable }
+import play.api.mvc.{ PathBindable, QueryStringBindable }
 
-import scala.slick.lifted.MappedToBase
-
-protected[unicorn] trait PlayIdentifiers extends Identifiers {
+protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underlying] {
   self: HasJdbcDriver =>
 
-  abstract class PlayCompanion[Id <: MappedToBase]
+  abstract class PlayCompanion[Id <: MappedId]
     extends CoreCompanion[Id]
     with Applicable[Id]
     with PlayImplicits[Id]
 
   /** Marker trait */
-  protected[unicorn] trait Applicable[Id <: MappedToBase] {
+  protected[unicorn] trait Applicable[Id <: MappedId] {
 
     /**
      * Factory method for I instance creation.
@@ -30,7 +28,7 @@ protected[unicorn] trait PlayIdentifiers extends Identifiers {
    *
    * @tparam Id type of Id
    */
-  protected[unicorn] trait PlayImplicits[Id <: MappedToBase] {
+  protected[unicorn] trait PlayImplicits[Id <: MappedId] {
     self: Applicable[Id] =>
 
     /**
@@ -56,8 +54,7 @@ protected[unicorn] trait PlayIdentifiers extends Identifiers {
           case errors => errors.map(_.copy(messages = Seq("id.invalid")))
         }
 
-      override def unbind(key: String, value: Id): Map[String, String] =
-        Map(key -> value.value.toString)
+      override def unbind(key: String, id: Id): Map[String, String] = underlyingFormat.unbind(key,id.value)
     }
   }
 
