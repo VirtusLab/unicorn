@@ -1,9 +1,10 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.{ HasJdbcDriver, Tables, Identifiers }
+import org.virtuslab.unicorn.{ HasJdbcDriver, Tables }
+import scala.slick.lifted.Shape._
 
 protected[unicorn] trait JunctionRepositories {
-  self: HasJdbcDriver with Tables with Identifiers =>
+  self: HasJdbcDriver with Tables =>
 
   import driver.simple._
 

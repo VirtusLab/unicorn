@@ -1,16 +1,16 @@
 package org.virtuslab.unicorn.repositories
 
 import java.sql.SQLException
-import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
 import scala.slick.lifted.MappedToBase
+import org.virtuslab.unicorn.{ WithId, HasJdbcDriver, Tables }
 
 protected[unicorn] trait IdRepositories {
-  self: HasJdbcDriver with Identifiers with Tables =>
+  self: HasJdbcDriver with Tables =>
 
   import driver.simple._
 
   /**
-   * Base class for all queries with an [[org.virtuslab.unicorn.Identifiers.BaseId]].
+   * Base class for all queries with an [[org.virtuslab.unicorn.BaseId]].
    *
    * @tparam Id type of id
    * @tparam Entity type of elements that are queried
@@ -37,7 +37,7 @@ protected[unicorn] trait IdRepositories {
   }
 
   /**
-   * Base trait for repositories where we use [[org.virtuslab.unicorn.Identifiers.BaseId]]s.
+   * Base trait for repositories where we use [[org.virtuslab.unicorn.BaseId]]s.
    *
    * @tparam Id type of id
    * @tparam Entity type of entity

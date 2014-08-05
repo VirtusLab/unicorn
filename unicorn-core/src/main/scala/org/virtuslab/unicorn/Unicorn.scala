@@ -1,10 +1,10 @@
 package org.virtuslab.unicorn
 
-import org.virtuslab.unicorn.repositories.Repositories
-import scala.slick.driver.JdbcDriver
-
 import scala.language.higherKinds
+import scala.slick.driver.JdbcDriver
 import scala.slick.lifted.MappedToBase
+
+import org.virtuslab.unicorn.repositories.Repositories
 
 trait HasJdbcDriver {
   val driver: JdbcDriver
@@ -14,8 +14,7 @@ trait HasJdbcDriver {
  * Base cake for Unicorn. Extended by versions for `unicorn-core` and `unicorn-play`.
  */
 protected[unicorn] trait Unicorn
-    extends Identifiers
-    with Tables
+    extends Tables
     with Repositories {
   self: HasJdbcDriver =>
 
