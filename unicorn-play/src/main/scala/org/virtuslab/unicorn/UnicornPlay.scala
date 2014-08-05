@@ -2,8 +2,9 @@ package org.virtuslab.unicorn
 
 import play.api.data.format.Formatter
 import play.api.db.slick.Config
+import play.api.data.format.Formats._ // Needed for LongUnicornPlay
 
-protected[unicorn] trait UnicornPlay[Underlying]
+protected[unicorn] class UnicornPlay[Underlying](implicit val formatter: Formatter[Underlying])
     extends Unicorn[Underlying]
     with PlayIdentifiers[Underlying]
     with HasJdbcDriver {
@@ -13,14 +14,8 @@ protected[unicorn] trait UnicornPlay[Underlying]
   override type IdCompanion[Id <: MappedId] = PlayCompanion[Id]
 }
 
-trait LongFormatter {
-  implicit val underlyingFormat: Formatter[Long] = play.api.data.format.Formats.longFormat
-}
-
-trait LongUnicornPlay extends LongFormatter with UnicornPlay[Long] {
-
+trait LongUnicornPlay extends UnicornPlay[Long] {
   type BaseId = MappedId // For backward capability
 }
 
 object LongUnicornPlay extends LongUnicornPlay
-

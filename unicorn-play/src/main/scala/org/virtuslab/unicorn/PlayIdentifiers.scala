@@ -54,7 +54,7 @@ protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underly
           case errors => errors.map(_.copy(messages = Seq("id.invalid")))
         }
 
-      override def unbind(key: String, id: Id): Map[String, String] = underlyingFormat.unbind(key,id.value)
+      override def unbind(key: String, id: Id): Map[String, String] = underlyingFormat.unbind(key, id.value)
     }
   }
 
