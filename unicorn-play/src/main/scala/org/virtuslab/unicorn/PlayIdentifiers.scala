@@ -34,7 +34,7 @@ protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underly
     /**
      * Type mapper for route files.
      * @param underlyingBinder path bindable for Id#Underlying type.
-     * @return path bindable for I
+     * @return path bindable for Igen
      */
     implicit final def pathBindable(implicit underlyingBinder: PathBindable[Id#Underlying]): PathBindable[Id] =
       underlyingBinder.transform(apply, _.value)
