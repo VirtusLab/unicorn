@@ -43,8 +43,10 @@ protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underly
     implicit final def toPathBindable(implicit bindable: Parsing[Id#Underlying]): QueryStringBindable[Id] =
       bindable.transform(apply, _.value)
 
+    def underlyingFormat: Formatter[Id#Underlying]
+
     /** Form formatter for I */
-    implicit final def idMappingFormatter(implicit underlyingFormat: Formatter[Id#Underlying]): Formatter[Id] = new Formatter[Id] {
+    implicit final val idMappingFormatter: Formatter[Id] = new Formatter[Id] {
 
       override val format = Some(("format.numeric", Nil))
 
