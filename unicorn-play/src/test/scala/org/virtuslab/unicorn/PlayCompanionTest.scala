@@ -3,8 +3,6 @@ package org.virtuslab.unicorn
 import LongUnicornPlay._
 import play.api.data.format.Formatter
 import play.api.mvc.{ PathBindable, QueryStringBindable }
-import play.api.data.format.Formats._
-
 
 class PlayCompanionTest extends BasePlayTest {
 

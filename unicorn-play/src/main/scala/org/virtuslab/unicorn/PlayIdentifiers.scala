@@ -5,15 +5,15 @@ import play.api.mvc.QueryStringBindable.Parsing
 import play.api.mvc.{ PathBindable, QueryStringBindable }
 
 protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underlying] {
-  self: HasJdbcDriver =>
+  self: UnicornPlay[Underlying] =>
 
-  abstract class PlayCompanion[Id <: MappedId](implicit val underlyingFormat: Formatter[Underlying])
+  abstract class PlayCompanion[Id <: BaseId]
     extends CoreCompanion[Id]
     with Applicable[Id]
     with PlayImplicits[Id]
 
   /** Marker trait */
-  protected[unicorn] trait Applicable[Id <: MappedId] {
+  protected[unicorn] trait Applicable[Id <: BaseId] extends Any {
 
     /**
      * Factory method for I instance creation.
@@ -28,24 +28,16 @@ protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underly
    *
    * @tparam Id type of Id
    */
-  protected[unicorn] trait PlayImplicits[Id <: MappedId] {
+  protected[unicorn] trait PlayImplicits[Id <: BaseId] {
     self: Applicable[Id] =>
 
-    /**
-     * Type mapper for route files.
-     * @param underlyingBinder path bindable for Id#Underlying type.
-     * @return path bindable for Igen
-     */
-    implicit final def pathBindable(implicit underlyingBinder: PathBindable[Id#Underlying]): PathBindable[Id] =
-      underlyingBinder.transform(apply, _.value)
+    /** Type mapper for route files. */
+    implicit final val pathBinder: PathBindable[Id] = underlyingPathBinder.transform(apply, _.value)
 
     /** Implicit for mapping id to routes params for play */
-    implicit final def toPathBindable(implicit bindable: Parsing[Id#Underlying]): QueryStringBindable[Id] =
-      bindable.transform(apply, _.value)
+    implicit final val queryStringBinder: QueryStringBindable[Id] = underlyingQueryStringBinder.transform(apply, _.value)
 
-    def underlyingFormat: Formatter[Id#Underlying]
-
-    /** Form formatter for I */
+    /** Form formatter for Id */
     implicit final val idMappingFormatter: Formatter[Id] = new Formatter[Id] {
 
       override val format = Some(("format.numeric", Nil))

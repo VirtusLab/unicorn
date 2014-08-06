@@ -16,7 +16,7 @@ protected[unicorn] trait IdRepositories[Underlying] {
    * @tparam Entity type of elements that are queried
    * @tparam Table type of table
    */
-  protected trait BaseIdQueries[Id <: MappedId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]] {
+  protected trait BaseIdQueries[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]] {
 
     /** @return query to operate on */
     protected def query: TableQuery[Table]
@@ -44,7 +44,7 @@ protected[unicorn] trait IdRepositories[Underlying] {
    * @tparam Table type of table
    */
   // format: OFF
-  class BaseIdRepository[Id <: MappedId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](protected val query: TableQuery[Table])
+  class BaseIdRepository[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](protected val query: TableQuery[Table])
                                                                                             (implicit val mapping: BaseColumnType[Id])
       extends BaseIdQueries[Id, Entity, Table] {
     // format: ON

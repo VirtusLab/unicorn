@@ -25,7 +25,7 @@ trait UUIDTable extends UUIDTestUnicorn {
   import driver.profile._
   import driver.simple._
 
-  case class UniqueUserId(id: UUID) extends MappedId
+  case class UniqueUserId(id: UUID) extends BaseId
 
   case class PersonRow(id: Option[UniqueUserId], name: String) extends WithId[UniqueUserId]
 

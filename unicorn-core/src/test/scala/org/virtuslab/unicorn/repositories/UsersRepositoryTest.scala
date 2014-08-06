@@ -12,7 +12,7 @@ trait AbstractUserTable {
   import unicorn._
   import unicorn.driver.simple._
 
-  case class UserId(id: Long) extends MappedId
+  case class UserId(id: Long) extends BaseId
 
   case class UserRow(id: Option[UserId],
     email: String,

@@ -8,7 +8,7 @@ trait Identifiers[T] {
    * Base trait for implementing ids.
    * It is existential trait so it can have only defs.
    */
-  trait MappedId extends Any with MappedTo[T] {
+  trait BaseId extends Any with MappedTo[T] {
     def id: T
     override def value: T = id
   }
@@ -19,7 +19,7 @@ trait Identifiers[T] {
    *
    * @tparam Id type of Id
    */
-  abstract class CoreCompanion[Id <: MappedId] {
+  abstract class CoreCompanion[Id <: BaseId] {
 
     /** Ordering for ids */
     implicit def basic_ordering(implicit ord: Ordering[Id#Underlying]) = Ordering.by[Id, Id#Underlying](_.value)(ord)
@@ -30,7 +30,7 @@ trait Identifiers[T] {
    *
    * @tparam Id type of Id
    */
-  trait WithId[Id <: MappedId] {
+  trait WithId[Id <: BaseId] {
 
     /** @return id of entity (optional, entities does not have ids before save) */
     def id: Option[Id]

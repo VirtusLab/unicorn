@@ -14,7 +14,7 @@ object Settings {
   val core = Seq(
     organization := "org.virtuslab",
     version := unicornVersion,
-    scalaVersion := "2.10.4",
+    scalaVersion := "2.11.2",
     crossScalaVersions := Seq("2.10.4", "2.11.2"),
       pomExtra := <url>https://github.com/VirtusLab/unicorn</url>
       <licenses>
