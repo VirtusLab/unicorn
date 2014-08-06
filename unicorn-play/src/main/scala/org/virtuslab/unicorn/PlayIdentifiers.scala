@@ -7,7 +7,7 @@ import play.api.mvc.{ PathBindable, QueryStringBindable }
 protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underlying] {
   self: HasJdbcDriver =>
 
-  abstract class PlayCompanion[Id <: MappedId]
+  abstract class PlayCompanion[Id <: MappedId](implicit val underlyingFormat: Formatter[Underlying])
     extends CoreCompanion[Id]
     with Applicable[Id]
     with PlayImplicits[Id]

@@ -14,7 +14,7 @@ protected[unicorn] class UnicornPlay[Underlying](implicit val underlyingFormat: 
   override type IdCompanion[Id <: MappedId] = PlayCompanion[Id]
 }
 
-trait LongUnicornPlay extends UnicornPlay[Long] {
+class LongUnicornPlay extends UnicornPlay[Long] {
   type BaseId = MappedId // For backward capability
 }
 
