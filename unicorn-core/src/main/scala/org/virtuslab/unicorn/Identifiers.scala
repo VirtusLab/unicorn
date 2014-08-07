@@ -2,15 +2,15 @@ package org.virtuslab.unicorn
 
 import scala.slick.lifted.MappedTo
 
-trait Identifiers[T] {
+trait Identifiers[Underlying] {
 
   /**
    * Base trait for implementing ids.
    * It is existential trait so it can have only defs.
    */
-  trait BaseId extends Any with MappedTo[T] {
-    def id: T
-    override def value: T = id
+  trait BaseId extends Any with MappedTo[Underlying] {
+    def id: Underlying
+    override def value: Underlying = id
   }
 
   /**
@@ -27,7 +27,6 @@ trait Identifiers[T] {
 
   /**
    * Base class for all entities that contains an id.
-   *
    * @tparam Id type of Id
    */
   trait WithId[Id <: BaseId] {

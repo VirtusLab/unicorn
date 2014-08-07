@@ -45,7 +45,7 @@ protected[unicorn] trait IdRepositories[Underlying] {
    */
   // format: OFF
   class BaseIdRepository[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](protected val query: TableQuery[Table])
-                                                                                            (implicit val mapping: BaseColumnType[Id])
+                                                                                          (implicit val mapping: BaseColumnType[Id])
       extends BaseIdQueries[Id, Entity, Table] {
     // format: ON
 

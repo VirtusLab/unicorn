@@ -19,5 +19,5 @@ protected[unicorn] trait Unicorn[Underlying]
   self: HasJdbcDriver =>
 
   /** Abstract type for companions for Ids*/
-  type IdCompanion[T <: BaseId]
+  type IdCompanion[Id <: BaseId]
 }

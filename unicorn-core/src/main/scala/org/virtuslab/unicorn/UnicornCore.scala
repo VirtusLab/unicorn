@@ -6,7 +6,7 @@ package org.virtuslab.unicorn
 trait UnicornCore[Id] extends Unicorn[Id] {
   self: HasJdbcDriver =>
 
-  override type IdCompanion[T <: BaseId] = CoreCompanion[T]
+  override type IdCompanion[Id <: BaseId] = CoreCompanion[Id]
 }
 
 trait LongUnicornCore extends UnicornCore[Long] {
