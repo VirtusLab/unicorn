@@ -1,17 +1,20 @@
 package org.virtuslab.unicorn
 
+import play.api.data.format.Formatter
 import play.api.db.slick.Config
+import play.api.data.format.Formats._
+import play.api.mvc.{ PathBindable, QueryStringBindable }
 
-import scala.slick.lifted.MappedToBase
-
-protected[unicorn] trait UnicornPlay
-    extends Unicorn
-    with PlayIdentifiers
+class UnicornPlay[Underlying](implicit val underlyingFormat: Formatter[Underlying],
+  val underlyingQueryStringBinder: QueryStringBindable[Underlying],
+  val underlyingPathBinder: PathBindable[Underlying])
+    extends Unicorn[Underlying]
+    with PlayIdentifiers[Underlying]
     with HasJdbcDriver {
 
   override lazy val driver = Config.driver
 
-  override type IdCompanion[Id <: MappedToBase] = PlayCompanion[Id]
+  override type IdCompanion[Id <: BaseId] = PlayCompanion[Id]
 }
 
-object UnicornPlay extends UnicornPlay
+object LongUnicornPlay extends UnicornPlay[Long]

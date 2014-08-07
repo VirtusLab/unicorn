@@ -1,11 +1,12 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.TestUnicorn
+import org.virtuslab.unicorn.{ LongTestUnicorn, TestUnicorn, BaseTest }
 import TestUnicorn._
 import TestUnicorn.driver.simple._
-import org.virtuslab.unicorn.BaseTest
 
-class JunctionRepositoryTest extends BaseTest {
+class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
+
+  import unicorn._
 
   behavior of classOf[JunctionRepository[_, _, _]].getSimpleName
 

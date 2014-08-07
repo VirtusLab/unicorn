@@ -6,7 +6,7 @@ import xerial.sbt.Sonatype
 
 object Settings {
 
-  val unicornVersion = "0.6.0-M8"
+  val unicornVersion = "0.6.0-SNAPSHOT"
 
   val alsoOnTest = "compile->compile;test->test"
 
@@ -14,8 +14,8 @@ object Settings {
   val core = Seq(
     organization := "org.virtuslab",
     version := unicornVersion,
-    scalaVersion := "2.10.4",
-    crossScalaVersions := Seq("2.10.4", "2.11.1"),
+    scalaVersion := "2.11.2",
+    crossScalaVersions := Seq("2.10.4", "2.11.2"),
       pomExtra := <url>https://github.com/VirtusLab/unicorn</url>
       <licenses>
         <license>

@@ -1,22 +1,17 @@
 package org.virtuslab.unicorn
 
-import scala.slick.lifted.{ MappedToBase, MappedTo }
+import scala.slick.lifted.MappedTo
 
-trait Identifiers {
+trait Identifiers[Underlying] {
 
   /**
    * Base trait for implementing ids.
    * It is existential trait so it can have only defs.
    */
-  trait MappedId[T] extends Any with MappedTo[T] {
-    def id: T
-    override def value = id
+  trait BaseId extends Any with MappedTo[Underlying] {
+    def id: Underlying
+    override def value: Underlying = id
   }
-
-  /**
-   * Base trait for all Long ids in system.
-   */
-  trait BaseId extends Any with MappedId[Long]
 
   /**
    * Base class for companion objects for id classes.
@@ -24,7 +19,7 @@ trait Identifiers {
    *
    * @tparam Id type of Id
    */
-  abstract class CoreCompanion[Id <: MappedToBase] {
+  abstract class CoreCompanion[Id <: BaseId] {
 
     /** Ordering for ids */
     implicit def basic_ordering(implicit ord: Ordering[Id#Underlying]) = Ordering.by[Id, Id#Underlying](_.value)(ord)
@@ -32,10 +27,9 @@ trait Identifiers {
 
   /**
    * Base class for all entities that contains an id.
-   *
    * @tparam Id type of Id
    */
-  trait WithId[Id] {
+  trait WithId[Id <: BaseId] {
 
     /** @return id of entity (optional, entities does not have ids before save) */
     def id: Option[Id]

@@ -8,7 +8,7 @@ trait BasePlayTest
     extends FlatSpecLike
     with Matchers
     with BeforeAndAfterEach
-    with RollbackHelper
+    with RollbackHelper[Long]
     with BeforeAndAfterAll {
 
   private val testDb = Map(
@@ -24,7 +24,7 @@ trait BasePlayTest
     fake
   }
 
-  override lazy val unicorn = UnicornPlay
+  override lazy val unicorn: Unicorn[Long] with HasJdbcDriver = LongUnicornPlay
 
   override protected def beforeEach(data: TestData): Unit = {
     import scala.slick.jdbc.StaticQuery
