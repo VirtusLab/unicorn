@@ -7,7 +7,8 @@ import play.api.mvc.{ PathBindable, QueryStringBindable }
 
 class UnicornPlay[Underlying](implicit val underlyingFormat: Formatter[Underlying],
   val underlyingQueryStringBinder: QueryStringBindable[Underlying],
-  val underlyingPathBinder: PathBindable[Underlying])
+  val underlyingPathBinder: PathBindable[Underlying],
+  ordering: Ordering[Underlying])
     extends Unicorn[Underlying]
     with PlayIdentifiers[Underlying]
     with HasJdbcDriver {

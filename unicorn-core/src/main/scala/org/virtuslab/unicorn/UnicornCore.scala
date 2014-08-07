@@ -3,7 +3,7 @@ package org.virtuslab.unicorn
 /**
  * Cake for unicorn-core.
  */
-trait UnicornCore[Id] extends Unicorn[Id] {
+abstract class UnicornCore[Underlying](implicit ordering: Ordering[Underlying]) extends Unicorn[Underlying] {
   self: HasJdbcDriver =>
 
   override type IdCompanion[Id <: BaseId] = CoreCompanion[Id]

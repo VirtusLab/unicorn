@@ -3,6 +3,7 @@ package org.virtuslab.unicorn
 import scala.slick.lifted.MappedTo
 
 trait Identifiers[Underlying] {
+  self: Unicorn[Underlying] =>
 
   /**
    * Base trait for implementing ids.
@@ -22,7 +23,7 @@ trait Identifiers[Underlying] {
   abstract class CoreCompanion[Id <: BaseId] {
 
     /** Ordering for ids */
-    implicit def basic_ordering(implicit ord: Ordering[Id#Underlying]) = Ordering.by[Id, Id#Underlying](_.value)(ord)
+    implicit val basic_ordering = Ordering.by[Id, Id#Underlying](_.value)(ordering)
   }
 
   /**

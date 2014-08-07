@@ -12,7 +12,7 @@ trait HasJdbcDriver {
 /**
  * Base cake for Unicorn. Extended by versions for `unicorn-core` and `unicorn-play`.
  */
-protected[unicorn] trait Unicorn[Underlying]
+protected[unicorn] abstract class Unicorn[Underlying](implicit val ordering: Ordering[Underlying])
     extends Identifiers[Underlying]
     with Tables[Underlying]
     with Repositories[Underlying] {
