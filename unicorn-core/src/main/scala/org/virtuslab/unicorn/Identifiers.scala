@@ -23,7 +23,7 @@ trait Identifiers[Underlying] {
   abstract class CoreCompanion[Id <: BaseId] {
 
     /** Ordering for ids */
-    implicit val basic_ordering = Ordering.by[Id, Id#Underlying](_.value)(ordering)
+    implicit val basicOrdering = Ordering.by[Id, Id#Underlying](_.value)(ordering)
   }
 
   /**
