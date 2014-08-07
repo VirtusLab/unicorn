@@ -3,7 +3,6 @@ package org.virtuslab.unicorn
 import play.api.data.format.Formatter
 import play.api.db.slick.Config
 import play.api.data.format.Formats._
-import play.api.mvc.PathBindable.Parsing
 import play.api.mvc.{ PathBindable, QueryStringBindable }
 
 class UnicornPlay[Underlying](implicit val underlyingFormat: Formatter[Underlying],

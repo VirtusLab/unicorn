@@ -1,7 +1,6 @@
 package org.virtuslab.unicorn
 
 import play.api.data.format.Formatter
-import play.api.mvc.QueryStringBindable.Parsing
 import play.api.mvc.{ PathBindable, QueryStringBindable }
 
 protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underlying] {
