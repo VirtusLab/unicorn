@@ -2,9 +2,9 @@ package org.virtuslab.unicorn
 
 import org.scalatest._
 
-trait RollbackHelper[T] {
+trait RollbackHelper[Underlying] {
 
-  val unicorn: Unicorn[T] with HasJdbcDriver
+  val unicorn: Unicorn[Underlying] with HasJdbcDriver
 
   import unicorn.driver.simple._
 
