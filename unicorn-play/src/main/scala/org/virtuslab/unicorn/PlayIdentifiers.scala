@@ -4,7 +4,7 @@ import play.api.data.format.Formatter
 import play.api.mvc.{ PathBindable, QueryStringBindable }
 
 protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underlying] {
-  self: UnicornPlay[Underlying] =>
+  self: UnicornPlayLike[Underlying] =>
 
   abstract class PlayCompanion[Id <: BaseId]
     extends CoreCompanion[Id]
