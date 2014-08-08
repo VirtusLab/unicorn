@@ -1,6 +1,6 @@
 Scala Slick type-safe ids
 =========================
-[![Build Status](https://travis-ci.org/VirtusLab/unicorn.svg?branch=master)](https://travis-ci.org/VirtusLab/unicorn)
+[![Build Status](https://travis-ci.org/VirtusLab/unicorn.svg?branch=v0.6.x-slick-2.1.x)](https://travis-ci.org/VirtusLab/unicorn)
 
 Slick (the Scala Language-Integrated Connection Kit) is a framework for type-safe, composable data access in Scala. This library adds tools to use type-safe IDs for your classes so you can no longer join on bad id field or mess up order of fields in mappings. It also provides a way to create service layer with methods (like querying all, querying by id, saving or deleting) for all classes with such IDs in just 4 lines of code.
 
@@ -34,9 +34,56 @@ libraryDependencies += "org.virtuslab" %% "unicorn-play" % "0.6.0-M8"
 
 Or see [our Maven repository](http://maven-repository.com/artifact/org.virtuslab/).
 
-For Slick 2.0.x see version `0.5.x`.
+For Slick 2.0.x see version [`0.5.x`](https://github.com/VirtusLab/unicorn/tree/v0.5.x-slick-2.0.x).
 
-For Slick 1.x see version `0.4.x`.
+For Slick 1.x see version [`0.4.x`](https://github.com/VirtusLab/unicorn/tree/v0.4.x-slick-1.0.x).
+
+Migration form 0.5.x to 0.6.x
+=============================
+
+Version 0.6.x brings possibility for using different type then `Long` as underlying `Id` type.
+The most interesting are `UUID` and `String`. This change allow us to start working on typesafe composite keys.
+
+For backward compatibility with `0.5.x` we introduced `LongUnicornCore` and `LongUnicornPlay`.
+Before attempting to perform this migration you should known how to migrate your tables definitions to `slick-2.1.x`.
+All needed information you could find in awesome [migration guide](http://slick.typesafe.com/doc/2.1.0/upgrade.html#upgrade-from-2-0-to-2-1) 
+
+
+Core migration 
+--------------
+
+Changes is only on backing your version on unicorn cake. So previews code like this
+```
+object Unicorn extends UnicornCore with HasJdbcDriver {
+  val driver = H2Driver
+}
+```
+become
+```
+object Unicorn extends LongUnicornCore with HasJdbcDriver {
+  val driver = H2Driver
+}
+```
+and this is all your changes.
+
+Play migration
+--------------
+
+When you are using `unicorn-play` migration is still quite easy,
+but it will touch all file where unicorn and slick was used.
+ 
+Import like this
+```
+import org.virtuslab.unicorn.UnicornPlay._
+import org.virtuslab.unicorn.UnicornPlay.driver.simple._
+```
+no become
+```
+import org.virtuslab.unicorn.LongUnicornPlay._
+import org.virtuslab.unicorn.LongUnicornPlay.driver.simple._
+```
+
+
 
 Play Examples
 =============
@@ -51,8 +98,8 @@ Defining entities
 ```scala
 package model
 
-import org.virtuslab.unicorn.UnicornPlay._
-import org.virtuslab.unicorn.UnicornPlay.driver.simple._
+import org.virtuslab.unicorn.LongUnicornPlay._
+import org.virtuslab.unicorn.LongUnicornPlay.driver.simple._
 import scala.slick.lifted.Tag
 
 /** Id class for type-safe joins and queries. */
@@ -95,8 +142,8 @@ Defining repositories
 package repositories
 
 import model._
-import org.virtuslab.unicorn.UnicornPlay._
-import org.virtuslab.unicorn.UnicornPlay.driver.simple._
+import org.virtuslab.unicorn.LongUnicornPlay._
+import org.virtuslab.unicorn.LongUnicornPlay.driver.simple._
 
 /**
  * Repository for users.
@@ -149,10 +196,10 @@ First you have to bake your own cake to provide `unicorn` with proper driver (in
 ```
 package com.example
 
-import org.virtuslab.unicorn.{HasJdbcDriver, UnicornCore}
+import org.virtuslab.unicorn.{HasJdbcDriver, LongUnicornCore}
 import scala.slick.driver.H2Driver
 
-object Unicorn extends UnicornCore with HasJdbcDriver {
+object Unicorn extends LongUnicornCore with HasJdbcDriver {
   val driver = H2Driver
 }
 ```
@@ -247,3 +294,27 @@ class UsersRepositoryTest extends BaseTest {
 }
 ```
 
+Defining custom underlying type
+===============================
+
+All reviews examples used `Long` as underlying `Id` type. From version `0.6.0` there is possibility to define own.
+
+Let's use `String` as our type for `id`. So we should bake unicorn with `String` parametrization.
+
+Play example
+------------
+```
+object StringPlayUnicorn extends UnicornPlay[String]
+```
+
+Core example
+------------ 
+```
+object StringUnicorn extends UnicornCore[String] with HasJdbcDriver {
+  override val driver = H2Driver
+}
+```
+
+Usage is same as in `Long` example. Main difference is that you should import classes from self-baked cake.
+The only concern is that `id` is auto-increment so we can't use arbitrary type there.
+We plan to solve this problem in next versions.
