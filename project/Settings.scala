@@ -16,7 +16,7 @@ object Settings {
     version := unicornVersion,
     scalaVersion := "2.11.4",
     crossScalaVersions := Seq("2.10.4", "2.11.4"),
-      pomExtra := <url>https://github.com/VirtusLab/unicorn</url>
+    pomExtra := <url>https://github.com/VirtusLab/unicorn</url>
       <licenses>
         <license>
           <name>Apache-style</name>

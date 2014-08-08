@@ -1,6 +1,7 @@
 Scala Slick type-safe ids
 =========================
 [![Build Status](https://travis-ci.org/VirtusLab/unicorn.svg?branch=v0.6.x-slick-2.1.x)](https://travis-ci.org/VirtusLab/unicorn)
+[![Coverage Status](https://img.shields.io/coveralls/VirtusLab/unicorn.svg)](https://coveralls.io/r/VirtusLab/unicorn?branch=v0.6.x-slick-2.1.x)
 
 Slick (the Scala Language-Integrated Connection Kit) is a framework for type-safe, composable data access in Scala. This library adds tools to use type-safe IDs for your classes so you can no longer join on bad id field or mess up order of fields in mappings. It also provides a way to create service layer with methods (like querying all, querying by id, saving or deleting) for all classes with such IDs in just 4 lines of code.
 
