@@ -49,16 +49,16 @@ Before attempting to perform this migration you should known how to migrate your
 All needed information you could find in awesome [migration guide](http://slick.typesafe.com/doc/2.1.0/upgrade.html#upgrade-from-2-0-to-2-1) 
 
 
-Core migration 
+Core migration
 --------------
 
-Changes is only on backing your version on unicorn cake. So previews code like this
+Changes is only on backing your version on unicorn cake. So code like:
 ```
 object Unicorn extends UnicornCore with HasJdbcDriver {
   val driver = H2Driver
 }
 ```
-become
+now becomes:
 ```
 object Unicorn extends LongUnicornCore with HasJdbcDriver {
   val driver = H2Driver
@@ -69,21 +69,19 @@ and this is all your changes.
 Play migration
 --------------
 
-When you are using `unicorn-play` migration is still quite easy,
+When you use `unicorn-play` migration is still quite easy,
 but it will touch all file where unicorn and slick was used.
  
-Import like this
+Imports like those:
 ```
 import org.virtuslab.unicorn.UnicornPlay._
 import org.virtuslab.unicorn.UnicornPlay.driver.simple._
 ```
-no become
+now becomes:
 ```
 import org.virtuslab.unicorn.LongUnicornPlay._
 import org.virtuslab.unicorn.LongUnicornPlay.driver.simple._
 ```
-
-
 
 Play Examples
 =============
