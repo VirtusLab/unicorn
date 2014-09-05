@@ -14,6 +14,10 @@ class PlayCompanionTest extends BasePlayTest {
     implicitly[QueryStringBindable[UserId]] shouldNot be(null)
   }
 
+  it should "have implicit json format" in {
+    implicitly[Formatter[UserId]] shouldNot be(null)
+  }
+
   it should "have implicit formatter" in {
     implicitly[Formatter[UserId]] shouldNot be(null)
   }
