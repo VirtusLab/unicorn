@@ -55,8 +55,8 @@ protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underly
 
     /** Json format for Id */
     implicit final val idJsonFormat: Format[Id] = new Format[Id] {
-      def reads(p1: JsValue) = ???
-      def writes(p1: Id) = underlyingFormat.writes(p1.value)
+      def reads(p1: JsValue) = underlyingFormat.reads(p1).map(apply)
+      def writes(p1: Id): JsValue = underlyingFormat.writes(p1.value)
     }
 
   }
