@@ -3,6 +3,7 @@ package org.virtuslab.unicorn
 import LongUnicornPlay._
 import play.api.data.format.Formatter
 import play.api.mvc.{ PathBindable, QueryStringBindable }
+import play.api.libs.json.Format
 
 class PlayCompanionTest extends BasePlayTest {
 
@@ -15,7 +16,7 @@ class PlayCompanionTest extends BasePlayTest {
   }
 
   it should "have implicit json format" in {
-    implicitly[Formatter[UserId]] shouldNot be(null)
+    implicitly[Format[UserId]] shouldNot be(null)
   }
 
   it should "have implicit formatter" in {
