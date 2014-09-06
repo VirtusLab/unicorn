@@ -1,7 +1,10 @@
 package org.virtuslab.unicorn
 
 import play.api.data.format.Formatter
+import play.api.data.validation.ValidationError
 import play.api.mvc.{ PathBindable, QueryStringBindable }
+
+import play.api.libs.json._
 
 protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underlying] {
   self: UnicornPlayLike[Underlying] =>
@@ -42,13 +45,20 @@ protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underly
       override val format = Some(("format.numeric", Nil))
 
       override def bind(key: String, data: Map[String, String]) =
-        underlyingFormat.bind(key, data).right.map(apply).left.map {
+        underlyingFormatter.bind(key, data).right.map(apply).left.map {
           case errors if data.get(key).forall(_.isEmpty) => errors.map(_.copy(messages = Seq("id.empty")))
           case errors => errors.map(_.copy(messages = Seq("id.invalid")))
         }
 
-      override def unbind(key: String, id: Id): Map[String, String] = underlyingFormat.unbind(key, id.value)
+      override def unbind(key: String, id: Id): Map[String, String] = underlyingFormatter.unbind(key, id.value)
     }
+
+    /** Json format for Id */
+    implicit final val idJsonFormat: Format[Id] = new Format[Id] {
+      def reads(p1: JsValue): JsResult[Id] = underlyingFormat.reads(p1).map(apply)
+      def writes(p1: Id): JsValue = underlyingFormat.writes(p1.value)
+    }
+
   }
 
 }

@@ -1,5 +1,6 @@
 package org.virtuslab.unicorn
 
+import play.api.libs.json.Format
 import play.api.data.format.Formats._
 import play.api.data.format.Formatter
 import play.api.db.slick.Config
@@ -10,7 +11,9 @@ trait UnicornPlayLike[Underlying]
     with PlayIdentifiers[Underlying]
     with HasJdbcDriver {
 
-  def underlyingFormat: Formatter[Underlying]
+  def underlyingFormatter: Formatter[Underlying]
+
+  def underlyingFormat: Format[Underlying]
 
   def underlyingQueryStringBinder: QueryStringBindable[Underlying]
 
@@ -21,7 +24,8 @@ trait UnicornPlayLike[Underlying]
   override type IdCompanion[Id <: BaseId] = PlayCompanion[Id]
 }
 
-class UnicornPlay[Underlying](implicit val underlyingFormat: Formatter[Underlying],
+class UnicornPlay[Underlying](implicit val underlyingFormatter: Formatter[Underlying],
+  val underlyingFormat: Format[Underlying],
   val underlyingQueryStringBinder: QueryStringBindable[Underlying],
   val underlyingPathBinder: PathBindable[Underlying],
   val ordering: Ordering[Underlying])
