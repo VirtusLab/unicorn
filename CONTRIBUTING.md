@@ -15,3 +15,9 @@ sbt clean scoverage:test
 (`clean` *is important*)
 
 Results are placed in `unicorn\unicorn-core\target\scala-2.10\scoverage-report` and `unicorn\unicorn-play\target\scala-2.10\scoverage-report`.
+
+Releasing
+---------
+
+Before release you must have access to Sonatype and have PGP keys for signing artifacts. 
+For make release just use `+publishSigned +releaseSonatype`. 
