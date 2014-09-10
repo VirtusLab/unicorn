@@ -23,13 +23,13 @@ Getting unicorn
 For core latest version (Scala 2.10.x/2.11.x and Slick 2.1.x) use:
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn-core" % "0.6.0-M8"
+libraryDependencies += "org.virtuslab" %% "unicorn-core" % "0.6.1"
 ```
 
 For play version (Scala 2.10.x/2.11.x, Slick 2.1.x, Play 2.3.x):
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn-play" % "0.6.0-M8"
+libraryDependencies += "org.virtuslab" %% "unicorn-play" % "0.6.1"
 ```
 
 Or see [our Maven repository](http://maven-repository.com/artifact/org.virtuslab/).
