@@ -9,8 +9,8 @@ object Dependencies {
   )
 
   val testCore = Seq(
-    "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-    "com.h2database" % "h2" % "1.4.180" % "test",
+    "org.scalatest" %% "scalatest" % "2.2.2" % "test",
+    "com.h2database" % "h2" % "1.4.181" % "test",
     "ch.qos.logback" % "logback-classic" % "1.1.2" % "test"
   )
 
@@ -21,7 +21,7 @@ object Dependencies {
   )
 
   val testPlay = Seq(
-    "com.typesafe.play" %% "play-test" % "2.3.2" % "test"
+    "com.typesafe.play" %% "play-test" % "2.3.4" % "test"
   )
 
   val play = mainPlay ++ testPlay

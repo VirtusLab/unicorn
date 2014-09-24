@@ -51,7 +51,6 @@ object Settings {
     resolvers += Resolver.sonatypeRepo("snapshots"),
     parallelExecution in Test := false,
     parallelExecution in  ScoverageTest := false,
-    incOptions := incOptions.value.withNameHashing(true),
     scalacOptions ++= Seq(
       "-feature",
       "-deprecation",
