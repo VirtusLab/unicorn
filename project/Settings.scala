@@ -6,7 +6,7 @@ import xerial.sbt.Sonatype
 
 object Settings {
 
-  val unicornVersion = "0.6.2-SNAPSHOT"
+  val unicornVersion = "0.6.2"
 
   val alsoOnTest = "compile->compile;test->test"
 
