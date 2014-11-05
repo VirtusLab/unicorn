@@ -1,6 +1,7 @@
 package org.virtuslab.unicorn
 
-import scala.slick.lifted.MappedToBase
+import scala.slick.lifted
+import scala.slick.lifted.Index
 
 protected[unicorn] trait Tables[Underlying] extends TypeMappers {
   self: HasJdbcDriver with Identifiers[Underlying] =>
@@ -28,7 +29,7 @@ protected[unicorn] trait Tables[Underlying] extends TypeMappers {
     protected val idColumnName: String = "id"
 
     /** @return id column representation of this table */
-    final def id = column[Id](idColumnName, O.PrimaryKey, O.AutoInc)
+    final def id: Column[Id] = column[Id](idColumnName, O.PrimaryKey, O.AutoInc)
   }
 
   /**
@@ -74,7 +75,6 @@ protected[unicorn] trait Tables[Underlying] extends TypeMappers {
 
     final def * = (columns._1, columns._2)
 
-    final def uniqueValues = index(s"${tableName}_uniq_idx", *, unique = true)
+    final def uniqueValues: Index = index(s"${tableName}_uniq_idx", *, unique = true)
   }
-
 }

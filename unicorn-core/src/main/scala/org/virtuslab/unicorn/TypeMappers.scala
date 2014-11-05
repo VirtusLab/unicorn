@@ -1,7 +1,8 @@
 package org.virtuslab.unicorn
 
-import java.sql.{ Timestamp, Date }
-import org.joda.time.{ Duration, LocalDate, DateTime }
+import java.sql.{ Date, Timestamp }
+
+import org.joda.time.{ DateTime, Duration, LocalDate }
 
 trait TypeMappers {
   self: HasJdbcDriver =>
