@@ -50,12 +50,13 @@ object Settings {
     resolvers += Resolver.sonatypeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("snapshots"),
     parallelExecution in Test := false,
-    parallelExecution in  ScoverageTest := false,
+    parallelExecution in ScoverageTest := false,
     scalacOptions ++= Seq(
       "-feature",
       "-deprecation",
       "-unchecked",
       "-Xlint"
-    )
+    ),
+    updateOptions := updateOptions.value.withCachedResolution(true)
   ) ++ SbtScalariform.scalariformSettings
 }
