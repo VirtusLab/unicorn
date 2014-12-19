@@ -1,7 +1,7 @@
 package org.virtuslab.unicorn
 
+import play.api.data.FormError
 import play.api.data.format.Formatter
-import play.api.data.validation.ValidationError
 import play.api.mvc.{ PathBindable, QueryStringBindable }
 
 import play.api.libs.json._
@@ -44,11 +44,17 @@ protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underly
 
       override val format = Some(("format.numeric", Nil))
 
-      override def bind(key: String, data: Map[String, String]) =
-        underlyingFormatter.bind(key, data).right.map(apply).left.map {
-          case errors if data.get(key).forall(_.isEmpty) => errors.map(_.copy(messages = Seq("id.empty")))
-          case errors => errors.map(_.copy(messages = Seq("id.invalid")))
+      override def bind(key: String, data: Map[String, String]) = {
+
+        def handleErrors(errors: Seq[FormError]): Seq[FormError] = errors match {
+          case _ if data.get(key).forall(_.isEmpty) => errors.map(_.copy(messages = Seq("id.empty")))
+          case _ => errors.map(_.copy(messages = Seq("id.invalid")))
         }
+
+        underlyingFormatter.bind(key, data)
+          .right.map(apply)
+          .left.map(handleErrors)
+      }
 
       override def unbind(key: String, id: Id): Map[String, String] = underlyingFormatter.unbind(key, id.value)
     }

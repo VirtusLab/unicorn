@@ -41,8 +41,7 @@ object Settings {
         </developer>
       </developers>
   ) ++
-    Sonatype.sonatypeSettings ++
-    instrumentSettings
+    Sonatype.sonatypeSettings
 
   // common settings for play and core modules
   val common = core ++ Seq(
@@ -50,13 +49,14 @@ object Settings {
     resolvers += Resolver.sonatypeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("snapshots"),
     parallelExecution in Test := false,
-    parallelExecution in ScoverageTest := false,
     scalacOptions ++= Seq(
       "-feature",
       "-deprecation",
       "-unchecked",
-      "-Xlint"
+      "-Xlint",
+      "-Xfatal-warnings"
     ),
-    updateOptions := updateOptions.value.withCachedResolution(true)
+    updateOptions := updateOptions.value.withCachedResolution(true),
+    ScoverageKeys.coverageFailOnMinimum := true
   ) ++ SbtScalariform.scalariformSettings
 }

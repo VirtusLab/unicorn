@@ -7,7 +7,7 @@ import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
 protected[unicorn] trait IdRepositories[Underlying] {
   self: HasJdbcDriver with Identifiers[Underlying] with Tables[Underlying] =>
 
-  import driver.simple._
+  import driver.simple.{ Table => _, _ }
 
   /**
    * Base class for all queries with an [[org.virtuslab.unicorn.Identifiers.BaseId]].
@@ -82,7 +82,8 @@ protected[unicorn] trait IdRepositories[Underlying] {
      * @param session implicit session
      * @return Option(id) of new element
      */
-    def copyAndSave(id: Id)(implicit session: Session): Option[Id] = findById(id).map(elem => queryReturningId insert elem)
+    def copyAndSave(id: Id)(implicit session: Session): Option[Id] =
+      findById(id).map(elem => queryReturningId insert elem)
 
     /**
      * Finds one element by id.
