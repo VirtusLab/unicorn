@@ -41,6 +41,15 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
     junctionQueries.run should have size 1
   }
 
+  it should "save pair only once" in rollback { implicit session =>
+    createTables
+
+    exampleJunctionRepository.save(OrderId(100), CustomerId(200))
+    exampleJunctionRepository.save(OrderId(100), CustomerId(200))
+
+    junctionQueries.run should have size 1
+  }
+
   it should "find all pairs" in rollback { implicit session =>
     createTables
 

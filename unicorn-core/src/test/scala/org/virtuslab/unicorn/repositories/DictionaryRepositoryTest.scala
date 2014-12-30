@@ -41,7 +41,13 @@ class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
       DictionaryRepository save entry
 
       // then
-      DictionaryRepository.findAll() should contain(entry)
+      DictionaryRepository.findAll() shouldEqual Seq(entry)
+
+      // when saving second time
+      DictionaryRepository save entry
+
+      // then no new entry should be added
+      DictionaryRepository.findAll() shouldEqual Seq(entry)
 
       // when
       DictionaryRepository.deleteAll()
