@@ -6,7 +6,7 @@ trait RollbackHelper[Underlying] {
 
   val unicorn: Unicorn[Underlying] with HasJdbcDriver
 
-  import unicorn.driver.simple._
+  import unicorn.driver.api._
 
   def DB: unicorn.driver.profile.backend.DatabaseDef
 

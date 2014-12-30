@@ -1,13 +1,16 @@
 package org.virtuslab.unicorn.repositories
 
-import java.sql.SQLException
+import java.sql.{ SQLDataException, SQLException }
+import java.util.NoSuchElementException
 
 import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
+
+import scala.concurrent.Future
 
 protected[unicorn] trait IdRepositories[Underlying] {
   self: HasJdbcDriver with Identifiers[Underlying] with Tables[Underlying] with Repositories[Underlying] =>
 
-  import driver.simple.{ Table => _, _ }
+  import driver.api.{ Table => _, _ }
 
   /**
    * Base class for all queries with an [[org.virtuslab.unicorn.Identifiers.BaseId]].
@@ -30,7 +33,7 @@ protected[unicorn] trait IdRepositories[Underlying] {
     protected lazy val allIdsQuery = query.map(_.id)
 
     /** Query element by id, method version. */
-    protected def byIdFunc(id: Column[Id]) = query.filter(_.id === id)
+    protected def byIdFunc(id: Rep[Id]) = query.filter(_.id === id)
 
     /** Query by multiple ids. */
     protected def byIdsQuery(ids: Seq[Id]) = query.filter(_.id inSet ids)
@@ -54,6 +57,8 @@ protected[unicorn] trait IdRepositories[Underlying] {
 
     final val tableName = query.baseTableRow.tableName
 
+    private implicit val executionContext = db.executor.executionContext
+
     /**
      * Finds one element by id.
      *
@@ -61,7 +66,7 @@ protected[unicorn] trait IdRepositories[Underlying] {
      * @param session implicit session
      * @return Option(element)
      */
-    def findById(id: Id)(implicit session: Session): Option[Entity] = byIdQuery(id).firstOption
+    def findById(id: Id)(implicit session: Session): Future[Option[Entity]] = db.run(byIdQuery(id).result.headOption)
 
     /**
      * Clones element by id.
@@ -70,8 +75,11 @@ protected[unicorn] trait IdRepositories[Underlying] {
      * @param session implicit session
      * @return Option(id) of new element
      */
-    def copyAndSave(id: Id)(implicit session: Session): Option[Id] =
-      findById(id).map(elem => queryReturningId insert elem)
+    def copyAndSave(id: Id)(implicit session: Session): Future[Id] =
+      findById(id).flatMap {
+        case Some(elem) => db.run(queryReturningId += elem)
+        case None => Future.failed(new NoSuchElementException(s"Element with $id doesn't exist"))
+      } // FIXME move this future to DbAction, and move execution context to unicorn
 
     /**
      * Finds one element by id.
@@ -80,8 +88,11 @@ protected[unicorn] trait IdRepositories[Underlying] {
      * @param session implicit session
      * @return Option(element)
      */
-    def findExistingById(id: Id)(implicit session: Session): Entity =
-      findById(id).getOrElse(throw new NoSuchFieldException(s"For id: $id in table: $tableName"))
+    def findExistingById(id: Id)(implicit session: Session): Future[Entity] =
+      findById(id).flatMap {
+        case Some(elem) => Future.successful(elem)
+        case None => Future.failed(new scala.NoSuchElementException(s"Element with $id doesn't exist"))
+      }
 
     /**
      * Finds elements by given ids.
@@ -90,7 +101,7 @@ protected[unicorn] trait IdRepositories[Underlying] {
      * @param session implicit session
      * @return Seq(element)
      */
-    def findByIds(ids: Seq[Id])(implicit session: Session): Seq[Entity] = byIdsQuery(ids).list
+    def findByIds(ids: Seq[Id])(implicit session: Session): Future[Seq[Entity]] = db.run(byIdsQuery(ids).result)
 
     /**
      * Deletes one element by id.
@@ -99,14 +110,15 @@ protected[unicorn] trait IdRepositories[Underlying] {
      * @param session implicit session
      * @return number of deleted elements (0 or 1)
      */
-    def deleteById(id: Id)(implicit session: Session): Int = byIdQuery(id).delete
-      .ensuring(_ <= 1, "Delete by id removed more than one row")
+    def deleteById(id: Id)(implicit session: Session): Future[Int] = db.run(byIdQuery(id).delete).map {
+      _.ensuring(_ <= 1, "Delete by id removed more than one row")
+    }(db.executor.executionContext)
 
     /**
      * @param session implicit session
      * @return Sequence of ids
      */
-    def allIds()(implicit session: Session): Seq[Id] = allIdsQuery.list
+    def allIds()(implicit session: Session): Future[Seq[Id]] = db.run(allIdsQuery.result)
 
     /**
      * Saves one element.
@@ -115,18 +127,13 @@ protected[unicorn] trait IdRepositories[Underlying] {
      * @param session implicit session
      * @return Option(elementId)
      */
-    def save(elem: Entity)(implicit session: Session): Id = {
-      elem.id match {
+    def save(elem: Entity)(implicit session: Session): Future[Id] = {
+      db.run(queryReturningId.insertOrUpdate(elem)).flatMap {
         case Some(id) =>
-          val rowsUpdated = byIdFunc(id).update(elem)
           afterSave(elem)
-          if (rowsUpdated == 1) id
-          else throw new SQLException(s"Error during save in table: $tableName, " +
-            s"for id: $id - $rowsUpdated rows updated, expected: 1. Entity: $elem")
+          Future.successful(id)
         case None =>
-          val result = queryReturningId insert elem
-          afterSave(elem)
-          result
+          Future.failed(new SQLDataException(s"Exception on insertin element $elem"))
       }
     }
 
@@ -145,9 +152,9 @@ protected[unicorn] trait IdRepositories[Underlying] {
      * @param session implicit database session
      * @return Sequence of ids
      */
-    def saveAll(elems: Seq[Entity])(implicit session: Session): Seq[Id] = session.withTransaction {
+    def saveAll(elems: Seq[Entity])(implicit session: Session): Future[Seq[Id]] = session.withTransaction {
       // conversion is required to force lazy collections
-      elems.toIndexedSeq map save
+      Future.sequence(elems.toIndexedSeq map save)
     }
   }
 

@@ -1,6 +1,6 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.TestUnicorn.driver.simple._
+import org.virtuslab.unicorn.TestUnicorn.driver.api._
 import org.virtuslab.unicorn.{ BaseTest, LongTestUnicorn }
 import org.joda.time.{ DateTime, Duration, LocalDate }
 
@@ -29,7 +29,7 @@ class TypeMapperTest extends BaseTest[Long] with LongTestUnicorn {
 
   it should "provide mappings for joda.time types" in rollback {
     implicit session =>
-      jodaQuery.ddl.create
+      jodaQuery.schema.create
 
       val joda = JodaRow(DateTime.now(), Duration.millis(120), LocalDate.now())
       jodaQuery insert joda

@@ -2,7 +2,10 @@ package org.virtuslab.unicorn.repositories
 
 import org.virtuslab.unicorn.{ LongTestUnicorn, TestUnicorn, BaseTest }
 import TestUnicorn._
-import TestUnicorn.driver.simple._
+import TestUnicorn.driver.api._
+
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
@@ -10,9 +13,9 @@ class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
   class Dictionary(tag: Tag) extends BaseTable[DictionaryEntry](tag, "DICTIONARY") {
 
-    def key = column[String]("key", O.NotNull)
+    def key = column[String]("key")
 
-    def value = column[String]("value", O.NotNull)
+    def value = column[String]("value")
 
     def dictionaryIndex = index("dictionary_idx", (key, value), unique = true)
 
@@ -27,33 +30,33 @@ class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
       dictionaryEntry <- query if dictionaryEntry.key === entry._1 && dictionaryEntry.value === entry._2
     } yield dictionaryEntry.value
 
-    override protected def exists(entry: DictionaryEntry)(implicit session: Session): Boolean =
-      findQuery(entry).firstOption.nonEmpty
+    override protected def exists(entry: DictionaryEntry)(implicit session: Session): Future[Boolean] =
+      db.run(findQuery(entry).result.headOption).map(_.nonEmpty)
   }
 
   "Dictionary repository" should "save and query users" in rollback {
     implicit session =>
       // setup
-      dictQuery.ddl.create
+      dictQuery.schema.create
 
       // when
       val entry = ("key", "value")
       DictionaryRepository save entry
 
       // then
-      DictionaryRepository.findAll() shouldEqual Seq(entry)
+      DictionaryRepository.findAll().foreach(_ shouldEqual Seq(entry))
 
       // when saving second time
       DictionaryRepository save entry
 
       // then no new entry should be added
-      DictionaryRepository.findAll() shouldEqual Seq(entry)
+      DictionaryRepository.findAll().foreach(_ shouldEqual Seq(entry))
 
       // when
       DictionaryRepository.deleteAll()
 
       // then
-      DictionaryRepository.findAll() shouldBe empty
+      DictionaryRepository.findAll().foreach(_ shouldBe empty)
   }
 
 }

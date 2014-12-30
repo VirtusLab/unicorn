@@ -9,7 +9,7 @@ trait AbstractUserTable {
   val unicorn: Unicorn[Long] with HasJdbcDriver
 
   import unicorn._
-  import unicorn.driver.simple._
+  import unicorn.driver.api._
 
   case class UserId(id: Long) extends BaseId
 
@@ -40,7 +40,7 @@ trait AbstractUserTable {
 trait UsersRepositoryTest extends OptionValues {
   self: FlatSpecLike with Matchers with RollbackHelper[Long] with AbstractUserTable =>
 
-  import unicorn.driver.simple._
+  import unicorn.driver.api._
 
   "Users Service" should "save and query users" in rollback {
     implicit session =>

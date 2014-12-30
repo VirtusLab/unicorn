@@ -4,8 +4,8 @@ import java.util.UUID
 
 import org.scalatest.{ FlatSpecLike, Matchers }
 import org.virtuslab.unicorn._
-import scala.slick.driver.{ H2Driver, JdbcDriver }
-import scala.Some
+import slick.driver.{ H2Driver, JdbcDriver }
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object UUIDUnicorn extends UnicornCore[UUID] with HasJdbcDriver {
   override val driver: JdbcDriver = H2Driver
@@ -23,7 +23,7 @@ trait UUIDTable extends UUIDTestUnicorn {
 
   import unicorn._
   import driver.profile._
-  import driver.simple._
+  import driver.api._
 
   case class UniqueUserId(id: UUID) extends BaseId
 
@@ -56,12 +56,13 @@ trait PersonUUIDTest extends FlatSpecLike {
     UniquePersons.ddl.create
 
     val person = PersonRow(None, "Alexander")
-    val personId = PersonsRepository save person
-
-    val foundPerson = PersonsRepository findById personId
-
-    foundPerson.flatMap(_.id) shouldNot be(None)
-    foundPerson.map(_.name) shouldEqual Some(person.name)
+    for {
+      personId <- PersonsRepository save person
+      foundPerson <- PersonsRepository findById personId
+    } {
+      foundPerson.flatMap(_.id) shouldNot be(None)
+      foundPerson.map(_.name) shouldEqual Some(person.name)
+    }
   }
 }
 
