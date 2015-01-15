@@ -26,6 +26,15 @@ protected[unicorn] trait Tables[Underlying] extends TypeMappers {
      */
     def this(tag: Tag, tableName: String)(implicit mapping: BaseColumnType[Id]) = this(tag, None, tableName)
 
+    /**
+     * Name of an `id` column - override it if you want to change it.
+     *
+     * For example in H2DB where you need an uppercase "ID":
+     *
+     * {{{
+     *   override val idColumnName = "ID"
+     * }}}
+     */
     protected val idColumnName: String = "id"
 
     /** @return id column representation of this table */

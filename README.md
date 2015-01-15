@@ -126,6 +126,10 @@ case class User(id: Option[UserId],
 /** Table definition for users. */
 class Users(tag: Tag) extends IdTable[UserId, User](tag, "USERS") {
 
+  // use this property if you want to change name of `id` column to uppercase
+  // you need this on H2 for example
+  override val idColumnName = "ID"
+
   def email = column[String]("EMAIL", O.NotNull)
 
   def firstName = column[String]("FIRST_NAME", O.NotNull)
@@ -237,9 +241,13 @@ case class UserRow(id: Option[UserId],
 /** Table definition for users. */
 class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
 
+  // use this property if you want to change name of `id` column to uppercase
+  // you need this on H2 for example
+  override val idColumnName = "ID"
+
   def email = column[String]("EMAIL", O.NotNull)
 
-   def firstName = column[String]("FIRST_NAME", O.NotNull)
+  def firstName = column[String]("FIRST_NAME", O.NotNull)
 
   def lastName = column[String]("LAST_NAME", O.NotNull)
 
