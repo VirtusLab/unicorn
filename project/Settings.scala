@@ -14,8 +14,8 @@ object Settings {
   // settings for ALL modules, including parent
   val core = Seq(
     organization := "org.virtuslab",
-    scalaVersion := "2.11.4",
-    crossScalaVersions := Seq("2.10.4", "2.11.4"),
+    scalaVersion := "2.11.5",
+    crossScalaVersions := Seq("2.10.4", scalaVersion.value),
     ReleaseKeys.crossBuild := true,
     ReleaseKeys.publishArtifactsAction := PgpKeys.publishSigned.value,
       pomExtra := <url>https://github.com/VirtusLab/unicorn</url>

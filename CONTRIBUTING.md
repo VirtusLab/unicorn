@@ -6,7 +6,7 @@ All kind of tips & tricks for people interested in contributing to unicorn.
 CI job
 ------
 
-A Travis job is set up for `unicorn` [here](https://travis-ci.org/VirtusLab/unicorn). Each branch and PR is cross-tested against `Scala 2.10.4`, `Scala 2.11.4`, `OpenJDK 7` and `OpenJDK 8`.
+A Travis job is set up for `unicorn` [here](https://travis-ci.org/VirtusLab/unicorn). Each branch and PR is cross-tested against `Scala 2.10.4`, `Scala 2.11.5`, `OpenJDK 7` and `OpenJDK 8`.
 
 Code coverage
 -------------
