@@ -6,6 +6,7 @@ import play.api.test.FakeApplication
 
 trait BasePlayTest
     extends FlatSpecLike
+    with OptionValues
     with Matchers
     with BeforeAndAfterEach
     with RollbackHelper[Long]
