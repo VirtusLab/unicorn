@@ -1,4 +1,7 @@
 import com.typesafe.sbt.SbtScalariform
+import com.typesafe.sbt.pgp.PgpKeys
+import sbtrelease.ReleasePlugin
+import sbtrelease.ReleasePlugin.ReleaseKeys
 import scoverage.ScoverageSbtPlugin._
 import sbt.Keys._
 import sbt._
@@ -6,17 +9,16 @@ import xerial.sbt.Sonatype
 
 object Settings {
 
-  val unicornVersion = "0.6.2"
-
   val alsoOnTest = "compile->compile;test->test"
 
   // settings for ALL modules, including parent
   val core = Seq(
     organization := "org.virtuslab",
-    version := unicornVersion,
     scalaVersion := "2.11.4",
     crossScalaVersions := Seq("2.10.4", "2.11.4"),
-    pomExtra := <url>https://github.com/VirtusLab/unicorn</url>
+    ReleaseKeys.crossBuild := true,
+    ReleaseKeys.publishArtifactsAction := PgpKeys.publishSigned.value,
+      pomExtra := <url>https://github.com/VirtusLab/unicorn</url>
       <licenses>
         <license>
           <name>Apache-style</name>
@@ -41,7 +43,8 @@ object Settings {
         </developer>
       </developers>
   ) ++
-    Sonatype.sonatypeSettings
+    Sonatype.sonatypeSettings ++
+    ReleasePlugin.releaseSettings
 
   // common settings for play and core modules
   val common = core ++ Seq(
