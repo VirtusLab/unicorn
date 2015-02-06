@@ -128,18 +128,10 @@ protected[unicorn] trait IdRepositories[Underlying] {
      * @return Option(elementId)
      */
     def save(elem: Entity)(implicit session: Session): Id = {
-      elem.id match {
-        case Some(id) =>
-          val rowsUpdated = byIdFunc(id).update(elem)
-          afterSave(elem)
-          if (rowsUpdated == 1) id
-          else throw new SQLException(s"Error during save in table: $tableName, " +
-            s"for id: $id - $rowsUpdated rows updated, expected: 1. Entity: $elem")
-        case None =>
-          val result = queryReturningId insert elem
-          afterSave(elem)
-          result
-      }
+      val result: Option[Id] = queryReturningId insertOrUpdate elem
+      afterSave(elem)
+      // contract of `insertOrUpdate` guarantees an `elem.id` will not be `None` if `None` was returned
+      result.getOrElse(elem.id.get)
     }
 
     /**
