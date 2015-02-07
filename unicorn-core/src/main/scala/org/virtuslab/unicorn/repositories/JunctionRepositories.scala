@@ -3,7 +3,7 @@ package org.virtuslab.unicorn.repositories
 import org.virtuslab.unicorn.{ HasJdbcDriver, Tables, Identifiers }
 
 protected[unicorn] trait JunctionRepositories[Underlying] {
-  self: HasJdbcDriver with Tables[Underlying] with Identifiers[Underlying] =>
+  self: HasJdbcDriver with Tables[Underlying] with Identifiers[Underlying] with Repositories[Underlying] =>
 
   import driver.simple.{ Table => _, _ }
 
@@ -12,7 +12,8 @@ protected[unicorn] trait JunctionRepositories[Underlying] {
    * @tparam First type of one entity
    * @tparam Second type of other entity
    */
-  class JunctionRepository[First: BaseColumnType, Second: BaseColumnType, Table <: JunctionTable[First, Second]](val query: TableQuery[Table]) {
+  class JunctionRepository[First: BaseColumnType, Second: BaseColumnType, Table <: JunctionTable[First, Second]](val query: TableQuery[Table])
+      extends CommonRepositoryMethods[(First, Second), Table](query) {
 
     protected def findOneQueryFun(first: Column[First], second: Column[Second]) =
       query.filter(row => row.columns._1 === first && row.columns._2 === second)
@@ -60,12 +61,6 @@ protected[unicorn] trait JunctionRepositories[Underlying] {
      */
     def exists(first: First, second: Second)(implicit session: Session): Boolean =
       existsQuery((first, second)).run
-
-    /**
-     * @param session implicit session param for query
-     * @return all elements of type (First, Second)
-     */
-    def findAll()(implicit session: Session): Seq[(First, Second)] = query.run
 
     /**
      * Saves one element if it's not present in db already.

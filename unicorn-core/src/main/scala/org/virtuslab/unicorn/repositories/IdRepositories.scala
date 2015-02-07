@@ -5,7 +5,7 @@ import java.sql.SQLException
 import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
 
 protected[unicorn] trait IdRepositories[Underlying] {
-  self: HasJdbcDriver with Identifiers[Underlying] with Tables[Underlying] =>
+  self: HasJdbcDriver with Identifiers[Underlying] with Tables[Underlying] with Repositories[Underlying] =>
 
   import driver.simple.{ Table => _, _ }
 
@@ -46,25 +46,13 @@ protected[unicorn] trait IdRepositories[Underlying] {
   // format: OFF
   class BaseIdRepository[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](protected val query: TableQuery[Table])
                                                                                           (implicit val mapping: BaseColumnType[Id])
-      extends BaseIdQueries[Id, Entity, Table] {
+      extends CommonRepositoryMethods[Entity, Table](query)
+      with BaseIdQueries[Id, Entity, Table] {
     // format: ON
 
     protected def queryReturningId = query returning query.map(_.id)
 
     final val tableName = query.baseTableRow.tableName
-
-    /**
-     * @param session implicit session param for query
-     * @return all elements of type A
-     */
-    def findAll()(implicit session: Session): Seq[Entity] = query.list
-
-    /**
-     * Deletes all elements in table.
-     * @param session implicit session param for query
-     * @return number of deleted elements
-     */
-    def deleteAll()(implicit session: Session): Int = query.delete
 
     /**
      * Finds one element by id.
@@ -161,22 +149,6 @@ protected[unicorn] trait IdRepositories[Underlying] {
       // conversion is required to force lazy collections
       elems.toIndexedSeq map save
     }
-
-    /**
-     * Creates table definition in database.
-     *
-     * @param session implicit database session
-     */
-    def create()(implicit session: Session): Unit =
-      query.ddl.create
-
-    /**
-     * Drops table definition from database.
-     *
-     * @param session implicit database session
-     */
-    def drop()(implicit session: Session): Unit =
-      query.ddl.drop
   }
 
 }
