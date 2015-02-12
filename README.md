@@ -1,5 +1,7 @@
 Scala Slick type-safe ids
 =========================
+
+[![Join the chat at https://gitter.im/VirtusLab/unicorn](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/VirtusLab/unicorn?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/VirtusLab/unicorn.svg?branch=v0.6.x-slick-2.1.x)](https://travis-ci.org/VirtusLab/unicorn)
 [![Coverage Status](https://img.shields.io/coveralls/VirtusLab/unicorn.svg)](https://coveralls.io/r/VirtusLab/unicorn?branch=v0.6.x-slick-2.1.x)
 
