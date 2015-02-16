@@ -11,6 +11,8 @@ Idea for type-safe ids was derived from Slick creator's [presentation on ScalaDa
 
 This library is used in [Advanced play-slick Typesafe Activator template](https://github.com/VirtusLab/activator-play-advanced-slick).
 
+ScalaDoc API for [0.6.4-SNAPSHOT](http://virtuslab.com/unicorn-api/0.6.4-SNAPSHOT).
+
 Contributors
 ------------
 Authors:
@@ -26,13 +28,13 @@ Getting unicorn
 For core latest version (Scala 2.10.x/2.11.x and Slick 2.1.x) use:
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn-core" % "0.6.2"
+libraryDependencies += "org.virtuslab" %% "unicorn-core" % "0.6.3"
 ```
 
 For play version (Scala 2.10.x/2.11.x, Slick 2.1.x, Play 2.3.x):
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn-play" % "0.6.2"
+libraryDependencies += "org.virtuslab" %% "unicorn-play" % "0.6.3"
 ```
 
 Or see [our Maven repository](http://maven-repository.com/artifact/org.virtuslab/).
@@ -125,6 +127,10 @@ case class User(id: Option[UserId],
 
 /** Table definition for users. */
 class Users(tag: Tag) extends IdTable[UserId, User](tag, "USERS") {
+
+  // use this property if you want to change name of `id` column to uppercase
+  // you need this on H2 for example
+  override val idColumnName = "ID"
 
   def email = column[String]("EMAIL", O.NotNull)
 
@@ -237,9 +243,13 @@ case class UserRow(id: Option[UserId],
 /** Table definition for users. */
 class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
 
+  // use this property if you want to change name of `id` column to uppercase
+  // you need this on H2 for example
+  override val idColumnName = "ID"
+
   def email = column[String]("EMAIL", O.NotNull)
 
-   def firstName = column[String]("FIRST_NAME", O.NotNull)
+  def firstName = column[String]("FIRST_NAME", O.NotNull)
 
   def lastName = column[String]("LAST_NAME", O.NotNull)
 

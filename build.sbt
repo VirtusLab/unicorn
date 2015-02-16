@@ -22,6 +22,7 @@ val unicorn = project
   .aggregate(`unicorn-core`, `unicorn-play`)
   .dependsOn(`unicorn-core`, `unicorn-play`)
   .settings(Settings.core: _*)
+  .settings(unidocSettings: _*)
   .settings(
     name := "unicorn"
   )
