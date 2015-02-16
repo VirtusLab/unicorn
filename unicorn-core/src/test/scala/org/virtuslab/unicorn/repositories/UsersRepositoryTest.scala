@@ -1,7 +1,7 @@
 package org.virtuslab.unicorn.repositories
 
 import org.virtuslab.unicorn._
-import org.scalatest.{ FlatSpecLike, Matchers }
+import org.scalatest.{ OptionValues, FlatSpecLike, Matchers }
 import org.virtuslab.unicorn.{ RollbackHelper, BaseTest }
 
 trait AbstractUserTable {
@@ -37,7 +37,7 @@ trait AbstractUserTable {
 
 }
 
-trait UsersRepositoryTest {
+trait UsersRepositoryTest extends OptionValues {
   self: FlatSpecLike with Matchers with RollbackHelper[Long] with AbstractUserTable =>
 
   import unicorn.driver.simple._
@@ -51,10 +51,14 @@ trait UsersRepositoryTest {
       val userId = UsersRepository save user
       val userOpt = UsersRepository findById userId
 
-      userOpt.map(_.email) shouldEqual Some(user.email)
-      userOpt.map(_.firstName) shouldEqual Some(user.firstName)
-      userOpt.map(_.lastName) shouldEqual Some(user.lastName)
-      userOpt.flatMap(_.id) shouldNot be(None)
+      userOpt shouldBe defined
+
+      userOpt.value should have(
+        'email(user.email),
+        'firstName(user.firstName),
+        'lastName(user.lastName)
+      )
+      userOpt.value.id shouldBe defined
   }
 
   it should "save and query multiple users" in rollback {
@@ -79,10 +83,12 @@ trait UsersRepositoryTest {
       val userId = UsersRepository save user
       val user2 = UsersRepository findExistingById userId
 
-      user2.email shouldEqual user.email
-      user2.firstName shouldEqual user.firstName
-      user2.lastName shouldEqual user.lastName
-      user2.id shouldNot be(None)
+      user2 should have(
+        'email(user.email),
+        'firstName(user.firstName),
+        'lastName(user.lastName)
+      )
+      user2.id shouldBe defined
   }
 
   it should "update existing user" in rollback {
@@ -98,10 +104,12 @@ trait UsersRepositoryTest {
 
       user = UsersRepository findExistingById userId
 
-      user.email shouldEqual "test@email.com"
-      user.firstName shouldEqual "Jerzy"
-      user.lastName shouldEqual "Muller"
-      user.id shouldEqual Some(userId)
+      user should have(
+        'email("test@email.com"),
+        'firstName("Jerzy"),
+        'lastName("Muller"),
+        'id(Some(userId))
+      )
   }
 
   it should "query all ids" in rollback {
@@ -167,12 +175,15 @@ trait UsersRepositoryTest {
       val id = UsersRepository save user
 
       val idOfCopy = UsersRepository.copyAndSave(id)
-      val copiedUser = idOfCopy.flatMap(UsersRepository.findById).get
+      val copiedUser = idOfCopy.flatMap(UsersRepository.findById).value
 
       copiedUser.id shouldNot be(user.id)
-      copiedUser.email shouldEqual user.email
-      copiedUser.firstName shouldEqual user.firstName
-      copiedUser.lastName shouldEqual user.lastName
+
+      copiedUser should have(
+        'email(user.email),
+        'firstName(user.firstName),
+        'lastName(user.lastName)
+      )
   }
 
   it should "delete user by id" in rollback {
@@ -188,7 +199,7 @@ trait UsersRepositoryTest {
 
       val ids = UsersRepository saveAll users
       val usersWithIds = (users zip ids).map { case (user, id) => user.copy(id = Some(id)) }
-      UsersRepository.findAll().size shouldEqual 3
+      UsersRepository.findAll() should have size users.size
 
       UsersRepository.deleteById(ids(1))
       val remainingUsers = Seq(usersWithIds.head, usersWithIds.last)
@@ -208,11 +219,11 @@ trait UsersRepositoryTest {
       )
 
       val ids = UsersRepository saveAll users
-      UsersRepository.findAll().size shouldEqual 3
+      UsersRepository.findAll() should have size users.size
 
       UsersRepository.deleteAll()
 
-      UsersRepository.findAll() shouldEqual Seq()
+      UsersRepository.findAll() shouldBe empty
   }
 
   it should "create and drop table" in rollback {

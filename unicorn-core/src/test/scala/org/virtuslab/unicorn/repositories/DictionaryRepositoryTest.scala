@@ -53,7 +53,7 @@ class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
       DictionaryRepository.deleteAll()
 
       // then
-      DictionaryRepository.findAll() shouldBe 'empty
+      DictionaryRepository.findAll() shouldBe empty
   }
 
 }

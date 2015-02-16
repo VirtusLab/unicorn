@@ -32,7 +32,7 @@ class PlayCompanionTest extends BasePlayTest {
   it should "have working implicit query string binder" in {
     val qsb = implicitly[QueryStringBindable[UserId]]
     val userId = UserId(123)
-    qsb.bind("id", Map("id" -> Seq("123"))).get shouldEqual Right(userId)
+    qsb.bind("id", Map("id" -> Seq("123"))).value shouldEqual Right(userId)
     qsb.unbind("id", userId) shouldEqual "id=123"
   }
 
@@ -49,7 +49,7 @@ class PlayCompanionTest extends BasePlayTest {
       (JsPath \ "name").read[String]
     )(User.apply _)
 
-    jsonUser.validate[User].get.id shouldEqual user.id
+    jsonUser.validate[User].get shouldEqual user
 
     // Writes
 
@@ -76,7 +76,7 @@ class PlayCompanionTest extends BasePlayTest {
     )
 
     // Reads
-    userForm.bind(userMap).get.id shouldEqual user.id
+    userForm.bind(userMap).get shouldEqual user
 
     // Writes - just check if it works without errors
     userForm.fill(user)
