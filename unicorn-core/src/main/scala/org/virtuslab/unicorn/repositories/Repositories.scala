@@ -10,13 +10,9 @@ protected[unicorn] trait Repositories[Underlying]
   import driver.simple._
 
   /**
-   * Base for services for entities that have no type-safe id created - for example join tables.
-   *
-   * @tparam Entity type of entity
-   * @tparam T type of table
-   * @param query base table query
+   * Implementation detail - common methods for all repositories.
    */
-  abstract class BaseRepository[Entity, T <: Table[Entity]](val query: TableQuery[T]) {
+  private[repositories] abstract class CommonRepositoryMethods[Entity, T <: Table[Entity]](query: TableQuery[T]) {
 
     /**
      * @param session implicit session param for query
@@ -30,6 +26,33 @@ protected[unicorn] trait Repositories[Underlying]
      * @return number of deleted elements
      */
     def deleteAll()(implicit session: Session): Int = query.delete
+
+    /**
+     * Creates table definition in database.
+     *
+     * @param session implicit database session
+     */
+    def create()(implicit session: Session): Unit =
+      query.ddl.create
+
+    /**
+     * Drops table definition from database.
+     *
+     * @param session implicit database session
+     */
+    def drop()(implicit session: Session): Unit =
+      query.ddl.drop
+  }
+
+  /**
+   * Base for services for entities that have no type-safe id created - for example join tables.
+   *
+   * @tparam Entity type of entity
+   * @tparam T type of table
+   * @param query base table query
+   */
+  abstract class BaseRepository[Entity, T <: Table[Entity]](val query: TableQuery[T])
+      extends CommonRepositoryMethods[Entity, T](query) {
 
     /**
      * Saves one element. Warning - if element already exist, it's not updated.
