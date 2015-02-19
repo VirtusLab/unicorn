@@ -29,7 +29,12 @@ trait LongTestUnicorn {
   lazy val unicorn = TestUnicorn
 }
 
-trait BaseTest[Underlying] extends FlatSpecLike with Matchers with BeforeAndAfterEach with RollbackHelper[Underlying] {
+trait BaseTest[Underlying]
+    extends FlatSpecLike
+    with OptionValues
+    with Matchers
+    with BeforeAndAfterEach
+    with RollbackHelper[Underlying] {
 
   val dbURL = "jdbc:h2:mem:unicorn"
 
