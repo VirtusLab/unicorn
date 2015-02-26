@@ -44,7 +44,7 @@ protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underly
 
       override val format = Some(("format.numeric", Nil))
 
-      override def bind(key: String, data: Map[String, String]) = {
+      override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Id] = {
 
         def handleErrors(errors: Seq[FormError]): Seq[FormError] = errors match {
           case _ if data.get(key).forall(_.isEmpty) => errors.map(_.copy(messages = Seq("id.empty")))

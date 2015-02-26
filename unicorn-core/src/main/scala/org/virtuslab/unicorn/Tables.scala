@@ -1,7 +1,7 @@
 package org.virtuslab.unicorn
 
-import scala.slick.lifted
 import scala.slick.lifted.Index
+import scala.slick.lifted.ProvenShape
 
 protected[unicorn] trait Tables[Underlying] extends TypeMappers {
   self: HasJdbcDriver with Identifiers[Underlying] =>
@@ -82,7 +82,7 @@ protected[unicorn] trait Tables[Underlying] extends TypeMappers {
      */
     def columns: (Column[First], Column[Second])
 
-    final def * = (columns._1, columns._2)
+    final def * : ProvenShape[(First, Second)] = (columns._1, columns._2)
 
     final def uniqueValues: Index = index(s"${tableName}_uniq_idx", *, unique = true)
   }
