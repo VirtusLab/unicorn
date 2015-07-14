@@ -36,7 +36,7 @@ trait BasePlayTest
   }
 
   override protected def afterAll(): Unit = {
-    Play.stop()
+    Play.stop(app)
     super.afterEach()
   }
 
