@@ -7,7 +7,7 @@ import org.joda.time.{ DateTime, Duration, LocalDate }
 trait TypeMappers {
   self: HasJdbcDriver =>
 
-  import driver.simple._
+  import driver.api._
 
   /**
    * Custom Type mappers for Slick.

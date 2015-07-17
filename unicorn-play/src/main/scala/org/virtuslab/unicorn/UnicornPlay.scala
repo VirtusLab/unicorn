@@ -1,10 +1,14 @@
 package org.virtuslab.unicorn
 
-import play.api.libs.json.Format
 import play.api.data.format.Formats._
 import play.api.data.format.Formatter
-import play.api.db.slick.Config
+import play.api.db.slick.DatabaseConfigProvider
+import play.api.libs.json.Format
 import play.api.mvc.{ PathBindable, QueryStringBindable }
+import slick.driver.JdbcDriver
+import slick.lifted.Rep
+
+import scala.language.implicitConversions
 
 trait UnicornPlayLike[Underlying]
     extends Unicorn[Underlying]
@@ -19,9 +23,11 @@ trait UnicornPlayLike[Underlying]
 
   def underlyingPathBinder: PathBindable[Underlying]
 
-  override lazy val driver = Config.driver
+  override lazy val driver: JdbcDriver = DatabaseConfigProvider.get(play.api.Play.current).driver
 
   override type IdCompanion[Id <: BaseId] = PlayCompanion[Id]
+
+  implicit def syncRep[T](rep: Rep[T]): SyncRep[T] = new SyncRep(rep, driver)
 }
 
 class UnicornPlay[Underlying](implicit val underlyingFormatter: Formatter[Underlying],

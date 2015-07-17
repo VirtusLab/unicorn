@@ -2,7 +2,7 @@ package org.virtuslab.unicorn.repositories
 
 import org.virtuslab.unicorn.{ LongTestUnicorn, TestUnicorn, BaseTest }
 import TestUnicorn._
-import TestUnicorn.driver.simple._
+import TestUnicorn.driver.api._
 
 class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
@@ -10,9 +10,9 @@ class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
   class Dictionary(tag: Tag) extends BaseTable[DictionaryEntry](tag, "DICTIONARY") {
 
-    def key = column[String]("key", O.NotNull)
+    def key = column[String]("key")
 
-    def value = column[String]("value", O.NotNull)
+    def value = column[String]("value")
 
     def dictionaryIndex = index("dictionary_idx", (key, value), unique = true)
 
@@ -28,13 +28,13 @@ class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
     } yield dictionaryEntry.value
 
     override protected def exists(entry: DictionaryEntry)(implicit session: Session): Boolean =
-      findQuery(entry).firstOption.nonEmpty
+      invokeAction(findQuery(entry).result.headOption).nonEmpty
   }
 
   "Dictionary repository" should "save and query users" in rollback {
     implicit session =>
       // setup
-      dictQuery.ddl.create
+      invokeAction(dictQuery.schema.create)
 
       // when
       val entry = ("key", "value")

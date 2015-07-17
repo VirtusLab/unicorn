@@ -1,7 +1,7 @@
 package org.virtuslab.unicorn.repositories
 
 import org.virtuslab.unicorn.{ LongTestUnicorn, TestUnicorn, BaseTest }
-import TestUnicorn.driver.simple._
+import TestUnicorn.driver.api._
 
 class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
