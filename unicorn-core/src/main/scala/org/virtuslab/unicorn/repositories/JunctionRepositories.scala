@@ -1,10 +1,8 @@
 package org.virtuslab.unicorn.repositories
 
-import java.sql.SQLException
+import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
 
-import org.virtuslab.unicorn.{ HasJdbcDriver, Tables, Identifiers }
-
-import scala.concurrent.Future
+import scala.concurrent.ExecutionContext
 
 protected[unicorn] trait JunctionRepositories[Underlying] {
   self: HasJdbcDriver with Tables[Underlying] with Identifiers[Underlying] with Repositories[Underlying] =>
@@ -44,43 +42,39 @@ protected[unicorn] trait JunctionRepositories[Underlying] {
 
     protected val findFirstBySecondQuery = Compiled(findFirstBySecondFun _)
 
-    private implicit val executionContext = db.executor.executionContext
-
     /**
      * Deletes one element.
      *
      * @param first element of junction
      * @param second element of junction
-     * @param session implicit session
      * @return number of deleted elements (0 or 1)
      */
-    def delete(first: First, second: Second)(implicit session: Session): Future[Int] =
-      db.run(findOneQueryCompiled((first, second)).delete)
+    def delete(first: First, second: Second): DBIO[Int] =
+      findOneQueryCompiled((first, second)).delete
 
     /**
      * Checks if element exists in database.
      *
      * @param first element of junction
      * @param second element of junction
-     * @param session implicit database session
      * @return true if element exists in database
      */
-    def exists(first: First, second: Second)(implicit session: Session): Future[Boolean] =
-      db.run(existsQuery((first, second)).result)
+    def exists(first: First, second: Second): DBIO[Boolean] =
+      existsQuery((first, second)).result
 
     /**
      * Saves one element if it's not present in db already.
      *
      * @param a one element
      * @param b other element
-     * @param session implicit session
      */
-    def save(a: First, b: Second)(implicit session: Session): Future[_] = {
-      exists(a, b).map { existing =>
-        if (existing) {
-          db.run(query += ((a, b)))
-        } else {
-          throw new SQLException(s"Could not insert ${(a, b).toString} to table")
+    def save(a: First, b: Second)(implicit ec: ExecutionContext): DBIO[Unit] = {
+      exists(a, b).flatMap {
+        case true => DBIO.successful(())
+        case false => {
+          val insert = query += ((a, b))
+          val result = insert.map(_ => ())
+          result
         }
       }
     }
@@ -89,25 +83,25 @@ protected[unicorn] trait JunctionRepositories[Underlying] {
      * @param a element to query by
      * @return all b values for given a
      */
-    def forA(a: First)(implicit session: Session): Future[Seq[Second]] = db.run(findSecondByFirstQuery(a).result)
+    def forA(a: First): DBIO[Seq[Second]] = findSecondByFirstQuery(a).result
 
     /**
      * @param b element to query by
      * @return all a values for given b
      */
-    def forB(b: Second)(implicit session: Session): Future[Seq[First]] = db.run(findFirstBySecondQuery(b).result)
+    def forB(b: Second): DBIO[Seq[First]] = findFirstBySecondQuery(b).result
 
     /**
      * Delete all rows with given a value.
      * @param a element to query by
      */
-    def deleteForA(a: First)(implicit session: Session): Future[Int] = db.run(findByFirstQueryCompiled(a).delete)
+    def deleteForA(a: First): DBIO[Int] = findByFirstQueryCompiled(a).delete
 
     /**
      * Delete all rows with given b value.
      * @param b element to query by
      */
-    def deleteForB(b: Second)(implicit session: Session): Future[Int] = db.run(findBySecondQuery(b).delete)
+    def deleteForB(b: Second): DBIO[Int] = findBySecondQuery(b).delete
 
   }
 

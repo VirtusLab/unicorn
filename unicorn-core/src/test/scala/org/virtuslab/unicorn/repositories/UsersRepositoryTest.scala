@@ -1,8 +1,10 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn._
-import org.scalatest.{ OptionValues, FlatSpecLike, Matchers }
-import org.virtuslab.unicorn.{ RollbackHelper, BaseTest }
+import org.scalatest.{ FlatSpecLike, Matchers, OptionValues }
+import org.virtuslab.unicorn.{ BaseTest, _ }
+import slick.dbio.DBIO
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 trait AbstractUserTable {
 
@@ -22,11 +24,11 @@ trait AbstractUserTable {
 
   class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
 
-    def email = column[String]("EMAIL", O.NotNull)
+    def email = column[String]("EMAIL")
 
-    def firstName = column[String]("FIRST_NAME", O.NotNull)
+    def firstName = column[String]("FIRST_NAME")
 
-    def lastName = column[String]("LAST_NAME", O.NotNull)
+    def lastName = column[String]("LAST_NAME")
 
     override def * = (id.?, email, firstName, lastName) <> (UserRow.tupled, UserRow.unapply)
   }
@@ -38,19 +40,18 @@ trait AbstractUserTable {
 }
 
 trait UsersRepositoryTest extends OptionValues {
-  self: FlatSpecLike with Matchers with RollbackHelper[Long] with AbstractUserTable =>
+  self: FlatSpecLike with Matchers with BaseTest[Long] with AbstractUserTable =>
 
-  import unicorn.driver.api._
+  "Users Service" should "save and query users" in runWithRollback {
+    val user = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
 
-  "Users Service" should "save and query users" in rollback {
-    implicit session =>
-      // setup
-      UsersRepository.create()
+    val actions = for {
+      _ <- UsersRepository.create
+      userId <- UsersRepository.save(user)
+      user <- UsersRepository.findById(userId)
+    } yield user
 
-      val user = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
-      val userId = UsersRepository save user
-      val userOpt = UsersRepository findById userId
-
+    actions map { userOpt =>
       userOpt shouldBe defined
 
       userOpt.value should have(
@@ -59,124 +60,143 @@ trait UsersRepositoryTest extends OptionValues {
         'lastName(user.lastName)
       )
       userOpt.value.id shouldBe defined
+    }
   }
 
-  it should "save and query multiple users" in rollback {
-    implicit session =>
-      // setup
-      UsersRepository.create()
+  it should "save and query multiple users" in runWithRollback {
+    val users = (Stream from 1 take 10) map (n => UserRow(None, "test@email.com", "Krzysztof" + n, "Nowak"))
 
-      val users = (Stream from 1 take 10) map (n => UserRow(None, "test@email.com", "Krzysztof" + n, "Nowak"))
-      UsersRepository saveAll users
-      val newUsers = UsersRepository.findAll()
+    // setup
+    val actions = for {
+      _ <- UsersRepository.create
+      _ <- UsersRepository saveAll users
+      all <- UsersRepository.findAll()
+    } yield all
+
+    actions map { newUsers =>
       newUsers.size shouldEqual 10
       newUsers.headOption map (_.firstName) shouldEqual Some("Krzysztof1")
       newUsers.lastOption map (_.firstName) shouldEqual Some("Krzysztof10")
+    }
   }
 
-  it should "query existing user" in rollback {
-    implicit session =>
-      // setup
-      UsersRepository.create()
+  it should "query existing user" in runWithRollback {
+    val blankUser = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
 
-      val user = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
-      val userId = UsersRepository save user
-      val user2 = UsersRepository findExistingById userId
+    val actions = for {
+      _ <- UsersRepository.create
+      userId <- UsersRepository save blankUser
+      user <- UsersRepository.findExistingById(userId)
+    } yield user
 
+    actions map { user2 =>
       user2 should have(
-        'email(user.email),
-        'firstName(user.firstName),
-        'lastName(user.lastName)
+        'email(blankUser.email),
+        'firstName(blankUser.firstName),
+        'lastName(blankUser.lastName)
       )
       user2.id shouldBe defined
+    }
   }
 
-  it should "update existing user" in rollback {
-    implicit session =>
-      // setup
-      UsersRepository.create()
+  it should "update existing user" in runWithRollback {
+    val blankUser = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
 
-      var user = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
-      val userId = UsersRepository save user
-      user = UsersRepository findExistingById userId
+    val actions = for {
+      _ <- UsersRepository.create
+      userId <- UsersRepository save blankUser
+      user <- UsersRepository.findExistingById(userId)
+      _ <- UsersRepository save user.copy(firstName = "Jerzy", lastName = "Muller")
+      updatedUser <- UsersRepository.findExistingById(userId)
+    } yield (userId, updatedUser)
 
-      UsersRepository save user.copy(firstName = "Jerzy", lastName = "Muller")
-
-      user = UsersRepository findExistingById userId
-
-      user should have(
-        'email("test@email.com"),
-        'firstName("Jerzy"),
-        'lastName("Muller"),
-        'id(Some(userId))
-      )
+    actions map {
+      case (userId, updatedUser) =>
+        updatedUser should have(
+          'email("test@email.com"),
+          'firstName("Jerzy"),
+          'lastName("Muller"),
+          'id(Some(userId))
+        )
+    }
   }
 
-  it should "query all ids" in rollback {
-    implicit session =>
-      // setup
-      UsersRepository.create()
+  it should "query all ids" in runWithRollback {
+    val users = Seq(
+      UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
+      UserRow(None, "test2@email.com", "Janek", "Nowak"),
+      UserRow(None, "test3@email.com", "Marcin", "Nowak")
+    )
 
-      val users = Seq(
-        UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
-        UserRow(None, "test2@email.com", "Janek", "Nowak"),
-        UserRow(None, "test3@email.com", "Marcin", "Nowak")
-      )
+    val actions = for {
+      _ <- UsersRepository.create
+      ids <- UsersRepository saveAll users
+      allIds <- UsersRepository.allIds()
+    } yield (ids, allIds)
 
-      val ids = UsersRepository saveAll users
-
-      UsersRepository.allIds() shouldEqual ids
+    actions map {
+      case (ids, allIds) =>
+        allIds shouldEqual ids
+    }
   }
 
-  it should "sort users by id" in rollback {
-    implicit session =>
-      // setup
-      UsersRepository.create()
+  it should "sort users by id" in runWithRollback {
+    val users = Seq(
+      UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
+      UserRow(None, "test2@email.com", "Janek", "Nowak"),
+      UserRow(None, "test3@email.com", "Marcin", "Nowak")
+    )
 
-      val users = Seq(
-        UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
-        UserRow(None, "test2@email.com", "Janek", "Nowak"),
-        UserRow(None, "test3@email.com", "Marcin", "Nowak")
-      )
+    val actions = for {
+      _ <- UsersRepository.create
+      ids <- UsersRepository saveAll users
+      users <- UsersRepository.findAll()
+    } yield (ids, users)
 
-      val ids = UsersRepository saveAll users
-      val usersWithIds = (users zip ids).map { case (user, id) => user.copy(id = Some(id)) }
-
-      UsersRepository.findAll().sortBy(_.id) shouldEqual usersWithIds
+    actions map {
+      case (ids, users) =>
+        val usersWithIds = (users zip ids).map { case (user, id) => user.copy(id = Some(id)) }
+        users.sortBy(_.id) shouldEqual usersWithIds
+    }
   }
 
-  it should "query multiple users by ids" in rollback {
-    implicit session =>
-      // setup
-      UsersRepository.create()
+  it should "query multiple users by ids" in runWithRollback {
+    val users = Seq(
+      UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
+      UserRow(None, "test2@email.com", "Janek", "Nowak"),
+      UserRow(None, "test3@email.com", "Marcin", "Nowak")
+    )
 
-      val users = Seq(
-        UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
-        UserRow(None, "test2@email.com", "Janek", "Nowak"),
-        UserRow(None, "test3@email.com", "Marcin", "Nowak")
-      )
+    val actions = for {
+      _ <- UsersRepository.create
+      ids <- UsersRepository saveAll users
+      allUsers <- UsersRepository.findAll
+      selectedUsers: Seq[UserRow] = {
+        val usersWithIds = (users zip ids).map { case (user, id) => user.copy(id = Some(id)) }
+        Seq(usersWithIds.head, usersWithIds.last)
+      }
+      foundSelectedUsers <- UsersRepository.findByIds(selectedUsers.flatMap(_.id))
+    } yield (allUsers, foundSelectedUsers, selectedUsers)
 
-      val ids = UsersRepository saveAll users
-      val usersWithIds = (users zip ids).map { case (user, id) => user.copy(id = Some(id)) }
-      UsersRepository.findAll().size shouldEqual 3
-
-      val selectedUsers = Seq(usersWithIds.head, usersWithIds.last)
-
-      UsersRepository.findByIds(selectedUsers.flatMap(_.id)) shouldEqual selectedUsers
+    actions map {
+      case (allUsers, foundSelectedUsers, selectedUsers) =>
+        allUsers.size shouldEqual 3
+        foundSelectedUsers shouldEqual selectedUsers
+    }
   }
 
-  it should "copy user by id" in rollback {
-    implicit session =>
-      // setup
-      UsersRepository.create()
+  it should "copy user by id" in runWithRollback {
 
-      val user = UserRow(None, "test1@email.com", "Krzysztof", "Nowak")
+    val user = UserRow(None, "test1@email.com", "Krzysztof", "Nowak")
 
-      val id = UsersRepository save user
+    val actions = for {
+      _ <- UsersRepository.create
+      id <- UsersRepository.save(user)
+      idOfCopy <- UsersRepository.copyAndSave(id)
+      copiedUser <- UsersRepository.findById(idOfCopy)
+    } yield (copiedUser.value)
 
-      val idOfCopy = UsersRepository.copyAndSave(id)
-      val copiedUser = idOfCopy.flatMap(UsersRepository.findById).value
-
+    actions map { copiedUser =>
       copiedUser.id shouldNot be(user.id)
 
       copiedUser should have(
@@ -184,53 +204,63 @@ trait UsersRepositoryTest extends OptionValues {
         'firstName(user.firstName),
         'lastName(user.lastName)
       )
+    }
   }
 
-  it should "delete user by id" in rollback {
-    implicit session =>
-      // setup
-      UsersRepository.create()
+  it should "delete user by id" in runWithRollback {
+    val users = Seq(
+      UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
+      UserRow(None, "test2@email.com", "Janek", "Nowak"),
+      UserRow(None, "test3@email.com", "Marcin", "Nowak")
+    )
 
-      val users = Seq(
-        UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
-        UserRow(None, "test2@email.com", "Janek", "Nowak"),
-        UserRow(None, "test3@email.com", "Marcin", "Nowak")
-      )
+    val actions = for {
+      _ <- UsersRepository.create
+      ids <- UsersRepository saveAll users
+      initialUsers <- UsersRepository.findAll
+      _ <- UsersRepository.deleteById(ids(1))
+      resultingUsers <- UsersRepository.findAll
+    } yield (ids, initialUsers, resultingUsers)
 
-      val ids = UsersRepository saveAll users
-      val usersWithIds = (users zip ids).map { case (user, id) => user.copy(id = Some(id)) }
-      UsersRepository.findAll() should have size users.size
+    actions map {
+      case (ids, initialUsers, resultingUsers) =>
+        initialUsers should have size users.size
+        val usersWithIds = (users zip ids).map { case (user, id) => user.copy(id = Some(id)) }
+        val remainingUsers = Seq(usersWithIds.head, usersWithIds.last)
+        resultingUsers shouldEqual remainingUsers
+    }
 
-      UsersRepository.deleteById(ids(1))
-      val remainingUsers = Seq(usersWithIds.head, usersWithIds.last)
-
-      UsersRepository.findAll() shouldEqual remainingUsers
   }
 
-  it should "delete all users" in rollback {
-    implicit session =>
-      // setup
-      UsersRepository.create()
+  it should "delete all users" in runWithRollback {
+    val users = Seq(
+      UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
+      UserRow(None, "test2@email.com", "Janek", "Nowak"),
+      UserRow(None, "test3@email.com", "Marcin", "Nowak")
+    )
 
-      val users = Seq(
-        UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
-        UserRow(None, "test2@email.com", "Janek", "Nowak"),
-        UserRow(None, "test3@email.com", "Marcin", "Nowak")
-      )
+    val actions = for {
+      _ <- UsersRepository.create
+      ids <- UsersRepository saveAll users
+      initialUsers <- UsersRepository.findAll
+      _ <- UsersRepository.deleteAll()
+      resultingUsers <- UsersRepository.findAll
+    } yield (initialUsers, resultingUsers)
 
-      val ids = UsersRepository saveAll users
-      UsersRepository.findAll() should have size users.size
-
-      UsersRepository.deleteAll()
-
-      UsersRepository.findAll() shouldBe empty
+    actions map {
+      case (initialUsers, resultingUsers) =>
+        initialUsers should have size users.size
+        resultingUsers shouldBe empty
+    }
   }
 
-  it should "create and drop table" in rollback {
-    implicit session =>
-      // setup
-      UsersRepository.create()
-      UsersRepository.drop()
+  it should "create and drop table" in runWithRollback {
+    val actions = for {
+      _ <- UsersRepository.create
+      _ <- UsersRepository.drop
+    } yield ()
+
+    actions
   }
 }
 

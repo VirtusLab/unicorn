@@ -1,8 +1,13 @@
 package org.virtuslab.unicorn.repositories
 
+import org.joda.time.{ DateTime, Duration, LocalDate }
+import org.scalatest.concurrent.PatienceConfiguration.Timeout
+import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.time.{ Seconds, Span }
 import org.virtuslab.unicorn.TestUnicorn.driver.api._
 import org.virtuslab.unicorn.{ BaseTest, LongTestUnicorn }
-import org.joda.time.{ DateTime, Duration, LocalDate }
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class TypeMapperTest extends BaseTest[Long] with LongTestUnicorn {
 
@@ -16,24 +21,27 @@ class TypeMapperTest extends BaseTest[Long] with LongTestUnicorn {
 
   class Joda(tag: Tag) extends BaseTable[JodaRow](tag, "JODA") {
 
-    def dateTime = column[DateTime]("EMAIL", O.NotNull)
+    def dateTime = column[DateTime]("EMAIL")
 
-    def duration = column[Duration]("FIRST_NAME", O.NotNull)
+    def duration = column[Duration]("FIRST_NAME")
 
-    def localDate = column[LocalDate]("LAST_NAME", O.NotNull)
+    def localDate = column[LocalDate]("LAST_NAME")
 
     override def * = (dateTime, duration, localDate) <> (JodaRow.tupled, JodaRow.unapply)
   }
 
   val jodaQuery: TableQuery[Joda] = TableQuery[Joda]
 
-  it should "provide mappings for joda.time types" in rollback {
-    implicit session =>
-      jodaQuery.schema.create
+  it should "provide mappings for joda.time types" in runWithRollback {
+    val joda = JodaRow(DateTime.now(), Duration.millis(120), LocalDate.now())
+    val actions = for {
+      _ <- jodaQuery.schema.create
+      _ <- jodaQuery += (joda)
+      first <- jodaQuery.result.headOption
+    } yield first
 
-      val joda = JodaRow(DateTime.now(), Duration.millis(120), LocalDate.now())
-      jodaQuery insert joda
-
-      jodaQuery.first shouldEqual joda
+    actions map { first =>
+      first shouldEqual Some(joda)
+    }
   }
 }

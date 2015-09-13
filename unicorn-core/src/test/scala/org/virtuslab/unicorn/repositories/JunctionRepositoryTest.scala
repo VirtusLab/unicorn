@@ -1,7 +1,9 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.{ LongTestUnicorn, TestUnicorn, BaseTest }
-import TestUnicorn.driver.api._
+import org.virtuslab.unicorn.TestUnicorn.driver.api._
+import org.virtuslab.unicorn.{ BaseTest, LongTestUnicorn }
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
@@ -19,10 +21,12 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
   class OrderCustomer(tag: Tag) extends JunctionTable[OrderId, CustomerId](tag, "order_customer") {
     def orderId = column[OrderId]("ORDER_ID")
+
     def customerId = column[CustomerId]("CUSTOMER_ID")
 
     def columns = orderId -> customerId
   }
+
   object OrderCustomer {
     val tableQuery = TableQuery[OrderCustomer]
   }
@@ -30,97 +34,135 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
   object OrderCustomerRepository
     extends JunctionRepository[OrderId, CustomerId, OrderCustomer](OrderCustomer.tableQuery)
 
-  def createTables(implicit session: Session) = {
-    OrderCustomerRepository.create
+  it should "save pairs" in runWithRollback {
+    val actions = for {
+      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.save(OrderId(100), CustomerId(200))
+      all <- OrderCustomerRepository.findAll()
+    } yield all
+
+    actions map { result =>
+      result should have size 1
+    }
   }
 
-  it should "save pairs" in rollback { implicit session =>
-    createTables
+  it should "save pair only once" in runWithRollback {
+    val actions = for {
+      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.save(OrderId(100), CustomerId(200))
+      _ <- OrderCustomerRepository.save(OrderId(100), CustomerId(200))
+      all <- OrderCustomerRepository.findAll
+    } yield all
 
-    OrderCustomerRepository.save(OrderId(100), CustomerId(200))
-
-    OrderCustomerRepository.findAll() should have size 1
+    actions map { result =>
+      result should have size 1
+    }
   }
 
-  it should "save pair only once" in rollback { implicit session =>
-    createTables
+  it should "find all pairs" in runWithRollback {
+    val actions = for {
+      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.save(OrderId(100), CustomerId(200))
+      _ <- OrderCustomerRepository.save(OrderId(101), CustomerId(200))
+      all <- OrderCustomerRepository.findAll
+    } yield all
 
-    OrderCustomerRepository.save(OrderId(100), CustomerId(200))
-    OrderCustomerRepository.save(OrderId(100), CustomerId(200))
-
-    OrderCustomerRepository.findAll() should have size 1
+    actions map { result =>
+      result should have size 2
+    }
   }
 
-  it should "find all pairs" in rollback { implicit session =>
-    createTables
-
-    OrderCustomerRepository.save(OrderId(100), CustomerId(200))
-    OrderCustomerRepository.save(OrderId(101), CustomerId(200))
-
-    OrderCustomerRepository.findAll should have size 2
-  }
-
-  it should "find by first" in rollback { implicit session =>
-    createTables
+  it should "find by first" in runWithRollback {
     val orderId = OrderId(100)
-    OrderCustomerRepository.save(orderId, CustomerId(200))
-    OrderCustomerRepository.save(orderId, CustomerId(201))
-    OrderCustomerRepository.save(OrderId(101), CustomerId(201))
+    val actions = for {
+      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.save(orderId, CustomerId(200))
+      _ <- OrderCustomerRepository.save(orderId, CustomerId(201))
+      _ <- OrderCustomerRepository.save(OrderId(101), CustomerId(201))
+      order <- OrderCustomerRepository.forA(orderId)
+    } yield order
 
-    OrderCustomerRepository.forA(orderId) should have size 2
+    actions map { result =>
+      result should have size 2
+    }
   }
 
-  it should "find by second" in rollback { implicit session =>
-    createTables
+  it should "find by second" in runWithRollback {
     val customerId = CustomerId(200)
-    OrderCustomerRepository.save(OrderId(100), customerId)
-    OrderCustomerRepository.save(OrderId(101), customerId)
-    OrderCustomerRepository.save(OrderId(101), CustomerId(100))
+    val actions = for {
+      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.save(OrderId(100), customerId)
+      _ <- OrderCustomerRepository.save(OrderId(101), customerId)
+      _ <- OrderCustomerRepository.save(OrderId(101), CustomerId(100))
+      order <- OrderCustomerRepository.forB(customerId)
+    } yield order
 
-    OrderCustomerRepository.forB(customerId) should have size 2
+    actions map { result =>
+      result should have size 2
+    }
   }
 
-  it should "delete by first" in rollback { implicit session =>
-    createTables
+  it should "delete by first" in runWithRollback {
     val orderId = OrderId(100)
-    OrderCustomerRepository.save(orderId, CustomerId(200))
-    OrderCustomerRepository.save(orderId, CustomerId(201))
+    val actions = for {
+      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.save(orderId, CustomerId(200))
+      _ <- OrderCustomerRepository.save(orderId, CustomerId(201))
+      _ <- OrderCustomerRepository.delete(orderId, CustomerId(200))
+      orders <- OrderCustomerRepository.findAll()
+    } yield orders
 
-    OrderCustomerRepository.delete(orderId, CustomerId(200))
-
-    OrderCustomerRepository.findAll() should have size 1
+    actions map { result =>
+      result should have size 1
+    }
   }
 
-  it should "delete all items with given first" in rollback { implicit session =>
-    createTables
+  it should "delete all items with given first" in runWithRollback {
     val orderId = OrderId(100)
-    OrderCustomerRepository.save(orderId, CustomerId(200))
-    OrderCustomerRepository.save(orderId, CustomerId(201))
+    val actions = for {
+      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.save(orderId, CustomerId(200))
+      _ <- OrderCustomerRepository.save(orderId, CustomerId(201))
+      _ <- OrderCustomerRepository.deleteForA(orderId)
+      orders <- OrderCustomerRepository.findAll
+    } yield orders
 
-    OrderCustomerRepository.deleteForA(orderId)
-
-    OrderCustomerRepository.findAll() shouldBe empty
+    actions map { result =>
+      result shouldBe empty
+    }
   }
 
-  it should "delete all items with given second" in rollback { implicit session =>
-    createTables
+  it should "delete all items with given second" in runWithRollback {
     val customerId = CustomerId(200)
-    OrderCustomerRepository.save(OrderId(100), customerId)
-    OrderCustomerRepository.save(OrderId(101), customerId)
+    val actions = for {
+      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.save(OrderId(100), customerId)
+      _ <- OrderCustomerRepository.save(OrderId(101), customerId)
+      _ <- OrderCustomerRepository.deleteForB(customerId)
+      all <- OrderCustomerRepository.findAll
+    } yield all
 
-    OrderCustomerRepository.deleteForB(customerId)
-
-    OrderCustomerRepository.findAll() shouldBe empty
+    actions map { result =>
+      result shouldBe empty
+    }
   }
 
-  it should "check that one pair exists" in rollback { implicit session =>
-    createTables
+  it should "check that one pair exists" in runWithRollback {
     val customerId = CustomerId(200)
-    OrderCustomerRepository.save(OrderId(100), customerId)
-    OrderCustomerRepository.save(OrderId(101), customerId)
 
-    OrderCustomerRepository.exists(OrderId(200), customerId)(session) shouldBe false
-    OrderCustomerRepository.exists(OrderId(101), customerId)(session) shouldBe true
+    val actions = for {
+      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.save(OrderId(100), customerId)
+      _ <- OrderCustomerRepository.save(OrderId(101), customerId)
+      firstExist <- OrderCustomerRepository.exists(OrderId(200), customerId)
+      secondExist <- OrderCustomerRepository.exists(OrderId(101), customerId)
+    } yield (firstExist, secondExist)
+
+    actions map {
+      case (firstExist, secondExist) =>
+        firstExist shouldBe false
+        secondExist shouldBe true
+    }
   }
 
 }

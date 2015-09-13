@@ -1,10 +1,10 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.{ LongTestUnicorn, TestUnicorn, BaseTest }
-import TestUnicorn._
-import TestUnicorn.driver.api._
+import org.virtuslab.unicorn.TestUnicorn._
+import org.virtuslab.unicorn.TestUnicorn.driver.api._
+import org.virtuslab.unicorn.{ BaseTest, LongTestUnicorn }
+import slick.dbio.Effect.Read
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
@@ -30,33 +30,34 @@ class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
       dictionaryEntry <- query if dictionaryEntry.key === entry._1 && dictionaryEntry.value === entry._2
     } yield dictionaryEntry.value
 
-    override protected def exists(entry: DictionaryEntry)(implicit session: Session): Future[Boolean] =
-      db.run(findQuery(entry).result.headOption).map(_.nonEmpty)
+    override protected def exists(entry: DictionaryEntry): DBIOAction[Boolean, NoStream, Read] =
+      findQuery(entry).result.headOption.map(_.nonEmpty)
   }
 
-  "Dictionary repository" should "save and query users" in rollback {
-    implicit session =>
-      // setup
-      dictQuery.schema.create
+  "Dictionary repository" should "save and query users" in runWithRollback {
+    val entry = ("key", "value")
 
-      // when
-      val entry = ("key", "value")
-      DictionaryRepository save entry
-
-      // then
-      DictionaryRepository.findAll().foreach(_ shouldEqual Seq(entry))
+    val actions = for {
+      _ <- dictQuery.schema.create
+      _ <- DictionaryRepository save entry
+      find1 <- DictionaryRepository.findAll()
 
       // when saving second time
-      DictionaryRepository save entry
+      _ <- DictionaryRepository save entry
 
       // then no new entry should be added
-      DictionaryRepository.findAll().foreach(_ shouldEqual Seq(entry))
+      find2 <- DictionaryRepository.findAll()
 
-      // when
-      DictionaryRepository.deleteAll()
+      _ <- DictionaryRepository deleteAll ()
+      find3 <- DictionaryRepository.findAll()
+    } yield (find1, find2, find3)
 
-      // then
-      DictionaryRepository.findAll().foreach(_ shouldBe empty)
+    actions map {
+      case (find1, find2, find3) =>
+        find1 shouldEqual Seq(entry)
+        find2 shouldEqual Seq(entry)
+        find3 shouldBe empty
+    }
   }
 
 }
