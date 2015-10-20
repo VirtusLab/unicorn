@@ -3,12 +3,15 @@ package org.virtuslab.unicorn.repositories
 import java.util.UUID
 
 import org.scalatest.{ FlatSpecLike, Matchers }
+import org.virtuslab.unicorn.TestUnicorn.driver.api._
 import org.virtuslab.unicorn._
-import slick.driver.{ H2Driver, JdbcDriver }
+import slick.driver.H2Driver
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object UUIDUnicorn extends UnicornCore[UUID] with HasJdbcDriver {
-  override val driver: JdbcDriver = H2Driver
+  override val driver = H2Driver
+
 }
 
 trait UUIDTestUnicorn {
@@ -22,7 +25,6 @@ trait UUIDTestUnicorn {
 trait UUIDTable extends UUIDTestUnicorn {
 
   import unicorn._
-  import driver.profile._
   import driver.api._
 
   case class UniqueUserId(id: UUID) extends BaseId
@@ -30,17 +32,16 @@ trait UUIDTable extends UUIDTestUnicorn {
   case class PersonRow(id: Option[UniqueUserId], name: String) extends WithId[UniqueUserId]
 
   class UniquePersons(tag: Tag) extends IdTable[UniqueUserId, PersonRow](tag, "U_USERS") {
-    def name = column[String]("NAME", O.NotNull)
+    def name = column[String]("NAME")
 
     override def * = (id.?, name) <> (PersonRow.tupled, PersonRow.unapply)
   }
 
   //provides custom ddl query to generate UUID primary keys
   object UniquePersons {
-    val customDDL = DDL(
-      """CREATE TABLE IF NOT EXISTS "U_USERS" ("id" UUID default RANDOM_UUID() PRIMARY KEY , "NAME" VARCHAR(255) NOT NULL);""",
-      "DROP TABLE U_USERS;")
-    val ddl = createDDLInvoker(customDDL)
+    val CreateSql = sqlu"""CREATE TABLE IF NOT EXISTS "U_USERS" ("id" UUID default RANDOM_UUID() PRIMARY KEY , "NAME" VARCHAR(255) NOT NULL);"""
+    val CreateDdl = CreateSql.map(_ => ())
+    val DropSql = sqlu"DROP TABLE U_USERS;"
   }
 
   val personsQuery = TableQuery[UniquePersons]
@@ -50,16 +51,18 @@ trait UUIDTable extends UUIDTestUnicorn {
 }
 
 trait PersonUUIDTest extends FlatSpecLike {
-  self: FlatSpecLike with Matchers with RollbackHelper[UUID] with UUIDTable =>
+  self: FlatSpecLike with Matchers with BaseTest[UUID] with UUIDTable =>
 
-  "Persons Repository" should "work fine with UUID id" in rollback { implicit session =>
-    UniquePersons.ddl.create
-
+  "Persons Repository" should "work fine with UUID id" in runWithRollback {
     val person = PersonRow(None, "Alexander")
-    for {
+
+    val actions = for {
+      _ <- UniquePersons.CreateDdl
       personId <- PersonsRepository save person
       foundPerson <- PersonsRepository findById personId
-    } {
+    } yield foundPerson
+
+    actions map { foundPerson =>
       foundPerson.flatMap(_.id) shouldNot be(None)
       foundPerson.map(_.name) shouldEqual Some(person.name)
     }

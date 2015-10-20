@@ -1,8 +1,8 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.{ HasJdbcDriver, Tables, Identifiers }
+import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
 
-import scala.concurrent.Future
+import scala.concurrent.ExecutionContext
 
 protected[unicorn] trait Repositories[Underlying]
     extends JunctionRepositories[Underlying]
@@ -17,33 +17,27 @@ protected[unicorn] trait Repositories[Underlying]
   private[repositories] abstract class CommonRepositoryMethods[Entity, T <: Table[Entity]](query: TableQuery[T]) {
 
     /**
-     * @param session implicit session param for query
      * @return all elements of type A
      */
-    def findAll()(implicit session: Session): Future[Seq[Entity]] = db.run(query.result)
+    def findAll(): DBIO[Seq[Entity]] = query.result
 
     /**
      * Deletes all elements in table.
-     * @param session implicit session param for query
      * @return number of deleted elements
      */
-    def deleteAll()(implicit session: Session): Future[Int] = db.run(query.delete)
+    def deleteAll(): DBIO[Int] = query.delete
 
     /**
      * Creates table definition in database.
      *
-     * @param session implicit database session
      */
-    def create()(implicit session: Session): Unit =
-      query.schema.create
+    def create(): DBIO[Unit] = query.schema.create
 
     /**
      * Drops table definition from database.
      *
-     * @param session implicit database session
      */
-    def drop()(implicit session: Session): Unit =
-      query.schema.drop
+    def drop(): DBIO[Unit] = query.schema.drop
   }
 
   /**
@@ -60,14 +54,15 @@ protected[unicorn] trait Repositories[Underlying]
      * Saves one element. Warning - if element already exist, it's not updated.
      *
      * @param elem element to save
-     * @param session implicit database session
      * @return elem itself
      */
-    def save(elem: Entity)(implicit session: Session): Entity = {
-      if (!exists(elem)) {
-        db.run(query += elem)
+    def save(elem: Entity)(implicit ec: ExecutionContext): DBIO[Entity] = exists(elem).flatMap {
+      case true => DBIO.successful(elem)
+      case false => {
+        val insert = query += (elem)
+        val result = insert.map(_ => elem)
+        result
       }
-      elem
     }
 
     /**
@@ -76,10 +71,9 @@ protected[unicorn] trait Repositories[Underlying]
      * could not be created.
      *
      * @param elem element to check for
-     * @param session implicit database session
      * @return true if element exists in database
      */
-    protected def exists(elem: Entity)(implicit session: Session): Boolean
+    protected def exists(elem: Entity): DBIO[Boolean]
 
   }
 
