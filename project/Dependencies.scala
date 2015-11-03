@@ -3,9 +3,9 @@ import sbt._
 object Dependencies {
 
   def mainCore(scalaVersion: String) = Seq(
-    "com.typesafe.slick" %% "slick" % "2.1.0",
-    "joda-time" % "joda-time" % "2.8.1",
-    "org.joda" % "joda-convert" % "1.7"
+    "com.typesafe.slick" %% "slick" % "3.0.3",
+    "joda-time" % "joda-time" % "2.9",
+    "org.joda" % "joda-convert" % "1.8"
   )
 
   val testCore = Seq(
@@ -17,11 +17,11 @@ object Dependencies {
   def core(scalaVersion: String) = mainCore(scalaVersion) ++ testCore
 
   val mainPlay = Seq(
-    "com.typesafe.play" %% "play-slick" % "0.9.0-M4"
+    "com.typesafe.play" %% "play-slick" % "1.0.1"
   )
 
   val testPlay = Seq(
-    "com.typesafe.play" %% "play-test" % "2.4.2" % "test"
+    "com.typesafe.play" %% "play-test" % "2.4.3" % "test"
   )
 
   val play = mainPlay ++ testPlay

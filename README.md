@@ -65,7 +65,7 @@ package model
 
 import org.virtuslab.unicorn.LongUnicornPlay._
 import org.virtuslab.unicorn.LongUnicornPlay.driver.simple._
-import scala.slick.lifted.Tag
+import slick.lifted.Tag
 
 /** Id class for type-safe joins and queries. */
 case class UserId(id: Long) extends AnyVal with BaseId
@@ -166,7 +166,7 @@ First you have to bake your own cake to provide `unicorn` with proper driver (in
 package com.example
 
 import org.virtuslab.unicorn.{HasJdbcDriver, LongUnicornCore}
-import scala.slick.driver.H2Driver
+import slick.driver.H2Driver
 
 object Unicorn extends LongUnicornCore with HasJdbcDriver {
   val driver = H2Driver
@@ -209,11 +209,11 @@ class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
   // you need this on H2 for example
   override val idColumnName = "ID"
 
-  def email = column[String]("EMAIL", O.NotNull)
+  def email = Rep[String]("EMAIL", O.NotNull)
 
-  def firstName = column[String]("FIRST_NAME", O.NotNull)
+  def firstName = Rep[String]("FIRST_NAME", O.NotNull)
 
-  def lastName = column[String]("LAST_NAME", O.NotNull)
+  def lastName = Rep[String]("LAST_NAME", O.NotNull)
 
   override def * = (id.?, email, firstName, lastName) <> (UserRow.tupled, UserRow.unapply)
 }

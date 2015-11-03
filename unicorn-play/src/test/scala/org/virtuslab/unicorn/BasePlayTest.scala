@@ -2,6 +2,7 @@ package org.virtuslab.unicorn
 
 import org.scalatest._
 import play.api.Play
+import play.api.db.slick.DatabaseConfigProvider
 import play.api.test.FakeApplication
 
 trait BasePlayTest
@@ -13,10 +14,11 @@ trait BasePlayTest
     with BeforeAndAfterAll {
 
   private val testDb = Map(
-    "db.default.driver" -> "org.h2.Driver",
-    "db.default.url" -> "jdbc:h2:mem:unicorn",
-    "db.default.user" -> "sa",
-    "db.default.password" -> ""
+    "slick.dbs.default.driver" -> "slick.driver.H2Driver$",
+    "slick.dbs.default.db.driver" -> "org.h2.Driver",
+    "slick.dbs.default.db.url" -> "jdbc:h2:mem:unicorn",
+    "slick.dbs.default.db.user" -> "sa",
+    "slick.dbs.default.db.password" -> ""
   )
 
   implicit val app: FakeApplication = {
@@ -28,7 +30,7 @@ trait BasePlayTest
   override lazy val unicorn: Unicorn[Long] with HasJdbcDriver = LongUnicornPlay
 
   override protected def beforeEach(data: TestData): Unit = {
-    import scala.slick.jdbc.StaticQuery
+    import slick.jdbc.StaticQuery
     DB.withSession(session =>
       StaticQuery.queryNA[Int]("DROP ALL OBJECTS").execute(session)
     )
@@ -40,5 +42,5 @@ trait BasePlayTest
     super.afterEach()
   }
 
-  override def DB = play.api.db.slick.DB(app).asInstanceOf[unicorn.driver.profile.backend.DatabaseDef]
+  override def DB = DatabaseConfigProvider.get(app).db.asInstanceOf[unicorn.driver.profile.backend.DatabaseDef]
 }

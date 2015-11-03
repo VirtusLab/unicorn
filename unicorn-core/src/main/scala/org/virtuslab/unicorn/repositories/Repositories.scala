@@ -1,13 +1,14 @@
 package org.virtuslab.unicorn.repositories
 
+import org.virtuslab.unicorn.utils.Invoker
 import org.virtuslab.unicorn.{ HasJdbcDriver, Tables, Identifiers }
 
 protected[unicorn] trait Repositories[Underlying]
     extends JunctionRepositories[Underlying]
-    with IdRepositories[Underlying] {
+    with IdRepositories[Underlying] with Invoker {
   self: HasJdbcDriver with Identifiers[Underlying] with Tables[Underlying] =>
 
-  import driver.simple._
+  import driver.api._
 
   /**
    * Implementation detail - common methods for all repositories.
@@ -18,14 +19,14 @@ protected[unicorn] trait Repositories[Underlying]
      * @param session implicit session param for query
      * @return all elements of type A
      */
-    def findAll()(implicit session: Session): Seq[Entity] = query.list
+    def findAll()(implicit session: Session): Seq[Entity] = invokeAction(query.result)
 
     /**
      * Deletes all elements in table.
      * @param session implicit session param for query
      * @return number of deleted elements
      */
-    def deleteAll()(implicit session: Session): Int = query.delete
+    def deleteAll()(implicit session: Session): Int = invokeAction(query.delete)
 
     /**
      * Creates table definition in database.
@@ -33,7 +34,7 @@ protected[unicorn] trait Repositories[Underlying]
      * @param session implicit database session
      */
     def create()(implicit session: Session): Unit =
-      query.ddl.create
+      invokeAction(query.schema.create)
 
     /**
      * Drops table definition from database.
@@ -41,7 +42,7 @@ protected[unicorn] trait Repositories[Underlying]
      * @param session implicit database session
      */
     def drop()(implicit session: Session): Unit =
-      query.ddl.drop
+      invokeAction(query.schema.drop)
   }
 
   /**
@@ -63,7 +64,7 @@ protected[unicorn] trait Repositories[Underlying]
      */
     def save(elem: Entity)(implicit session: Session): Entity = {
       if (!exists(elem)) {
-        query.insert(elem)
+        invokeAction(query += elem)
       }
       elem
     }
