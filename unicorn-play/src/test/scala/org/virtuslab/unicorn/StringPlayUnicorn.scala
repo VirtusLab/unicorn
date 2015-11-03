@@ -2,12 +2,12 @@ package org.virtuslab.unicorn
 
 import play.api.data.format.Formats._
 
-import scala.slick.lifted.ProvenShape
+import slick.lifted.ProvenShape
 
 object StringPlayUnicorn extends UnicornPlay[String]
 
 import org.virtuslab.unicorn.StringPlayUnicorn._
-import org.virtuslab.unicorn.StringPlayUnicorn.driver.simple.{ Tag => SlickTag, _ }
+import org.virtuslab.unicorn.StringPlayUnicorn.driver.api.{ Tag => SlickTag, _ }
 
 case class UserId(id: String) extends BaseId
 

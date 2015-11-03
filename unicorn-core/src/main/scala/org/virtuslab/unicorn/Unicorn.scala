@@ -2,8 +2,8 @@ package org.virtuslab.unicorn
 
 import org.virtuslab.unicorn.repositories.Repositories
 
-import scala.language.higherKinds
-import scala.slick.driver.JdbcDriver
+import language.higherKinds
+import slick.driver.JdbcDriver
 
 trait HasJdbcDriver {
   val driver: JdbcDriver

@@ -9,7 +9,7 @@ trait AbstractUserTable {
   val unicorn: Unicorn[Long] with HasJdbcDriver
 
   import unicorn._
-  import unicorn.driver.simple._
+  import unicorn.driver.api._
 
   case class UserId(id: Long) extends BaseId
 
@@ -22,11 +22,11 @@ trait AbstractUserTable {
 
   class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
 
-    def email = column[String]("EMAIL", O.NotNull)
+    def email = column[String]("EMAIL")
 
-    def firstName = column[String]("FIRST_NAME", O.NotNull)
+    def firstName = column[String]("FIRST_NAME")
 
-    def lastName = column[String]("LAST_NAME", O.NotNull)
+    def lastName = column[String]("LAST_NAME")
 
     override def * = (id.?, email, firstName, lastName) <> (UserRow.tupled, UserRow.unapply)
   }
@@ -40,7 +40,7 @@ trait AbstractUserTable {
 trait UsersRepositoryTest extends OptionValues {
   self: FlatSpecLike with Matchers with RollbackHelper[Long] with AbstractUserTable =>
 
-  import unicorn.driver.simple._
+  import unicorn.driver.api._
 
   "Users Service" should "save and query users" in rollback {
     implicit session =>

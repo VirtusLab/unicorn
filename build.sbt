@@ -5,7 +5,7 @@ val `unicorn-core` = project
   .settings(
     libraryDependencies ++= Dependencies.core(scalaVersion.value),
     // cannot be higher due to tests not able to reproduce abnormal DB behavior
-    ScoverageKeys.coverageMinimum := 98,
+    ScoverageKeys.coverageMinimum := 95,
     (scalastyleConfig in Test) := file("scalastyle-test-config.xml")
   )
 
