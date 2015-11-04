@@ -5,47 +5,55 @@ Scala Slick type-safe ids
 [![Build Status](https://travis-ci.org/VirtusLab/unicorn.svg?branch=v0.6.x-slick-2.1.x)](https://travis-ci.org/VirtusLab/unicorn)
 [![Coverage Status](https://img.shields.io/coveralls/VirtusLab/unicorn.svg)](https://coveralls.io/r/VirtusLab/unicorn?branch=v0.6.x-slick-2.1.x)
 
-Slick (the Scala Language-Integrated Connection Kit) is a framework for type-safe, composable data access in Scala. This library adds tools to use type-safe IDs for your classes so you can no longer join on bad id field or mess up order of fields in mappings. It also provides a way to create service layer with methods (like querying all, querying by id, saving or deleting) for all classes with such IDs in just 4 lines of code.
+Slick (the Scala Language-Integrated Connection Kit) is a framework for type-safe, composable data access in Scala. This library adds tools to use type-safe IDs for your classes so you can no longer join on bad id field or mess up order of fields in mappings. It also provides a way to create data access layer with methods (like querying all, querying by id, saving or deleting) for all classes with such IDs in just 4 lines of code.
 
 Idea for type-safe ids was derived from Slick creator's [presentation on ScalaDays 2013](http://www.parleys.com/play/51c2e20de4b0d38b54f46243/chapter63/about).
 
 This library is used in [Advanced play-slick Typesafe Activator template](https://github.com/VirtusLab/activator-play-advanced-slick).
 
-ScalaDoc API for [0.6.4-SNAPSHOT](http://virtuslab.com/unicorn-api/0.6.4-SNAPSHOT).
+
+ScalaDoc API:
+* [unicorn-core 1.0.0](http://virtuslab.github.io/unicorn/unicorn-v1.0.0/unicorn-core-api/)
+* [unicorn-play 1.0.0](http://virtuslab.github.io/unicorn/unicorn-v1.0.0/unicorn-play-api/)
 
 Unicorn is Open Source under [Apache 2.0 license](LICENSE).
 
 Contributors
 ------------
-Authors:
 * [Jerzy Müller](https://github.com/Kwestor)
 * [Krzysztof Romanowski](https://github.com/romanowski)
 * [Łukasz Dubiel](https://github.com/bambuchaAdm)
+* [Matt Gilbert](https://github.com/mgilbertnz)
+* [Paweł Batko](https://github.com/pbatko)
 
 Feel free to use it, test it and to contribute! For some helpful tips'n'tricks, see [contribution guide](CONTRIBUTING.md).
 
 Getting unicorn
 ---------------
 
-For core latest version (Scala 2.10.x/2.11.x and Slick 2.1.x) use:
+For core latest version (Scala 2.10.x/2.11.x and Slick 3.0.x) use:
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn-core" % "0.6.3"
+libraryDependencies += "org.virtuslab" %% "unicorn-core" % "1.0.0"
 ```
 
 For play version (Scala 2.10.x/2.11.x, Slick 2.1.x, Play 2.3.x):
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn-play" % "0.6.3"
+libraryDependencies += "org.virtuslab" %% "unicorn-play" % "1.0.0"
 ```
 
 Or see [our Maven repository](http://maven-repository.com/artifact/org.virtuslab/).
+
+For Slick 3.0.x see version [`0.7.x`](https://github.com/VirtusLab/unicorn/tree/v0.7.x-slick-3.0.x)
+
+For Slick 2.1.x see version [`0.6.x`](https://github.com/VirtusLab/unicorn/tree/v0.6.x-slick-2.1.x)
 
 For Slick 2.0.x see version [`0.5.x`](https://github.com/VirtusLab/unicorn/tree/v0.5.x-slick-2.0.x).
 
 For Slick 1.x see version [`0.4.x`](https://github.com/VirtusLab/unicorn/tree/v0.4.x-slick-1.0.x).
 
-Migration form older versions
+Migration from older versions
 =============================
 
 See our [migration guide](MIGRATION.md).
@@ -55,7 +63,7 @@ Play Examples
 
 From version 0.5.0 forward dependency on Play! framework and `play-slick` library is no longer necessary.
 
-If you are using Play! anyway, examples below shows how to make use of `unicorn` then.
+If you are using Play! anyway, examples below show how to make use of `unicorn` then.
 
 Defining entities
 -----------------
@@ -64,8 +72,8 @@ Defining entities
 package model
 
 import org.virtuslab.unicorn.LongUnicornPlay._
-import org.virtuslab.unicorn.LongUnicornPlay.driver.simple._
-import scala.slick.lifted.Tag
+import org.virtuslab.unicorn.LongUnicornPlay.driver.api._
+import slick.lifted.Tag
 
 /** Id class for type-safe joins and queries. */
 case class UserId(id: Long) extends AnyVal with BaseId
@@ -75,32 +83,26 @@ case class UserId(id: Long) extends AnyVal with BaseId
   */
 object UserId extends IdCompanion[UserId]
 
-/** User entity.
-  *
-  * @param id user id
-  * @param email user email address
-  * @param lastName lastName
-  * @param firstName firstName
-  */
-case class User(id: Option[UserId],
+/** User entity.  */
+case class UserRow(id: Option[UserId],
                 email: String,
                 firstName: String,
                 lastName: String) extends WithId[UserId]
 
 /** Table definition for users. */
-class Users(tag: Tag) extends IdTable[UserId, User](tag, "USERS") {
+class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
 
   // use this property if you want to change name of `id` column to uppercase
   // you need this on H2 for example
   override val idColumnName = "ID"
 
-  def email = column[String]("EMAIL", O.NotNull)
+  def email = column[String]("EMAIL")
 
-  def firstName = column[String]("FIRST_NAME", O.NotNull)
+  def firstName = column[String]("FIRST_NAME")
 
-  def lastName = column[String]("LAST_NAME", O.NotNull)
+  def lastName = column[String]("LAST_NAME")
 
-  override def * = (id.?, email, firstName, lastName) <> (User.tupled, User.unapply)
+  override def * = (id.?, email, firstName, lastName) <> (UserRow.tupled, UserRow.unapply)
 }
 ```
 
@@ -110,18 +112,18 @@ Defining repositories
 ```scala
 package repositories
 
-import model._
 import org.virtuslab.unicorn.LongUnicornPlay._
-import org.virtuslab.unicorn.LongUnicornPlay.driver.simple._
+import org.virtuslab.unicorn.LongUnicornPlay.driver.api._
+import model._
 
 /**
  * Repository for users.
  *
- * It brings all base service methods with it from [[BaseIdRepository]], but you can add yours as well.
+ * It brings all base repository methods with it from [[BaseIdRepository]], but you can add yours as well.
  *
  * Use your favourite DI method to instantiate it in your application.
  */
-class UsersRepository extends BaseIdRepository[UserId, User, Users](TableQuery[Users])
+class UsersRepository extends BaseIdRepository[UserId, UserRow, Users](TableQuery[Users])
 ```
 
 Usage
@@ -130,24 +132,33 @@ Usage
 ```scala
 package repositories
 
-import model.User
-import org.virtuslab.unicorn.BasePlayTest
+import model.UserRow
+import scala.concurrent.ExecutionContext.Implicits.global
+
 
 class UsersRepositoryTest extends BasePlayTest {
 
-  "Users repository" should "save and query users" in rollback { implicit session =>
-    // setup
-    val repository = new UsersRepository
-    repository.create
+  val usersRepository: UsersRepository = new UsersRepository
 
-    val user = User(None, "test@email.com", "Krzysztof", "Nowak")
-    val userId = repository save user
-    val userOpt = repository findById userId
+  "Users Service" should "save and query users" in runWithRollback {
+    val user = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
 
-    userOpt.map(_.email) shouldEqual Some(user.email)
-    userOpt.map(_.firstName) shouldEqual Some(user.firstName)
-    userOpt.map(_.lastName) shouldEqual Some(user.lastName)
-    userOpt.flatMap(_.id) shouldNot be(None)
+    val actions = for {
+      _ <- usersRepository.create
+      userId <- usersRepository.save(user)
+      user <- usersRepository.findById(userId)
+    } yield user
+
+    actions map { userOpt =>
+      userOpt shouldBe defined
+
+      userOpt.value should have(
+        'email(user.email),
+        'firstName(user.firstName),
+        'lastName(user.lastName)
+      )
+      userOpt.value.id shouldBe defined
+    }
   }
 }
 ```
@@ -163,10 +174,10 @@ Preparing Unicorn to work
 First you have to bake your own cake to provide `unicorn` with proper driver (in example case H2):
 
 ```
-package com.example
+package infra
 
 import org.virtuslab.unicorn.{HasJdbcDriver, LongUnicornCore}
-import scala.slick.driver.H2Driver
+import slick.driver.H2Driver
 
 object Unicorn extends LongUnicornCore with HasJdbcDriver {
   val driver = H2Driver
@@ -179,28 +190,25 @@ Defining entities
 -----------------
 
 ```scala
-package com.example.tables
+package model
 
-import package com.example.Unicorn._
-import package com.example.Unicorn.driver.simple._
+import infra.Unicorn._
+import infra.Unicorn.driver.api._
+import slick.lifted.Tag
 
 /** Id class for type-safe joins and queries. */
 case class UserId(id: Long) extends AnyVal with BaseId
 
-/** Companion object for id class and ordering fpr Id */
+/** Companion object for id class, extends IdMapping
+  * and brings all required implicits to scope when needed.
+  */
 object UserId extends IdCompanion[UserId]
 
-/** User entity.
-  *
-  * @param id user id
-  * @param email user email address
-  * @param lastName lastName
-  * @param firstName firstName
-  */
+/** User entity.  */
 case class UserRow(id: Option[UserId],
-                   email: String,
-                   firstName: String,
-                   lastName: String) extends WithId[UserId]
+                email: String,
+                firstName: String,
+                lastName: String) extends WithId[UserId]
 
 /** Table definition for users. */
 class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
@@ -209,11 +217,11 @@ class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
   // you need this on H2 for example
   override val idColumnName = "ID"
 
-  def email = column[String]("EMAIL", O.NotNull)
+  def email = column[String]("EMAIL")
 
-  def firstName = column[String]("FIRST_NAME", O.NotNull)
+  def firstName = column[String]("FIRST_NAME")
 
-  def lastName = column[String]("LAST_NAME", O.NotNull)
+  def lastName = column[String]("LAST_NAME")
 
   override def * = (id.?, email, firstName, lastName) <> (UserRow.tupled, UserRow.unapply)
 }
@@ -223,16 +231,16 @@ Defining repositories
 ---------------------
 
 ```scala
-package com.example.repositories
+package repositories
 
-import com.example.tables._
-import play.api.db.slick.Config.driver.simple._
-import org.virtuslab.unicorn.repositories._
+import infra.Unicorn._
+import infra.Unicorn.driver.api._
+import model._
 
 /**
  * Repository for users.
  *
- * It brings all base service methods with it from [[service.BaseIdRepository]], but you can add yours as well.
+ * It brings all base repository methods with it from [[BaseIdRepository]], but you can add yours as well.
  *
  * Use your favourite DI method to instantiate it in your application.
  */
@@ -243,26 +251,35 @@ Usage
 -----
 
 ```scala
-package com.example.test
+package repositories
 
-import com.example.repositories.UserRepository
+import model.UserRow
+import scala.concurrent.ExecutionContext.Implicits.global
 
-class UsersRepositoryTest extends BaseTest {
 
-  val userRepository = new UserRepository
+class UsersRepositoryTest extends BaseTest[Long] {
 
-  "Users Service" should "save and query users" in rollback { implicit session =>
-    // setup
-    usersQuery.ddl.create
+  val usersRepository: UsersRepository = new UsersRepository
 
+  "Users Service" should "save and query users" in runWithRollback {
     val user = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
-    val userId = userRepository save user
-    val userOpt = userRepository findById userId
 
-    userOpt.map(_.email) shouldEqual Some(user.email)
-    userOpt.map(_.firstName) shouldEqual Some(user.firstName)
-    userOpt.map(_.lastName) shouldEqual Some(user.lastName)
-    userOpt.flatMap(_.id) shouldNot be(None)
+    val actions = for {
+      _ <- usersRepository.create
+      userId <- usersRepository.save(user)
+      user <- usersRepository.findById(userId)
+    } yield user
+
+    actions map { userOpt =>
+      userOpt shouldBe defined
+
+      userOpt.value should have(
+        'email(user.email),
+        'firstName(user.firstName),
+        'lastName(user.lastName)
+      )
+      userOpt.value.id shouldBe defined
+    }
   }
 }
 ```

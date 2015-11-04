@@ -1,3 +1,21 @@
+Migration to 1.0.x
+=============================
+
+Version 1.0.x brings Slick 3 new `DBIOAction` based API to Unicorn. We dropped `implicit session` parameter from method signatures but we had wrap return types in `DBIOAction`. We also added `implicit executionContext` in a few places.
+
+E.g. old `BaseIdRepository` methods:
+```
+  def findById(id: Id)(implicit session: Session): Option[Entity]
+  def findExistingById(id: Id)(implicit session: Session): Entity
+```
+now become
+```
+  def findById(id: Id): DBIO[Option[Entity]]
+  def findExistingById(id: Id)(implicit ec: ExecutionContext): DBIO[Entity]
+```
+To get to know more about `DBIOAction`s check out [Slick 3 documentation](http://slick.typesafe.com/docs/).
+
+
 Migration form 0.5.x to 0.6.x
 =============================
 
