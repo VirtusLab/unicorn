@@ -1,0 +1,885 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>BaseIdRepository - org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository</title>
+          <meta name="description" content="BaseIdRepository - org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository" />
+          <meta name="keywords" content="BaseIdRepository org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../index.html';
+            var hash = 'org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img src="../../../../lib/class_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="org">org</a>.<a href="../../package.html" class="extype" name="org.virtuslab">virtuslab</a>.<a href="../package.html" class="extype" name="org.virtuslab.unicorn">unicorn</a>.<a href="package.html" class="extype" name="org.virtuslab.unicorn.repositories">repositories</a>.<a href="IdRepositories.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories">IdRepositories</a></p>
+        <h1>BaseIdRepository</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="IdRepositories.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories">package IdRepositories</a>
+          </div></span></h3><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BaseIdRepository</span><span class="tparams">[<span name="Id">Id &lt;: (<a href="IdRepositories.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories">IdRepositories</a>.this)#<span class="extype" name="org.virtuslab.unicorn.Identifiers.BaseId">BaseId</span></span>, <span name="Entity">Entity &lt;: (<a href="IdRepositories.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories">IdRepositories</a>.this)#<span class="extype" name="org.virtuslab.unicorn.Identifiers.WithId">WithId</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]</span>, <span name="Table">Table &lt;: (<a href="IdRepositories.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories">IdRepositories</a>.this)#<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable">IdTable</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>, <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>]</span>]</span><span class="result"> extends (<a href="IdRepositories.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories">IdRepositories</a>.this)#<span class="extype" name="org.virtuslab.unicorn.repositories.Repositories.CommonRepositoryMethods">CommonRepositoryMethods</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>, <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>] with (<a href="IdRepositories.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories">IdRepositories</a>.this)#<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries">BaseIdQueries</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>, <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>, <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>]</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Base trait for repositories where we use <a href="../Identifiers$BaseId.html" class="extype" name="org.virtuslab.unicorn.Identifiers.BaseId">org.virtuslab.unicorn.Identifiers.BaseId</a>s.
+</p></div><dl class="paramcmts block"><dt class="tparam">Id</dt><dd class="cmt"><p>type of id</p></dd><dt class="tparam">Entity</dt><dd class="cmt"><p>type of entity</p></dd><dt class="tparam">Table</dt><dd class="cmt"><p>type of table
+</p></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent">(<a href="IdRepositories.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories">IdRepositories</a>.this)#<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries">BaseIdQueries</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>, <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>, <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>], (<a href="IdRepositories.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories">IdRepositories</a>.this)#<span class="extype" name="org.virtuslab.unicorn.repositories.Repositories.CommonRepositoryMethods">CommonRepositoryMethods</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>, <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository"><span>BaseIdRepository</span></li><li class="in" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries"><span>BaseIdQueries</span></li><li class="in" name="org.virtuslab.unicorn.repositories.Repositories.CommonRepositoryMethods"><span>CommonRepositoryMethods</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(query:IdRepositories.this.driver.api.TableQuery[Table])(implicitmapping:IdRepositories.this.driver.api.BaseColumnType[Id]):IdRepositories.this.BaseIdRepository[Id,Entity,Table]"></a>
+      <a id="&lt;init&gt;:(IdRepositories.this)#BaseIdRepository[Id,Entity,Table]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BaseIdRepository</span><span class="params">(<span name="query">query: <span class="extype" name="slick.lifted.Aliases.TableQuery">slick.driver.JdbcProfile.API.TableQuery</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="mapping">mapping: <span class="extype" name="slick.profile.RelationalProfile.API.BaseColumnType">slick.driver.JdbcProfile.API.BaseColumnType</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]</span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@&lt;init&gt;(query:IdRepositories.this.driver.api.TableQuery[Table])(implicitmapping:IdRepositories.this.driver.api.BaseColumnType[Id]):IdRepositories.this.BaseIdRepository[Id,Entity,Table]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p>
+    </li></ol>
+            </div>
+
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@##():Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#afterSave" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="afterSave(elem:Entity):Unit"></a>
+      <a id="afterSave(Entity):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">afterSave</span><span class="params">(<span name="elem">elem: <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@afterSave(elem:Entity):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Hook executed after element is saved - if you want to do some stuff then, override it.</p><div class="fullcomment"><div class="comment cmt"><p>Hook executed after element is saved - if you want to do some stuff then, override it.
+</p></div><dl class="paramcmts block"><dt class="param">elem</dt><dd class="cmt"><p>element to save
+</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#allIds" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="allIds():IdRepositories.this.driver.api.DBIO[Seq[Id]]"></a>
+      <a id="allIds():slick.driver.JdbcProfile.API.DBIO[Seq[Id]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">allIds</span><span class="params">()</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@allIds():IdRepositories.this.driver.api.DBIO[Seq[Id]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>Sequence of ids
+</p></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries#allIdsQuery" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="allIdsQuery:slick.lifted.Query[slick.lifted.Rep[Id],Id,Seq]"></a>
+      <a id="allIdsQuery:Query[Rep[Id],Id,Seq]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">allIdsQuery</span><span class="result">: <span class="extype" name="slick.lifted.Query">Query</span>[<span class="extype" name="slick.lifted.Rep">Rep</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>], <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>, <span class="extype" name="scala.Seq">Seq</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@allIdsQuery:slick.lifted.Query[slick.lifted.Rep[Id],Id,Seq]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Query all ids.</p><div class="fullcomment"><div class="comment cmt"><p>Query all ids.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="IdRepositories$BaseIdQueries.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries">BaseIdQueries</a></dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries#byIdFunc" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="byIdFunc(id:IdRepositories.this.driver.api.Rep[Id]):slick.lifted.Query[Table,Table#TableElementType,Seq]"></a>
+      <a id="byIdFunc(slick.driver.JdbcProfile.API.Rep[Id]):Query[Table,Table.TableElementType,Seq]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">byIdFunc</span><span class="params">(<span name="id">id: <span class="extype" name="slick.lifted.Aliases.Rep">slick.driver.JdbcProfile.API.Rep</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]</span>)</span><span class="result">: <span class="extype" name="slick.lifted.Query">Query</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>, <span class="extype" name="slick.profile.RelationalTableComponent.Table.TableElementType">Table.TableElementType</span>, <span class="extype" name="scala.Seq">Seq</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@byIdFunc(id:IdRepositories.this.driver.api.Rep[Id]):slick.lifted.Query[Table,Table#TableElementType,Seq]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Query element by id, method version.</p><div class="fullcomment"><div class="comment cmt"><p>Query element by id, method version.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="IdRepositories$BaseIdQueries.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries">BaseIdQueries</a></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries#byIdQuery" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="byIdQuery:slick.lifted.CompiledFunction[IdRepositories.this.driver.api.Rep[Id]=&gt;slick.lifted.Query[Table,Table#TableElementType,Seq],IdRepositories.this.driver.api.Rep[Id],Id,slick.lifted.Query[Table,Table#TableElementType,Seq],Seq[Table#TableElementType]]"></a>
+      <a id="byIdQuery:CompiledFunction[(slick.driver.JdbcProfile.API.Rep[Id])⇒Query[Table,Table.TableElementType,Seq],slick.driver.JdbcProfile.API.Rep[Id],Id,Query[Table,Table.TableElementType,Seq],Seq[Table.TableElementType]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">byIdQuery</span><span class="result">: <span class="extype" name="slick.lifted.CompiledFunction">CompiledFunction</span>[(<span class="extype" name="slick.lifted.Aliases.Rep">slick.driver.JdbcProfile.API.Rep</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]) ⇒ <span class="extype" name="slick.lifted.Query">Query</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>, <span class="extype" name="slick.profile.RelationalTableComponent.Table.TableElementType">Table.TableElementType</span>, <span class="extype" name="scala.Seq">Seq</span>], <span class="extype" name="slick.lifted.Aliases.Rep">slick.driver.JdbcProfile.API.Rep</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>], <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>, <span class="extype" name="slick.lifted.Query">Query</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>, <span class="extype" name="slick.profile.RelationalTableComponent.Table.TableElementType">Table.TableElementType</span>, <span class="extype" name="scala.Seq">Seq</span>], <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="slick.profile.RelationalTableComponent.Table.TableElementType">Table.TableElementType</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@byIdQuery:slick.lifted.CompiledFunction[IdRepositories.this.driver.api.Rep[Id]=&gt;slick.lifted.Query[Table,Table#TableElementType,Seq],IdRepositories.this.driver.api.Rep[Id],Id,slick.lifted.Query[Table,Table#TableElementType,Seq],Seq[Table#TableElementType]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="IdRepositories$BaseIdQueries.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries">BaseIdQueries</a></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries#byIdsQuery" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="byIdsQuery(ids:Seq[Id]):slick.lifted.Query[Table,Table#TableElementType,Seq]"></a>
+      <a id="byIdsQuery(Seq[Id]):Query[Table,Table.TableElementType,Seq]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">byIdsQuery</span><span class="params">(<span name="ids">ids: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]</span>)</span><span class="result">: <span class="extype" name="slick.lifted.Query">Query</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>, <span class="extype" name="slick.profile.RelationalTableComponent.Table.TableElementType">Table.TableElementType</span>, <span class="extype" name="scala.Seq">Seq</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@byIdsQuery(ids:Seq[Id]):slick.lifted.Query[Table,Table#TableElementType,Seq]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Query by multiple ids.</p><div class="fullcomment"><div class="comment cmt"><p>Query by multiple ids.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="IdRepositories$BaseIdQueries.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries">BaseIdQueries</a></dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#copyAndSave" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="copyAndSave(id:Id)(implicitec:scala.concurrent.ExecutionContext):IdRepositories.this.driver.api.DBIO[Id]"></a>
+      <a id="copyAndSave(Id)(ExecutionContext):slick.driver.JdbcProfile.API.DBIO[Id]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">copyAndSave</span><span class="params">(<span name="id">id: <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ec">ec: <span class="extype" name="scala.concurrent.ExecutionContext">ExecutionContext</span></span>)</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@copyAndSave(id:Id)(implicitec:scala.concurrent.ExecutionContext):IdRepositories.this.driver.api.DBIO[Id]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Clones element by id.</p><div class="fullcomment"><div class="comment cmt"><p>Clones element by id.
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>id of element to clone</p></dd><dt>returns</dt><dd class="cmt"><p>Option(id) of new element
+</p></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.Repositories.CommonRepositoryMethods#create" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="create():Repositories.this.driver.api.DBIO[Unit]"></a>
+      <a id="create():slick.driver.JdbcProfile.API.DBIO[Unit]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">create</span><span class="params">()</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="scala.Unit">Unit</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@create():Repositories.this.driver.api.DBIO[Unit]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Creates table definition in database.</p><div class="fullcomment"><div class="comment cmt"><p>Creates table definition in database.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonRepositoryMethods</dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.Repositories.CommonRepositoryMethods#deleteAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="deleteAll():Repositories.this.driver.api.DBIO[Int]"></a>
+      <a id="deleteAll():slick.driver.JdbcProfile.API.DBIO[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">deleteAll</span><span class="params">()</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@deleteAll():Repositories.this.driver.api.DBIO[Int]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Deletes all elements in table.</p><div class="fullcomment"><div class="comment cmt"><p>Deletes all elements in table.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>number of deleted elements
+</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonRepositoryMethods</dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#deleteById" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="deleteById(id:Id):IdRepositories.this.driver.api.DBIO[Int]"></a>
+      <a id="deleteById(Id):slick.driver.JdbcProfile.API.DBIO[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">deleteById</span><span class="params">(<span name="id">id: <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span></span>)</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@deleteById(id:Id):IdRepositories.this.driver.api.DBIO[Int]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Deletes one element by id.</p><div class="fullcomment"><div class="comment cmt"><p>Deletes one element by id.
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>id of element</p></dd><dt>returns</dt><dd class="cmt"><p>number of deleted elements (0 or 1)
+</p></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.Repositories.CommonRepositoryMethods#drop" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="drop():Repositories.this.driver.api.DBIO[Unit]"></a>
+      <a id="drop():slick.driver.JdbcProfile.API.DBIO[Unit]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">drop</span><span class="params">()</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="scala.Unit">Unit</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@drop():Repositories.this.driver.api.DBIO[Unit]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Drops table definition from database.</p><div class="fullcomment"><div class="comment cmt"><p>Drops table definition from database.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonRepositoryMethods</dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.Repositories.CommonRepositoryMethods#findAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="findAll():Repositories.this.driver.api.DBIO[Seq[Entity]]"></a>
+      <a id="findAll():slick.driver.JdbcProfile.API.DBIO[Seq[Entity]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findAll</span><span class="params">()</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@findAll():Repositories.this.driver.api.DBIO[Seq[Entity]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>all elements of type A
+</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonRepositoryMethods</dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#findById" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="findById(id:Id):IdRepositories.this.driver.api.DBIO[Option[Entity]]"></a>
+      <a id="findById(Id):slick.driver.JdbcProfile.API.DBIO[Option[Entity]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findById</span><span class="params">(<span name="id">id: <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span></span>)</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@findById(id:Id):IdRepositories.this.driver.api.DBIO[Option[Entity]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Finds one element by id.</p><div class="fullcomment"><div class="comment cmt"><p>Finds one element by id.
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>id of element</p></dd><dt>returns</dt><dd class="cmt"><p>Option(element)
+</p></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#findByIds" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="findByIds(ids:Seq[Id]):IdRepositories.this.driver.api.DBIO[Seq[Entity]]"></a>
+      <a id="findByIds(Seq[Id]):slick.driver.JdbcProfile.API.DBIO[Seq[Entity]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findByIds</span><span class="params">(<span name="ids">ids: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]</span>)</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@findByIds(ids:Seq[Id]):IdRepositories.this.driver.api.DBIO[Seq[Entity]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Finds elements by given ids.</p><div class="fullcomment"><div class="comment cmt"><p>Finds elements by given ids.
+</p></div><dl class="paramcmts block"><dt class="param">ids</dt><dd class="cmt"><p>ids of element</p></dd><dt>returns</dt><dd class="cmt"><p>Seq(element)
+</p></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#findExistingById" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="findExistingById(id:Id)(implicitec:scala.concurrent.ExecutionContext):IdRepositories.this.driver.api.DBIO[Entity]"></a>
+      <a id="findExistingById(Id)(ExecutionContext):slick.driver.JdbcProfile.API.DBIO[Entity]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findExistingById</span><span class="params">(<span name="id">id: <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ec">ec: <span class="extype" name="scala.concurrent.ExecutionContext">ExecutionContext</span></span>)</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@findExistingById(id:Id)(implicitec:scala.concurrent.ExecutionContext):IdRepositories.this.driver.api.DBIO[Entity]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Finds one element by id.</p><div class="fullcomment"><div class="comment cmt"><p>Finds one element by id.
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>id of element</p></dd><dt>returns</dt><dd class="cmt"><p>element
+</p></dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#mapping" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="mapping:IdRepositories.this.driver.api.BaseColumnType[Id]"></a>
+      <a id="mapping:slick.driver.JdbcProfile.API.BaseColumnType[Id]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mapping</span><span class="result">: <span class="extype" name="slick.profile.RelationalProfile.API.BaseColumnType">slick.driver.JdbcProfile.API.BaseColumnType</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@mapping:IdRepositories.this.driver.api.BaseColumnType[Id]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>type mapper for I, required for querying</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository">BaseIdRepository</a> → <a href="IdRepositories$BaseIdQueries.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries">BaseIdQueries</a></dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#query" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="query:IdRepositories.this.driver.api.TableQuery[Table]"></a>
+      <a id="query:slick.driver.JdbcProfile.API.TableQuery[Table]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">query</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.TableQuery">slick.driver.JdbcProfile.API.TableQuery</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@query:IdRepositories.this.driver.api.TableQuery[Table]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>query to operate on</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository">BaseIdRepository</a> → <a href="IdRepositories$BaseIdQueries.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries">BaseIdQueries</a></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#queryReturningId" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="queryReturningId:IdRepositories.this.driver.ReturningInsertActionComposer[Table#TableElementType,Id]"></a>
+      <a id="queryReturningId:slick.driver.JdbcProfile.ReturningInsertActionComposer[Table.TableElementType,Id]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">queryReturningId</span><span class="result">: <span class="extype" name="slick.driver.JdbcActionComponent.ReturningInsertActionComposer">slick.driver.JdbcProfile.ReturningInsertActionComposer</span>[<span class="extype" name="slick.profile.RelationalTableComponent.Table.TableElementType">Table.TableElementType</span>, <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@queryReturningId:IdRepositories.this.driver.ReturningInsertActionComposer[Table#TableElementType,Id]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#save" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="save(elem:Entity)(implicitec:scala.concurrent.ExecutionContext):IdRepositories.this.driver.api.DBIO[Id]"></a>
+      <a id="save(Entity)(ExecutionContext):slick.driver.JdbcProfile.API.DBIO[Id]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">save</span><span class="params">(<span name="elem">elem: <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ec">ec: <span class="extype" name="scala.concurrent.ExecutionContext">ExecutionContext</span></span>)</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@save(elem:Entity)(implicitec:scala.concurrent.ExecutionContext):IdRepositories.this.driver.api.DBIO[Id]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Saves one element.</p><div class="fullcomment"><div class="comment cmt"><p>Saves one element.
+</p></div><dl class="paramcmts block"><dt class="param">elem</dt><dd class="cmt"><p>element to save</p></dd><dt>returns</dt><dd class="cmt"><p>Option(elementId)
+</p></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#saveAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="saveAll(elems:Seq[Entity])(implicitec:scala.concurrent.ExecutionContext):IdRepositories.this.driver.api.DBIO[Seq[Id]]"></a>
+      <a id="saveAll(Seq[Entity])(ExecutionContext):slick.driver.JdbcProfile.API.DBIO[Seq[Id]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">saveAll</span><span class="params">(<span name="elems">elems: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ec">ec: <span class="extype" name="scala.concurrent.ExecutionContext">ExecutionContext</span></span>)</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.DBIO">slick.driver.JdbcProfile.API.DBIO</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@saveAll(elems:Seq[Entity])(implicitec:scala.concurrent.ExecutionContext):IdRepositories.this.driver.api.DBIO[Seq[Id]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Saves multiple elements.</p><div class="fullcomment"><div class="comment cmt"><p>Saves multiple elements.
+</p></div><dl class="paramcmts block"><dt class="param">elems</dt><dd class="cmt"><p>elements to save</p></dd><dt>returns</dt><dd class="cmt"><p>Sequence of ids
+</p></dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository#tableName" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="tableName:String"></a>
+      <a id="tableName:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tableName</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@tableName:String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@toString():String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.virtuslab.unicorn.repositories.IdRepositories$BaseIdRepository@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries">
+              <h3>Inherited from (<a href="IdRepositories.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories">IdRepositories</a>.this)#<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdQueries">BaseIdQueries</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Id">Id</span>, <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>, <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>]</h3>
+            </div><div class="parent" name="org.virtuslab.unicorn.repositories.Repositories.CommonRepositoryMethods">
+              <h3>Inherited from (<a href="IdRepositories.html" class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories">IdRepositories</a>.this)#<span class="extype" name="org.virtuslab.unicorn.repositories.Repositories.CommonRepositoryMethods">CommonRepositoryMethods</span>[<span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Entity">Entity</span>, <span class="extype" name="org.virtuslab.unicorn.repositories.IdRepositories.BaseIdRepository.Table">Table</span>]</h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

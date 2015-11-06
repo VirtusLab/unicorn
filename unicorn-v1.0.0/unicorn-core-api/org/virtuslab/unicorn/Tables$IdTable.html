@@ -1,0 +1,998 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>IdTable - org.virtuslab.unicorn.Tables.IdTable</title>
+          <meta name="description" content="IdTable - org.virtuslab.unicorn.Tables.IdTable" />
+          <meta name="keywords" content="IdTable org.virtuslab.unicorn.Tables.IdTable" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'org.virtuslab.unicorn.Tables$IdTable';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img src="../../../lib/class_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="org">org</a>.<a href="../package.html" class="extype" name="org.virtuslab">virtuslab</a>.<a href="package.html" class="extype" name="org.virtuslab.unicorn">unicorn</a>.<a href="Tables.html" class="extype" name="org.virtuslab.unicorn.Tables">Tables</a></p>
+        <h1>IdTable</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="Tables.html" class="extype" name="org.virtuslab.unicorn.Tables">package Tables</a>
+          </div></span></h3><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">IdTable</span><span class="tparams">[<span name="Id">Id &lt;: (<a href="Tables.html" class="extype" name="org.virtuslab.unicorn.Tables">Tables</a>.this)#<span class="extype" name="org.virtuslab.unicorn.Identifiers.BaseId">BaseId</span></span>, <span name="Entity">Entity &lt;: (<a href="Tables.html" class="extype" name="org.virtuslab.unicorn.Tables">Tables</a>.this)#<span class="extype" name="org.virtuslab.unicorn.Identifiers.WithId">WithId</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Id">Id</span>]</span>]</span><span class="result"> extends (<a href="Tables.html" class="extype" name="org.virtuslab.unicorn.Tables">Tables</a>.this)#<span class="extype" name="org.virtuslab.unicorn.Tables.BaseTable">BaseTable</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span>]</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Base class for all tables that contains an id.
+</p></div><dl class="paramcmts block"><dt class="tparam">Id</dt><dd class="cmt"><p>type of id</p></dd><dt class="tparam">Entity</dt><dd class="cmt"><p>type of entities in table
+</p></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent">(<a href="Tables.html" class="extype" name="org.virtuslab.unicorn.Tables">Tables</a>.this)#<span class="extype" name="org.virtuslab.unicorn.Tables.BaseTable">BaseTable</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span>], (<a href="Tables.html" class="extype" name="org.virtuslab.unicorn.Tables">Tables</a>.this)#<span class="extype" name="org.virtuslab.unicorn.TypeMappers.CustomTypeMappers">CustomTypeMappers</span>, <span class="extype" name="slick.profile.RelationalTableComponent.Table">slick.driver.JdbcProfile.Table</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span>], <span class="extype" name="slick.lifted.AbstractTable">AbstractTable</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span>], <span class="extype" name="slick.lifted.Rep">Rep</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="org.virtuslab.unicorn.Tables.IdTable"><span>IdTable</span></li><li class="in" name="org.virtuslab.unicorn.Tables.BaseTable"><span>BaseTable</span></li><li class="in" name="org.virtuslab.unicorn.TypeMappers.CustomTypeMappers"><span>CustomTypeMappers</span></li><li class="in" name="slick.profile.RelationalTableComponent.Table"><span>Table</span></li><li class="in" name="slick.lifted.AbstractTable"><span>AbstractTable</span></li><li class="in" name="slick.lifted.Rep"><span>Rep</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="org.virtuslab.unicorn.Tables.IdTable#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(tag:Tables.this.driver.api.Tag,tableName:String)(implicitmapping:Tables.this.driver.api.BaseColumnType[Id]):Tables.this.IdTable[Id,Entity]"></a>
+      <a id="&lt;init&gt;:(Tables.this)#IdTable[Id,Entity]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">IdTable</span><span class="params">(<span name="tag">tag: <span class="extype" name="slick.lifted.Aliases.Tag">slick.driver.JdbcProfile.API.Tag</span></span>, <span name="tableName">tableName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="mapping">mapping: <span class="extype" name="slick.profile.RelationalProfile.API.BaseColumnType">slick.driver.JdbcProfile.API.BaseColumnType</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Id">Id</span>]</span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@&lt;init&gt;(tag:Tables.this.driver.api.Tag,tableName:String)(implicitmapping:Tables.this.driver.api.BaseColumnType[Id]):Tables.this.IdTable[Id,Entity]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Auxiliary constructor without schema name.</p><div class="fullcomment"><div class="comment cmt"><p>Auxiliary constructor without schema name.</p></div><dl class="paramcmts block"><dt class="param">tableName</dt><dd class="cmt"><p>name of table
+</p></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.Tables.IdTable#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(tag:Tables.this.driver.api.Tag,schemaName:Option[String],tableName:String)(implicitmapping:Tables.this.driver.api.BaseColumnType[Id]):Tables.this.IdTable[Id,Entity]"></a>
+      <a id="&lt;init&gt;:(Tables.this)#IdTable[Id,Entity]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">IdTable</span><span class="params">(<span name="tag">tag: <span class="extype" name="slick.lifted.Aliases.Tag">slick.driver.JdbcProfile.API.Tag</span></span>, <span name="schemaName">schemaName: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="tableName">tableName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="mapping">mapping: <span class="extype" name="slick.profile.RelationalProfile.API.BaseColumnType">slick.driver.JdbcProfile.API.BaseColumnType</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Id">Id</span>]</span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@&lt;init&gt;(tag:Tables.this.driver.api.Tag,schemaName:Option[String],tableName:String)(implicitmapping:Tables.this.driver.api.BaseColumnType[Id]):Tables.this.IdTable[Id,Entity]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">schemaName</dt><dd class="cmt"><p>name of schema (optional)</p></dd><dt class="param">tableName</dt><dd class="cmt"><p>name of the table</p></dd><dt class="param">mapping</dt><dd class="cmt"><p>mapping for id of this table</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="slick.profile.RelationalTableComponent.Table.TableElementType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TableElementType=T"></a>
+      <a id="TableElementType:TableElementType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TableElementType</span><span class="result"> = <span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@TableElementType=T" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Table → AbstractTable</dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div id="values" class="values members">
+              <h3>Abstract Value Members</h3>
+              <ol><li name="slick.lifted.AbstractTable#*" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="*:slick.lifted.ProvenShape[T]"></a>
+      <a id="*:ProvenShape[Entity]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $times" class="name">*</span><span class="result">: <span class="extype" name="slick.lifted.ProvenShape">ProvenShape</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@*:slick.lifted.ProvenShape[T]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div id="values" class="values members">
+              <h3>Concrete Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@##():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="slick.profile.RelationalTableComponent.Table#O" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="O:RelationalTableComponent.this.columnOptions.type"></a>
+      <a id="O:slick.driver.JdbcProfile.columnOptions.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">O</span><span class="result">: <span class="extype" name="slick.profile.SqlTableComponent.columnOptions">slick.driver.JdbcProfile.columnOptions</span>.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@O:RelationalTableComponent.this.columnOptions.type" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Table</dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@clone():Object" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#collectFieldSymbols" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="collectFieldSymbols(n:slick.ast.Node):Iterable[slick.ast.FieldSymbol]"></a>
+      <a id="collectFieldSymbols(Node):Iterable[FieldSymbol]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">collectFieldSymbols</span><span class="params">(<span name="n">n: <span class="extype" name="slick.ast.Node">Node</span></span>)</span><span class="result">: <span class="extype" name="scala.Iterable">Iterable</span>[<span class="extype" name="slick.ast.FieldSymbol">FieldSymbol</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@collectFieldSymbols(n:slick.ast.Node):Iterable[slick.ast.FieldSymbol]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="slick.profile.RelationalTableComponent.Table#column" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="column[C](n:String,options:slick.ast.ColumnOption[C]*)(implicittt:slick.ast.TypedType[C]):slick.lifted.Rep[C]"></a>
+      <a id="column[C](String,ColumnOption[C]*)(TypedType[C]):Rep[C]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">column</span><span class="tparams">[<span name="C">C</span>]</span><span class="params">(<span name="n">n: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="options">options: <span class="extype" name="slick.ast.ColumnOption">ColumnOption</span>[<span class="extype" name="slick.profile.RelationalTableComponent.Table.column.C">C</span>]*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="tt">tt: <span class="extype" name="slick.ast.TypedType">TypedType</span>[<span class="extype" name="slick.profile.RelationalTableComponent.Table.column.C">C</span>]</span>)</span><span class="result">: <span class="extype" name="slick.lifted.Rep">Rep</span>[<span class="extype" name="slick.profile.RelationalTableComponent.Table.column.C">C</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@column[C](n:String,options:slick.ast.ColumnOption[C]*)(implicittt:slick.ast.TypedType[C]):slick.lifted.Rep[C]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Table</dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#create_*" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="create_*:Iterable[slick.ast.FieldSymbol]"></a>
+      <a id="create_*:Iterable[FieldSymbol]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: create_$times" class="name">create_*</span><span class="result">: <span class="extype" name="scala.Iterable">Iterable</span>[<span class="extype" name="slick.ast.FieldSymbol">FieldSymbol</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@create_*:Iterable[slick.ast.FieldSymbol]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.TypeMappers.CustomTypeMappers#dateTimeMapper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dateTimeMapper:TypeMappers.this.driver.api.BaseColumnType[org.joda.time.DateTime]"></a>
+      <a id="dateTimeMapper:slick.driver.JdbcProfile.API.BaseColumnType[DateTime]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dateTimeMapper</span><span class="result">: <span class="extype" name="slick.profile.RelationalProfile.API.BaseColumnType">slick.driver.JdbcProfile.API.BaseColumnType</span>[<span class="extype" name="org.joda.time.DateTime">DateTime</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@dateTimeMapper:TypeMappers.this.driver.api.BaseColumnType[org.joda.time.DateTime]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Type mapper for <code>org.joda.time.DateTime</code></p><div class="fullcomment"><div class="comment cmt"><p>Type mapper for <code>org.joda.time.DateTime</code></p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="TypeMappers$CustomTypeMappers.html" class="extype" name="org.virtuslab.unicorn.TypeMappers.CustomTypeMappers">CustomTypeMappers</a></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.TypeMappers.CustomTypeMappers#durationTypeMapper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="durationTypeMapper:TypeMappers.this.driver.api.BaseColumnType[org.joda.time.Duration]"></a>
+      <a id="durationTypeMapper:slick.driver.JdbcProfile.API.BaseColumnType[Duration]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">durationTypeMapper</span><span class="result">: <span class="extype" name="slick.profile.RelationalProfile.API.BaseColumnType">slick.driver.JdbcProfile.API.BaseColumnType</span>[<span class="extype" name="org.joda.time.Duration">Duration</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@durationTypeMapper:TypeMappers.this.driver.api.BaseColumnType[org.joda.time.Duration]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Type mapper for <code>org.joda.time.Duration</code></p><div class="fullcomment"><div class="comment cmt"><p>Type mapper for <code>org.joda.time.Duration</code></p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="TypeMappers$CustomTypeMappers.html" class="extype" name="org.virtuslab.unicorn.TypeMappers.CustomTypeMappers">CustomTypeMappers</a></dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#encodeRef" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="encodeRef(path:slick.ast.Node):slick.lifted.AbstractTable[T]"></a>
+      <a id="encodeRef(Node):AbstractTable[Entity]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">encodeRef</span><span class="params">(<span name="path">path: <span class="extype" name="slick.ast.Node">Node</span></span>)</span><span class="result">: <span class="extype" name="slick.lifted.AbstractTable">AbstractTable</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@encodeRef(path:slick.ast.Node):slick.lifted.AbstractTable[T]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable → Rep</dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#foreignKey" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="foreignKey[P,PU,TT&lt;:slick.lifted.AbstractTable[_],U](name:String,sourceColumns:P,targetTableQuery:slick.lifted.TableQuery[TT])(targetColumns:TT=&gt;P,onUpdate:slick.model.ForeignKeyAction,onDelete:slick.model.ForeignKeyAction)(implicitunpack:slick.lifted.Shape[_&lt;:slick.lifted.FlatShapeLevel,TT,U,_],implicitunpackp:slick.lifted.Shape[_&lt;:slick.lifted.FlatShapeLevel,P,PU,_]):slick.lifted.ForeignKeyQuery[TT,U]"></a>
+      <a id="foreignKey[P,PU,TT&lt;:AbstractTable[_],U](String,P,TableQuery[TT])((TT)⇒P,ForeignKeyAction,ForeignKeyAction)(Shape[_&lt;:FlatShapeLevel,TT,U,_],Shape[_&lt;:FlatShapeLevel,P,PU,_]):ForeignKeyQuery[TT,U]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">foreignKey</span><span class="tparams">[<span name="P">P</span>, <span name="PU">PU</span>, <span name="TT">TT &lt;: <span class="extype" name="slick.lifted.AbstractTable">AbstractTable</span>[_]</span>, <span name="U">U</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceColumns">sourceColumns: <span class="extype" name="slick.lifted.AbstractTable.foreignKey.P">P</span></span>, <span name="targetTableQuery">targetTableQuery: <span class="extype" name="slick.lifted.TableQuery">TableQuery</span>[<span class="extype" name="slick.lifted.AbstractTable.foreignKey.TT">TT</span>]</span>)</span><span class="params">(<span name="targetColumns">targetColumns: (<span class="extype" name="slick.lifted.AbstractTable.foreignKey.TT">TT</span>) ⇒ <span class="extype" name="slick.lifted.AbstractTable.foreignKey.P">P</span></span>, <span name="onUpdate">onUpdate: <span class="extype" name="slick.model.ForeignKeyAction">ForeignKeyAction</span></span>, <span name="onDelete">onDelete: <span class="extype" name="slick.model.ForeignKeyAction">ForeignKeyAction</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="unpack">unpack: <span class="extype" name="slick.lifted.Shape">Shape</span>[_ &lt;: <span class="extype" name="slick.lifted.FlatShapeLevel">FlatShapeLevel</span>, <span class="extype" name="slick.lifted.AbstractTable.foreignKey.TT">TT</span>, <span class="extype" name="slick.lifted.AbstractTable.foreignKey.U">U</span>, _]</span>, <span name="unpackp">unpackp: <span class="extype" name="slick.lifted.Shape">Shape</span>[_ &lt;: <span class="extype" name="slick.lifted.FlatShapeLevel">FlatShapeLevel</span>, <span class="extype" name="slick.lifted.AbstractTable.foreignKey.P">P</span>, <span class="extype" name="slick.lifted.AbstractTable.foreignKey.PU">PU</span>, _]</span>)</span><span class="result">: <span class="extype" name="slick.lifted.ForeignKeyQuery">ForeignKeyQuery</span>[<span class="extype" name="slick.lifted.AbstractTable.foreignKey.TT">TT</span>, <span class="extype" name="slick.lifted.AbstractTable.foreignKey.U">U</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@foreignKey[P,PU,TT&lt;:slick.lifted.AbstractTable[_],U](name:String,sourceColumns:P,targetTableQuery:slick.lifted.TableQuery[TT])(targetColumns:TT=&gt;P,onUpdate:slick.model.ForeignKeyAction,onDelete:slick.model.ForeignKeyAction)(implicitunpack:slick.lifted.Shape[_&lt;:slick.lifted.FlatShapeLevel,TT,U,_],implicitunpackp:slick.lifted.Shape[_&lt;:slick.lifted.FlatShapeLevel,P,PU,_]):slick.lifted.ForeignKeyQuery[TT,U]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#foreignKeys" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="foreignKeys:Iterable[slick.lifted.ForeignKey]"></a>
+      <a id="foreignKeys:Iterable[ForeignKey]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">foreignKeys</span><span class="result">: <span class="extype" name="scala.Iterable">Iterable</span>[<span class="extype" name="slick.lifted.ForeignKey">ForeignKey</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@foreignKeys:Iterable[slick.lifted.ForeignKey]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.Tables.IdTable#id" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="id:Tables.this.driver.api.Rep[Id]"></a>
+      <a id="id:slick.driver.JdbcProfile.API.Rep[Id]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">id</span><span class="result">: <span class="extype" name="slick.lifted.Aliases.Rep">slick.driver.JdbcProfile.API.Rep</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Id">Id</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@id:Tables.this.driver.api.Rep[Id]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>id column representation of this table</p></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.Tables.IdTable#idColumnName" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="idColumnName:String"></a>
+      <a id="idColumnName:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">idColumnName</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@idColumnName:String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Name of an <code>id</code> column - override it if you want to change it.</p><div class="fullcomment"><div class="comment cmt"><p>Name of an <code>id</code> column - override it if you want to change it.</p><p>For example in H2DB where you need an uppercase &quot;ID&quot;:</p><pre><span class="kw">override</span> <span class="kw">val</span> idColumnName = <span class="lit">"ID"</span></pre></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#index" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="index[T](name:String,on:T,unique:Boolean)(implicitshape:slick.lifted.Shape[_&lt;:slick.lifted.FlatShapeLevel,T,_,_]):slick.lifted.Index"></a>
+      <a id="index[T](String,T,Boolean)(Shape[_&lt;:FlatShapeLevel,T,_,_]):Index"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">index</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="on">on: <span class="extype" name="slick.lifted.AbstractTable.index.T">T</span></span>, <span name="unique">unique: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="shape">shape: <span class="extype" name="slick.lifted.Shape">Shape</span>[_ &lt;: <span class="extype" name="slick.lifted.FlatShapeLevel">FlatShapeLevel</span>, <span class="extype" name="slick.lifted.AbstractTable.index.T">T</span>, _, _]</span>)</span><span class="result">: <span class="extype" name="slick.lifted.Index">Index</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@index[T](name:String,on:T,unique:Boolean)(implicitshape:slick.lifted.Shape[_&lt;:slick.lifted.FlatShapeLevel,T,_,_]):slick.lifted.Index" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#indexes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="indexes:Iterable[slick.lifted.Index]"></a>
+      <a id="indexes:Iterable[Index]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">indexes</span><span class="result">: <span class="extype" name="scala.Iterable">Iterable</span>[<span class="extype" name="slick.lifted.Index">Index</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@indexes:Iterable[slick.lifted.Index]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.TypeMappers.CustomTypeMappers#localDateMapper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="localDateMapper:TypeMappers.this.driver.api.BaseColumnType[org.joda.time.LocalDate]"></a>
+      <a id="localDateMapper:slick.driver.JdbcProfile.API.BaseColumnType[LocalDate]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">localDateMapper</span><span class="result">: <span class="extype" name="slick.profile.RelationalProfile.API.BaseColumnType">slick.driver.JdbcProfile.API.BaseColumnType</span>[<span class="extype" name="org.joda.time.LocalDate">LocalDate</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@localDateMapper:TypeMappers.this.driver.api.BaseColumnType[org.joda.time.LocalDate]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Type mapper for <code>org.joda.time.LocalDate</code></p><div class="fullcomment"><div class="comment cmt"><p>Type mapper for <code>org.joda.time.LocalDate</code></p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="TypeMappers$CustomTypeMappers.html" class="extype" name="org.virtuslab.unicorn.TypeMappers.CustomTypeMappers">CustomTypeMappers</a></dd></dl></div>
+    </li><li name="org.virtuslab.unicorn.Tables.IdTable#mapping" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="mapping:Tables.this.driver.api.BaseColumnType[Id]"></a>
+      <a id="mapping:slick.driver.JdbcProfile.API.BaseColumnType[Id]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mapping</span><span class="result">: <span class="extype" name="slick.profile.RelationalProfile.API.BaseColumnType">slick.driver.JdbcProfile.API.BaseColumnType</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Id">Id</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@mapping:Tables.this.driver.api.BaseColumnType[Id]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">mapping for id of this table</p>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#primaryKey" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="primaryKey[T](name:String,sourceColumns:T)(implicitshape:slick.lifted.Shape[_&lt;:slick.lifted.FlatShapeLevel,T,_,_]):slick.lifted.PrimaryKey"></a>
+      <a id="primaryKey[T](String,T)(Shape[_&lt;:FlatShapeLevel,T,_,_]):PrimaryKey"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">primaryKey</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceColumns">sourceColumns: <span class="extype" name="slick.lifted.AbstractTable.primaryKey.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="shape">shape: <span class="extype" name="slick.lifted.Shape">Shape</span>[_ &lt;: <span class="extype" name="slick.lifted.FlatShapeLevel">FlatShapeLevel</span>, <span class="extype" name="slick.lifted.AbstractTable.primaryKey.T">T</span>, _, _]</span>)</span><span class="result">: <span class="extype" name="slick.lifted.PrimaryKey">PrimaryKey</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@primaryKey[T](name:String,sourceColumns:T)(implicitshape:slick.lifted.Shape[_&lt;:slick.lifted.FlatShapeLevel,T,_,_]):slick.lifted.PrimaryKey" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#primaryKeys" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="primaryKeys:Iterable[slick.lifted.PrimaryKey]"></a>
+      <a id="primaryKeys:Iterable[PrimaryKey]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">primaryKeys</span><span class="result">: <span class="extype" name="scala.Iterable">Iterable</span>[<span class="extype" name="slick.lifted.PrimaryKey">PrimaryKey</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@primaryKeys:Iterable[slick.lifted.PrimaryKey]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#schemaName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="schemaName:Option[String]"></a>
+      <a id="schemaName:Option[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">schemaName</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@schemaName:Option[String]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">name of schema (optional)</p><div class="fullcomment"><div class="comment cmt"><p>name of schema (optional)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#tableConstraints" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tableConstraints:Iterator[slick.lifted.Constraint]"></a>
+      <a id="tableConstraints:Iterator[Constraint]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tableConstraints</span><span class="result">: <span class="extype" name="scala.Iterator">Iterator</span>[<span class="extype" name="slick.lifted.Constraint">Constraint</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@tableConstraints:Iterator[slick.lifted.Constraint]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="slick.profile.RelationalTableComponent.Table#tableIdentitySymbol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tableIdentitySymbol:slick.ast.TableIdentitySymbol"></a>
+      <a id="tableIdentitySymbol:TableIdentitySymbol"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tableIdentitySymbol</span><span class="result">: <span class="extype" name="slick.ast.TableIdentitySymbol">TableIdentitySymbol</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@tableIdentitySymbol:slick.ast.TableIdentitySymbol" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Table → AbstractTable</dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#tableName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tableName:String"></a>
+      <a id="tableName:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tableName</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@tableName:String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">name of the table</p><div class="fullcomment"><div class="comment cmt"><p>name of the table</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#tableNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tableNode:slick.ast.TableNode"></a>
+      <a id="tableNode:TableNode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tableNode</span><span class="result">: <span class="extype" name="slick.ast.TableNode">TableNode</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@tableNode:slick.ast.TableNode" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="slick.profile.RelationalTableComponent.Table#tableProvider" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tableProvider:slick.profile.RelationalDriver"></a>
+      <a id="tableProvider:RelationalDriver"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tableProvider</span><span class="result">: <span class="extype" name="slick.profile.RelationalDriver">RelationalDriver</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@tableProvider:slick.profile.RelationalDriver" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Table</dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#tableTag" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tableTag:slick.lifted.Tag"></a>
+      <a id="tableTag:Tag"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tableTag</span><span class="result">: <span class="extype" name="slick.lifted.Tag">Tag</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@tableTag:slick.lifted.Tag" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable</dd></dl></div>
+    </li><li name="slick.lifted.AbstractTable#toNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toNode:slick.ast.Node"></a>
+      <a id="toNode:Node"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toNode</span><span class="result">: <span class="extype" name="slick.ast.Node">Node</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@toNode:slick.ast.Node" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractTable → Rep</dd></dl></div>
+    </li><li name="slick.lifted.Rep#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@toString():String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Rep → AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#org.virtuslab.unicorn.Tables$IdTable@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="org.virtuslab.unicorn.Tables.BaseTable">
+              <h3>Inherited from (<a href="Tables.html" class="extype" name="org.virtuslab.unicorn.Tables">Tables</a>.this)#<span class="extype" name="org.virtuslab.unicorn.Tables.BaseTable">BaseTable</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span>]</h3>
+            </div><div class="parent" name="org.virtuslab.unicorn.TypeMappers.CustomTypeMappers">
+              <h3>Inherited from (<a href="Tables.html" class="extype" name="org.virtuslab.unicorn.Tables">Tables</a>.this)#<span class="extype" name="org.virtuslab.unicorn.TypeMappers.CustomTypeMappers">CustomTypeMappers</span></h3>
+            </div><div class="parent" name="slick.profile.RelationalTableComponent.Table">
+              <h3>Inherited from <span class="extype" name="slick.profile.RelationalTableComponent.Table">slick.driver.JdbcProfile.Table</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span>]</h3>
+            </div><div class="parent" name="slick.lifted.AbstractTable">
+              <h3>Inherited from <span class="extype" name="slick.lifted.AbstractTable">AbstractTable</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span>]</h3>
+            </div><div class="parent" name="slick.lifted.Rep">
+              <h3>Inherited from <span class="extype" name="slick.lifted.Rep">Rep</span>[<span class="extype" name="org.virtuslab.unicorn.Tables.IdTable.Entity">Entity</span>]</h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
