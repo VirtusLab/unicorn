@@ -13,7 +13,7 @@ trait UnicornPlayLike[Underlying]
     with PlayIdentifiers[Underlying]
     with HasJdbcDriver {
 
-  private val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
+  private lazy val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
 
   def underlyingFormatter: Formatter[Underlying]
 
