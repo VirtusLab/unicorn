@@ -13,8 +13,6 @@ trait UnicornPlayLike[Underlying]
     with PlayIdentifiers[Underlying]
     with HasJdbcDriver {
 
-  private lazy val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
-
   def underlyingFormatter: Formatter[Underlying]
 
   def underlyingFormat: Format[Underlying]
@@ -25,15 +23,21 @@ trait UnicornPlayLike[Underlying]
 
   override type IdCompanion[Id <: BaseId] = PlayCompanion[Id]
 
-  override lazy val driver = dbConfig.driver
-
 }
 
-class UnicornPlay[Underlying](implicit val underlyingFormatter: Formatter[Underlying],
+class UnicornPlay[Underlying](override val driver: JdbcProfile)(implicit val underlyingFormatter: Formatter[Underlying],
   val underlyingFormat: Format[Underlying],
   val underlyingQueryStringBinder: QueryStringBindable[Underlying],
   val underlyingPathBinder: PathBindable[Underlying],
   val ordering: Ordering[Underlying])
     extends UnicornPlayLike[Underlying]
 
-object LongUnicornPlay extends UnicornPlay[Long]
+object CurrentPlay {
+
+  lazy val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
+
+  lazy val driver = dbConfig.driver
+
+}
+
+object LongUnicornPlay extends UnicornPlay[Long](CurrentPlay.driver)

@@ -3,7 +3,7 @@ package org.virtuslab.unicorn
 import play.api.data.format.Formats._
 import slick.lifted.{ ProvenShape, Tag => SlickTag }
 
-object StringPlayUnicorn extends UnicornPlay[String]
+object StringPlayUnicorn extends UnicornPlay[String](CurrentPlay.driver)
 
 import StringPlayUnicorn._
 import StringPlayUnicorn.driver.api._
