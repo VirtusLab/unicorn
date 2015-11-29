@@ -28,7 +28,7 @@ trait UnicornPlayLike[Underlying]
 
   override type IdCompanion[Id <: BaseId] = PlayCompanion[Id]
 
-  implicit def syncRep[T](rep: Rep[T]): SyncRep[T] = new SyncRep(rep, driver)
+  //  implicit def syncRep[T](rep: Rep[T]): SyncRep[T] = new SyncRep(rep, driver)
 
   import driver.api._
 
