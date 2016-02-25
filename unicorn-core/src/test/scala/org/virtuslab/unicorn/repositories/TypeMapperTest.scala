@@ -10,9 +10,11 @@ class TypeMapperTest extends BaseTest[Long] with LongTestUnicorn {
 
   behavior of classOf[CustomTypeMappers].getSimpleName
 
-  case class JodaRow(dateTime: DateTime,
+  case class JodaRow(
+    dateTime: DateTime,
     duration: Duration,
-    localDate: LocalDate)
+    localDate: LocalDate
+  )
 
   class Joda(tag: Tag) extends BaseTable[JodaRow](tag, "JODA") {
 

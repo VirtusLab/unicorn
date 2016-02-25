@@ -21,7 +21,7 @@ object Dependencies {
   )
 
   val testPlay = Seq(
-    "com.typesafe.play" %% "play-test" % "2.4.3" % "test"
+    "com.typesafe.play" %% "play-test" % "2.4.6" % "test"
   )
 
   val play = mainPlay ++ testPlay
