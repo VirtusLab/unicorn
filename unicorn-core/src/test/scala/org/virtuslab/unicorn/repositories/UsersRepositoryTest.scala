@@ -15,10 +15,12 @@ trait AbstractUserTable {
 
   object UserId extends CoreCompanion[UserId]
 
-  case class UserRow(id: Option[UserId],
+  case class UserRow(
+    id: Option[UserId],
     email: String,
     firstName: String,
-    lastName: String) extends WithId[UserId]
+    lastName: String
+  ) extends WithId[UserId]
 
   class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
 

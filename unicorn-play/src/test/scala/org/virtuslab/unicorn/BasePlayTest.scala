@@ -32,8 +32,7 @@ trait BasePlayTest
   override protected def beforeEach(data: TestData): Unit = {
     import slick.jdbc.StaticQuery
     DB.withSession(session =>
-      StaticQuery.queryNA[Int]("DROP ALL OBJECTS").execute(session)
-    )
+      StaticQuery.queryNA[Int]("DROP ALL OBJECTS").execute(session))
     super.beforeEach()
   }
 

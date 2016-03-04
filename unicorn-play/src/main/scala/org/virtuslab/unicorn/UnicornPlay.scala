@@ -30,7 +30,8 @@ trait UnicornPlayLike[Underlying]
   implicit def syncRep[T](rep: Rep[T]): SyncRep[T] = new SyncRep(rep, driver)
 }
 
-class UnicornPlay[Underlying](implicit val underlyingFormatter: Formatter[Underlying],
+class UnicornPlay[Underlying](implicit
+  val underlyingFormatter: Formatter[Underlying],
   val underlyingFormat: Format[Underlying],
   val underlyingQueryStringBinder: QueryStringBindable[Underlying],
   val underlyingPathBinder: PathBindable[Underlying],

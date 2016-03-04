@@ -38,7 +38,8 @@ trait UUIDTable extends UUIDTestUnicorn {
   object UniquePersons {
     val customDDL = DDL(
       """CREATE TABLE IF NOT EXISTS "U_USERS" ("id" UUID default RANDOM_UUID() PRIMARY KEY , "NAME" VARCHAR(255) NOT NULL);""",
-      "DROP TABLE U_USERS;")
+      "DROP TABLE U_USERS;"
+    )
     val ddl = createDDLInvoker(customDDL)
   }
 
