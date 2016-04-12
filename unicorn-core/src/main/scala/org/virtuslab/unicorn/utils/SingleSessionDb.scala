@@ -5,6 +5,7 @@ import java.sql.{ Connection, DatabaseMetaData }
 import slick.jdbc.{ JdbcBackend, JdbcDataSource }
 import slick.util.AsyncExecutor
 
+@deprecated("Shouldn't be used and must be removed in next version.", "0.7.2")
 private[utils] object SingleSessionDb {
 
   def createFor(_session: JdbcBackend#Session, executor: AsyncExecutor): JdbcBackend#Database = {

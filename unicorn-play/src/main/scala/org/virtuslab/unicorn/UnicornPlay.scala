@@ -27,6 +27,7 @@ trait UnicornPlayLike[Underlying]
 
   override type IdCompanion[Id <: BaseId] = PlayCompanion[Id]
 
+  @deprecated("Use methods with DBIO.", "0.7.2")
   implicit def syncRep[T](rep: Rep[T]): SyncRep[T] = new SyncRep(rep, driver)
 }
 
