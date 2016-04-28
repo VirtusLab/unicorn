@@ -2,6 +2,7 @@ package org.virtuslab.unicorn.repositories
 
 import org.virtuslab.unicorn.{ LongTestUnicorn, TestUnicorn, BaseTest }
 import TestUnicorn.driver.api._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
@@ -19,10 +20,12 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
   class OrderCustomer(tag: Tag) extends JunctionTable[OrderId, CustomerId](tag, "order_customer") {
     def orderId = column[OrderId]("ORDER_ID")
+
     def customerId = column[CustomerId]("CUSTOMER_ID")
 
     def columns = orderId -> customerId
   }
+
   object OrderCustomer {
     val tableQuery = TableQuery[OrderCustomer]
   }
@@ -42,6 +45,22 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
     OrderCustomerRepository.findAll() should have size 1
   }
 
+  it should "save pairs using action" in rollbackAction {
+    val orderId = OrderId(100)
+    val customerId = CustomerId(200)
+
+    for {
+      // GIVEN
+      _ <- OrderCustomerRepository.createAction()
+      // WHEN
+      _ <- OrderCustomerRepository.saveAction(orderId, customerId)
+      // THEN
+      all <- OrderCustomerRepository.findAllAction()
+    } yield {
+      all should have size 1
+    }
+  }
+
   it should "save pair only once" in rollback { implicit session =>
     createTables
 
@@ -51,6 +70,23 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
     OrderCustomerRepository.findAll() should have size 1
   }
 
+  it should "save pair only once using Action" in rollbackAction {
+    val orderId = OrderId(100)
+    val customerId = CustomerId(200)
+
+    for {
+      // GIVEN
+      _ <- OrderCustomerRepository.createAction()
+      // WHEN
+      _ <- OrderCustomerRepository.saveAction(orderId, customerId)
+      _ <- OrderCustomerRepository.saveAction(orderId, customerId)
+      // THEN
+      all <- OrderCustomerRepository.findAllAction()
+    } yield {
+      all should have size 1
+    }
+  }
+
   it should "find all pairs" in rollback { implicit session =>
     createTables
 
@@ -58,6 +94,24 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
     OrderCustomerRepository.save(OrderId(101), CustomerId(200))
 
     OrderCustomerRepository.findAll should have size 2
+  }
+
+  it should "find all pairs using Action" in rollbackAction {
+    val orderId1 = OrderId(100)
+    val orderId2 = OrderId(101)
+    val customerId = CustomerId(200)
+
+    for {
+      // GIVEN
+      _ <- OrderCustomerRepository.createAction()
+      _ <- OrderCustomerRepository.saveAction(orderId1, customerId)
+      _ <- OrderCustomerRepository.saveAction(orderId2, customerId)
+      // WHEN
+      all <- OrderCustomerRepository.findAllAction()
+    } yield {
+      // THEN
+      all should have size 2
+    }
   }
 
   it should "find by first" in rollback { implicit session =>
@@ -70,6 +124,26 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
     OrderCustomerRepository.forA(orderId) should have size 2
   }
 
+  it should "find by first using Action" in rollbackAction {
+    val orderId1 = OrderId(100)
+    val orderId2 = OrderId(101)
+    val customerId1 = CustomerId(200)
+    val customerId2 = CustomerId(201)
+
+    for {
+      // GIVEN
+      _ <- OrderCustomerRepository.createAction()
+      _ <- OrderCustomerRepository.saveAction(orderId1, customerId1)
+      _ <- OrderCustomerRepository.saveAction(orderId1, customerId2)
+      _ <- OrderCustomerRepository.saveAction(orderId2, customerId2)
+      // WHEN
+      all <- OrderCustomerRepository.forAAction(orderId1)
+    } yield {
+      // THEN
+      all should have size 2
+    }
+  }
+
   it should "find by second" in rollback { implicit session =>
     createTables
     val customerId = CustomerId(200)
@@ -78,6 +152,26 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
     OrderCustomerRepository.save(OrderId(101), CustomerId(100))
 
     OrderCustomerRepository.forB(customerId) should have size 2
+  }
+
+  it should "find by second using Action" in rollbackAction {
+    val orderId1 = OrderId(100)
+    val orderId2 = OrderId(101)
+    val customerId1 = CustomerId(200)
+    val customerId2 = CustomerId(201)
+
+    for {
+      // GIVEN
+      _ <- OrderCustomerRepository.createAction()
+      _ <- OrderCustomerRepository.saveAction(orderId1, customerId1)
+      _ <- OrderCustomerRepository.saveAction(orderId1, customerId2)
+      _ <- OrderCustomerRepository.saveAction(orderId2, customerId2)
+      // WHEN
+      all <- OrderCustomerRepository.forBAction(customerId2)
+    } yield {
+      // THEN
+      all should have size 2
+    }
   }
 
   it should "delete by first" in rollback { implicit session =>
@@ -91,6 +185,26 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
     OrderCustomerRepository.findAll() should have size 1
   }
 
+  it should "delete by first using Action" in rollbackAction {
+    val orderId1 = OrderId(100)
+    val orderId2 = OrderId(101)
+    val customerId1 = CustomerId(200)
+    val customerId2 = CustomerId(201)
+
+    for {
+      // GIVEN
+      _ <- OrderCustomerRepository.createAction()
+      _ <- OrderCustomerRepository.saveAction(orderId1, customerId1)
+      _ <- OrderCustomerRepository.saveAction(orderId1, customerId2)
+      // WHEN
+      _ <- OrderCustomerRepository.deleteAction(orderId1, customerId1)
+      // THEN
+      all <- OrderCustomerRepository.findAllAction()
+    } yield {
+      all should have size 1
+    }
+  }
+
   it should "delete all items with given first" in rollback { implicit session =>
     createTables
     val orderId = OrderId(100)
@@ -100,6 +214,25 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
     OrderCustomerRepository.deleteForA(orderId)
 
     OrderCustomerRepository.findAll() shouldBe empty
+  }
+
+  it should "delete all items with given first using Action" in rollbackAction {
+    val orderId1 = OrderId(100)
+    val customerId1 = CustomerId(200)
+    val customerId2 = CustomerId(201)
+
+    for {
+      // GIVEN
+      _ <- OrderCustomerRepository.createAction()
+      _ <- OrderCustomerRepository.saveAction(orderId1, customerId1)
+      _ <- OrderCustomerRepository.saveAction(orderId1, customerId2)
+      // WHEN
+      _ <- OrderCustomerRepository.deleteForAAction(orderId1)
+      // THEN
+      all <- OrderCustomerRepository.findAllAction()
+    } yield {
+      all shouldBe empty
+    }
   }
 
   it should "delete all items with given second" in rollback { implicit session =>
@@ -113,6 +246,25 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
     OrderCustomerRepository.findAll() shouldBe empty
   }
 
+  it should "delete all items with given second using Action" in rollbackAction {
+    val orderId1 = OrderId(100)
+    val orderId2 = OrderId(101)
+    val customerId1 = CustomerId(200)
+
+    for {
+      // GIVEN
+      _ <- OrderCustomerRepository.createAction()
+      _ <- OrderCustomerRepository.saveAction(orderId1, customerId1)
+      _ <- OrderCustomerRepository.saveAction(orderId2, customerId1)
+      // WHEN
+      _ <- OrderCustomerRepository.deleteForBAction(customerId1)
+      // THEN
+      all <- OrderCustomerRepository.findAllAction()
+    } yield {
+      all shouldBe empty
+    }
+  }
+
   it should "check that one pair exists" in rollback { implicit session =>
     createTables
     val customerId = CustomerId(200)
@@ -121,6 +273,27 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
     OrderCustomerRepository.exists(OrderId(200), customerId)(session) shouldBe false
     OrderCustomerRepository.exists(OrderId(101), customerId)(session) shouldBe true
+  }
+
+  it should "check that one pair exists using Action" in rollbackAction {
+    val orderId1 = OrderId(100)
+    val orderId2 = OrderId(101)
+    val falseOrderId = OrderId(201)
+    val customerId = CustomerId(200)
+
+    for {
+      // GIVEN
+      _ <- OrderCustomerRepository.createAction()
+      _ <- OrderCustomerRepository.saveAction(orderId1, customerId)
+      _ <- OrderCustomerRepository.saveAction(orderId2, customerId)
+      // WHEN
+      first <- OrderCustomerRepository.existsAction(falseOrderId, customerId)
+      second <- OrderCustomerRepository.existsAction(orderId1, customerId)
+    } yield {
+      // THEN
+      first shouldBe false
+      second shouldBe true
+    }
   }
 
 }

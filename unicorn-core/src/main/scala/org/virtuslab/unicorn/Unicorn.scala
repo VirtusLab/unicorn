@@ -5,6 +5,7 @@ import org.virtuslab.unicorn.repositories.Repositories
 import language.higherKinds
 import slick.driver.JdbcDriver
 
+@deprecated("This should be removed", "0.7.2")
 trait HasJdbcDriver {
   val driver: JdbcDriver
 }
