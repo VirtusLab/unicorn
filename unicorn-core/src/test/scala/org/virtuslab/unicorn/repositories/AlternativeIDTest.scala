@@ -11,7 +11,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object UUIDUnicorn extends UnicornCore[UUID] with HasJdbcDriver {
   override val driver = H2Driver
+}
 
+object UUIDUnicornIdentifiers extends Identifiers[UUID] {
+  override def ordering: Ordering[UUID] = implicitly[Ordering[UUID]]
 }
 
 trait UUIDTestUnicorn {
@@ -25,11 +28,10 @@ trait UUIDTestUnicorn {
 trait UUIDTable extends UUIDTestUnicorn {
 
   import unicorn._
-  import driver.api._
 
-  case class UniqueUserId(id: UUID) extends BaseId
+  case class UniqueUserId(id: UUID) extends BaseId[UUID]
 
-  case class PersonRow(id: Option[UniqueUserId], name: String) extends WithId[UniqueUserId]
+  case class PersonRow(id: Option[UniqueUserId], name: String) extends WithId[UUID, UniqueUserId]
 
   class UniquePersons(tag: Tag) extends IdTable[UniqueUserId, PersonRow](tag, "U_USERS") {
     def name = column[String]("NAME")

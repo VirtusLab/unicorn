@@ -1,13 +1,13 @@
 package org.virtuslab.unicorn
 
-import LongUnicornPlay._
+import LongUnicornPlayIdentifiers._
 import play.api.data.format.Formatter
 import play.api.mvc.{ PathBindable, QueryStringBindable }
 import play.api.libs.json._
 
 class PlayCompanionTest extends BasePlayTest {
 
-  case class UserId(id: Long) extends BaseId
+  case class UserId(id: Long) extends BaseId[Long]
 
   object UserId extends IdCompanion[UserId]
 

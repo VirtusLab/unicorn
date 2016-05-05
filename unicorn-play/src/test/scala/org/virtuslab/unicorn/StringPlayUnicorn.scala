@@ -1,20 +1,37 @@
 package org.virtuslab.unicorn
 
-import play.api.data.format.Formats._
+import com.google.inject.Inject
+import org.virtuslab.unicorn.repositories.IdRepositories
+import slick.backend.DatabaseConfig
+import slick.driver.JdbcProfile
 import slick.lifted.{ ProvenShape, Tag => SlickTag }
+import play.api.data.format.Formats._
 
-object StringPlayUnicorn extends UnicornPlay[String]
+class StringUnicornPlay @Inject() (dbConfig: DatabaseConfig[JdbcProfile]) extends UnicornPlay[String](dbConfig)
 
-import StringPlayUnicorn._
-import StringPlayUnicorn.driver.api._
+object StringUnicornPlayIdentifiers extends PlayIdentifiersImpl[String] {
+  override val ordering: Ordering[String] = implicitly[Ordering[String]]
+  override type IdCompanion[Id <: BaseId[String]] = PlayCompanion[Id]
+}
 
-case class UserId(id: String) extends BaseId
+import StringUnicornPlayIdentifiers._
+
+case class UserId(id: String) extends BaseId[String]
 
 object UserId extends IdCompanion[UserId]
 
-case class UserRow(id: Option[UserId], name: String) extends WithId[UserId]
+case class UserRow(id: Option[UserId], name: String) extends WithId[String, UserId]
 
-class UserTable(tag: SlickTag) extends IdTable[UserId, UserRow](tag, "test") {
-  def name = column[String]("name")
-  override def * : ProvenShape[UserRow] = (id.?, name) <> (UserRow.tupled, UserRow.unapply)
+trait UserQuery {
+  val unicornPlayLike: StringUnicornPlay
+  import unicornPlayLike._
+  import unicornPlayLike.driver.api._
+
+  class UserTable(tag: SlickTag) extends IdTable[UserId, UserRow](tag, "test") {
+    def name = column[String]("name")
+    override def * : ProvenShape[UserRow] = (id.?, name) <> (UserRow.tupled, UserRow.unapply)
+  }
+
+  class UserRepository extends BaseIdRepository[UserId, UserRow, UserTable](TableQuery[UserTable])
 }
+
