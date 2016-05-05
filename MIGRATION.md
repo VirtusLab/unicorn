@@ -1,3 +1,63 @@
+Migration to 1.1.x
+=============================
+Version 1.1.x removes `Play.current` dependency (deprecated in play 2.5). Database configuration is now resolved using DI.
+To fully use DI some major changes in class composition are required. 
+Entity definition can be in separate file, but all classes that depends on Database Driver have to be mixed together.
+
+Changes in Entity ID class definition:
+Old way:
+```
+import LongUnicornPlay._
+case class UserId(id: Long) extends BaseId
+```
+New way (explicit ID type):
+```
+import LongUnicornPlayIdentifiers._
+case class UserId(id: Long) extends BaseId[Long]
+```
+
+Table definition:
+Old way (global import):
+```
+import LongPlayUnicorn._
+import LongPlayUnicorn.driver.api._
+
+class UserTable(tag: SlickTag) extends IdTable[UserId, User](tag, "test") {
+  def name = column[String]("name")
+  override def * : ProvenShape[User] = (id.?, name) <> (User.tupled, User.unapply)
+}
+
+class UserRepository extends BaseIdRepository[UserId, User, UserTable](TableQuery[UserTable])
+
+```
+New way (Mixed Unicorn object):
+```
+trait UserRepositoryComponents {
+  self: UnicornWrapper[Long] =>
+
+  import unicorn._
+  import unicorn.driver.api._
+
+  class UserTable(tag: SlickTag) extends IdTable[UserId, User](tag, "test") {
+    def name = column[String]("name")
+    override def * : ProvenShape[User] = (id.?, name) <> (User.tupled, User.unapply)
+  }
+
+  object UserBaseRepository extends BaseIdRepository[UserId, User, UserTable](TableQuery[UserTable])
+}
+```
+
+To use Guice DI, you can define UserRepository like this:
+```
+@Singleton()
+class UserRepository @Inject() (val unicorn: LongUnicornPlayJDBC)
+  extends UserRepositoryComponents with UnicornWrapper[Long] {
+  import unicorn.driver.api._
+  def save(user: User): DBIO[UserId] = UserBaseRepository.save(user)
+}
+```
+and then inject `UserRepository` wherever you need it. 
+
 Migration to 1.0.x
 =============================
 

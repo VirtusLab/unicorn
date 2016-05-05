@@ -4,7 +4,7 @@ import slick.lifted.Index
 import slick.lifted.ProvenShape
 
 protected[unicorn] trait Tables[Underlying] extends TypeMappers {
-  self: HasJdbcDriver with Identifiers[Underlying] =>
+  self: HasJdbcDriver =>
 
   import driver.api._
 
@@ -17,7 +17,7 @@ protected[unicorn] trait Tables[Underlying] extends TypeMappers {
    * @tparam Id type of id
    * @tparam Entity type of entities in table
    */
-  abstract class IdTable[Id <: BaseId, Entity <: WithId[Id]](tag: Tag, schemaName: Option[String], tableName: String)(implicit val mapping: BaseColumnType[Id])
+  abstract class IdTable[Id <: BaseId[Underlying], Entity <: WithId[Underlying, Id]](tag: Tag, schemaName: Option[String], tableName: String)(implicit val mapping: BaseColumnType[Id])
       extends BaseTable[Entity](tag, schemaName, tableName) {
 
     /**

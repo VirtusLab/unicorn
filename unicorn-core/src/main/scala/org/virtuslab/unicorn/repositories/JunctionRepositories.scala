@@ -5,7 +5,7 @@ import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
 import scala.concurrent.ExecutionContext
 
 protected[unicorn] trait JunctionRepositories[Underlying] {
-  self: HasJdbcDriver with Tables[Underlying] with Identifiers[Underlying] with Repositories[Underlying] =>
+  self: HasJdbcDriver with Tables[Underlying] with Repositories[Underlying] =>
 
   import driver.api.{ Table => _, _ }
 

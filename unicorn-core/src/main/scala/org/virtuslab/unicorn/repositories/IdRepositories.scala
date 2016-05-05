@@ -2,23 +2,22 @@ package org.virtuslab.unicorn.repositories
 
 import java.sql.SQLException
 
-import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
+import org.virtuslab.unicorn._
 
 import scala.concurrent.ExecutionContext
 
 protected[unicorn] trait IdRepositories[Underlying] {
-  self: HasJdbcDriver with Identifiers[Underlying] with Tables[Underlying] with Repositories[Underlying] =>
+  self: HasJdbcDriver with Tables[Underlying] with Repositories[Underlying] =>
 
   import driver.api.{ Table => _, _ }
-
   /**
-   * Base class for all queries with an [[org.virtuslab.unicorn.Identifiers.BaseId]].
+   * Base class for all queries with an [[org.virtuslab.unicorn.BaseId]].
    *
    * @tparam Id type of id
    * @tparam Entity type of elements that are queried
    * @tparam Table type of table
    */
-  protected trait BaseIdQueries[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]] {
+  protected trait BaseIdQueries[Id <: BaseId[Underlying], Entity <: WithId[Underlying, Id], Table <: IdTable[Id, Entity]] {
 
     /** @return query to operate on */
     protected def query: TableQuery[Table]
@@ -39,14 +38,14 @@ protected[unicorn] trait IdRepositories[Underlying] {
   }
 
   /**
-   * Base trait for repositories where we use [[org.virtuslab.unicorn.Identifiers.BaseId]]s.
+   * Base trait for repositories where we use [[org.virtuslab.unicorn.BaseId]]s.
    *
    * @tparam Id type of id
    * @tparam Entity type of entity
    * @tparam Table type of table
    */
   // format: OFF
-  class BaseIdRepository[Id <: BaseId, Entity <: WithId[Id], Table <: IdTable[Id, Entity]](protected val query: TableQuery[Table])
+  class BaseIdRepository[Id <: BaseId[Underlying], Entity <: WithId[Underlying, Id], Table <: IdTable[Id, Entity]](protected val query: TableQuery[Table])
                                                                                           (implicit val mapping: BaseColumnType[Id])
     extends CommonRepositoryMethods[Entity, Table](query)
     with BaseIdQueries[Id, Entity, Table] {

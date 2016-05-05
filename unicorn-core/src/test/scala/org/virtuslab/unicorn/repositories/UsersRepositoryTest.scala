@@ -2,25 +2,26 @@ package org.virtuslab.unicorn.repositories
 
 import org.scalatest.{ FlatSpecLike, Matchers, OptionValues }
 import org.virtuslab.unicorn.{ BaseTest, _ }
-import slick.dbio.DBIO
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
 trait AbstractUserTable {
 
   val unicorn: Unicorn[Long] with HasJdbcDriver
+  val identifiers: Identifiers[Long]
 
   import unicorn._
   import unicorn.driver.api._
+  import identifiers._
 
-  case class UserId(id: Long) extends BaseId
+  case class UserId(id: Long) extends BaseId[Long]
 
   object UserId extends CoreCompanion[UserId]
 
   case class UserRow(id: Option[UserId],
     email: String,
     firstName: String,
-    lastName: String) extends WithId[UserId]
+    lastName: String) extends WithId[Long, UserId]
 
   class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
 
@@ -266,4 +267,5 @@ trait UsersRepositoryTest extends OptionValues {
 
 class CoreUserRepositoryTest extends BaseTest[Long] with UsersRepositoryTest with AbstractUserTable {
   override lazy val unicorn = TestUnicorn
+  override val identifiers: Identifiers[Long] = LongUnicornIdentifiers
 }

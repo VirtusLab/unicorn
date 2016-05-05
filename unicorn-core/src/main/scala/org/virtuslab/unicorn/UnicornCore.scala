@@ -5,8 +5,6 @@ package org.virtuslab.unicorn
  */
 trait UnicornCoreLike[Underlying] extends Unicorn[Underlying] {
   self: HasJdbcDriver =>
-
-  override type IdCompanion[Id <: BaseId] = CoreCompanion[Id]
 }
 
 abstract class UnicornCore[Underlying](implicit val ordering: Ordering[Underlying])
