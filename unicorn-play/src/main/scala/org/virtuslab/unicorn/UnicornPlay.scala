@@ -5,7 +5,7 @@ import play.api.data.format.Formats._
 import play.api.data.format.Formatter
 import play.api.db.Database
 import play.api.libs.json.Format
-import play.api.mvc.{PathBindable, QueryStringBindable}
+import play.api.mvc.{ PathBindable, QueryStringBindable }
 import slick.backend.DatabaseConfig
 import slick.driver.JdbcProfile
 
