@@ -14,8 +14,6 @@ object Settings {
   val core = Seq(
     organization := "org.virtuslab",
     scalaVersion := "2.11.7",
-    crossScalaVersions := Seq(scalaVersion.value),
-    releaseCrossBuild := true,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
       pomExtra := <url>https://github.com/VirtusLab/unicorn</url>
       <licenses>
