@@ -1,7 +1,8 @@
 package org.virtuslab.unicorn.repositories
 
+import org.virtuslab.unicorn.LongUnicornIdentifiers.IdCompanion
 import org.virtuslab.unicorn.TestUnicorn.driver.api._
-import org.virtuslab.unicorn.{ BaseTest, LongTestUnicorn }
+import org.virtuslab.unicorn.{ BaseId, BaseTest, LongTestUnicorn }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -11,11 +12,11 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
   behavior of classOf[JunctionRepository[_, _, _]].getSimpleName
 
-  case class OrderId(id: Long) extends BaseId
+  case class OrderId(id: Long) extends BaseId[Long]
 
   object OrderId extends IdCompanion[OrderId]
 
-  case class CustomerId(id: Long) extends BaseId
+  case class CustomerId(id: Long) extends BaseId[Long]
 
   object CustomerId extends IdCompanion[CustomerId]
 

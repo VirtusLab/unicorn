@@ -1,7 +1,6 @@
 import com.typesafe.sbt.SbtScalariform
 import com.typesafe.sbt.pgp.PgpKeys
-import sbtrelease.ReleasePlugin
-import sbtrelease.ReleasePlugin.ReleaseKeys
+import sbtrelease.ReleasePlugin.autoImport._
 import scoverage.ScoverageSbtPlugin._
 import sbt.Keys._
 import sbt._
@@ -14,10 +13,8 @@ object Settings {
   // settings for ALL modules, including parent
   val core = Seq(
     organization := "org.virtuslab",
-    scalaVersion := "2.11.6",
-    crossScalaVersions := Seq("2.10.4", scalaVersion.value),
-    ReleaseKeys.crossBuild := true,
-    ReleaseKeys.publishArtifactsAction := PgpKeys.publishSigned.value,
+    scalaVersion := "2.11.7",
+    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
       pomExtra := <url>https://github.com/VirtusLab/unicorn</url>
       <licenses>
         <license>
@@ -43,8 +40,7 @@ object Settings {
         </developer>
       </developers>
   ) ++
-    Sonatype.sonatypeSettings ++
-    ReleasePlugin.releaseSettings
+    Sonatype.sonatypeSettings
 
   // common settings for play and core modules
   val common = core ++ Seq(
