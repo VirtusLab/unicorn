@@ -6,16 +6,16 @@ import play.api.mvc.{ PathBindable, QueryStringBindable }
 
 import play.api.libs.json._
 
-protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underlying] {
-  self: UnicornPlayLike[Underlying] =>
+protected[unicorn] trait PlayIdentifiers[Underlying] {
+  self: PlayIdentifiersImpl[Underlying] with Identifiers[Underlying] =>
 
-  abstract class PlayCompanion[Id <: BaseId]
+  abstract class PlayCompanion[Id <: BaseId[Underlying]]
     extends CoreCompanion[Id]
     with Applicable[Id]
     with PlayImplicits[Id]
 
   /** Marker trait */
-  protected[unicorn] trait Applicable[Id <: BaseId] extends Any {
+  protected[unicorn] trait Applicable[Id <: BaseId[Underlying]] extends Any {
 
     /**
      * Factory method for I instance creation.
@@ -30,7 +30,7 @@ protected[unicorn] trait PlayIdentifiers[Underlying] extends Identifiers[Underly
    *
    * @tparam Id type of Id
    */
-  protected[unicorn] trait PlayImplicits[Id <: BaseId] {
+  protected[unicorn] trait PlayImplicits[Id <: BaseId[Underlying]] {
     self: Applicable[Id] =>
 
     /** Type mapper for route files. */
