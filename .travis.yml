@@ -5,5 +5,5 @@ jdk:
   - oraclejdk8
 
 sbt_args: -no-colors
-script: sbt ++$TRAVIS_SCALA_VERSION scalastyle clean coverage test unidoc
+script: sbt scalastyle clean coverage test unidoc "project unicorn-core" +test
 after_success: sbt coveralls

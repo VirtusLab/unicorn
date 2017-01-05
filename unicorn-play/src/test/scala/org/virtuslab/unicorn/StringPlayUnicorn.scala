@@ -1,8 +1,8 @@
 package org.virtuslab.unicorn
 
 import com.google.inject.{ Inject, Singleton }
-import slick.backend.DatabaseConfig
-import slick.driver.JdbcProfile
+import org.virtuslab.unicorn.SlickExports.JdbcProfile
+import org.virtuslab.unicorn.SlickExports.DatabaseConfig
 import slick.lifted.{ ProvenShape, Tag => SlickTag }
 import play.api.data.format.Formats._
 

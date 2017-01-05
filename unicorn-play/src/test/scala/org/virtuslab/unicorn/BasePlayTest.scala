@@ -36,7 +36,7 @@ trait BasePlayTest
 
   import unicorn.driver.api._
 
-  override protected def beforeEach(data: TestData): Unit = {
+  override protected def beforeEach(): Unit = {
     DB.run(sqlu"""DROP ALL OBJECTS""")
     super.beforeEach()
   }
