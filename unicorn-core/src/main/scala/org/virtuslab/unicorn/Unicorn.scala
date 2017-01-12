@@ -1,7 +1,7 @@
 package org.virtuslab.unicorn
 
 import org.virtuslab.unicorn.repositories.Repositories
-import slick.driver.JdbcProfile
+import org.virtuslab.unicorn.SlickExports.JdbcProfile
 
 import scala.language.higherKinds
 

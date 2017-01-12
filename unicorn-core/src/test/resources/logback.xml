@@ -5,6 +5,12 @@
         </encoder>
     </appender>
 
+
+    <logger name="slick.backend" level="INFO" />
+    <logger name="slick.jdbc.JdbcBackend.benchmark" level="DEBUG" />
+    <logger name="slick.jdbc.JdbcBackend.statement" level="DEBUG" />
+    <logger name="slick.jdbc.StatementInvoker.result" level="DEBUG" />
+    <logger name="slick.jdbc.JdbcBackend.parameter" level="DEBUG" />
     <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
