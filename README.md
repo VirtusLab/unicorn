@@ -26,6 +26,7 @@ Contributors
 * [Matt Gilbert](https://github.com/mgilbertnz)
 * [Paweł Batko](https://github.com/pbatko)
 * [Krzysztof Borowski](https://github.com/liosedhel)
+* [Paweł Dolega](https://github.com/pdolega)
 
 Feel free to use it, test it and to contribute! For some helpful tips'n'tricks, see [contribution guide](CONTRIBUTING.md).
 
