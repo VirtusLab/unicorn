@@ -1,6 +1,6 @@
 package org.virtuslab.unicorn
 
-import slick.driver.H2Driver
+import slick.jdbc.H2Profile
 
 object LongUnicornIdentifiers extends Identifiers[Long] {
   override def ordering: Ordering[Long] = implicitly[Ordering[Long]]
@@ -10,7 +10,7 @@ object LongUnicornIdentifiers extends Identifiers[Long] {
 
 object TestUnicorn
     extends LongUnicornCore
-    with HasJdbcDriver {
+    with HasJdbcProfile {
 
-  override lazy val driver = H2Driver
+  override lazy val profile = H2Profile
 }

@@ -1,13 +1,13 @@
 package org.virtuslab.unicorn
 
 import org.virtuslab.unicorn.repositories.Repositories
-import org.virtuslab.unicorn.SlickExports.JdbcProfile
+import slick.jdbc.JdbcProfile
 
 import scala.language.higherKinds
 
-trait HasJdbcDriver {
+trait HasJdbcProfile {
 
-  val driver: JdbcProfile
+  val profile: JdbcProfile
 
 }
 
@@ -17,5 +17,5 @@ trait HasJdbcDriver {
 trait Unicorn[Underlying]
     extends Tables[Underlying]
     with Repositories[Underlying] {
-  self: HasJdbcDriver =>
+  self: HasJdbcProfile =>
 }

@@ -4,7 +4,7 @@ import org.joda.time.{ DateTime, Duration, LocalDate }
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.time.{ Seconds, Span }
-import org.virtuslab.unicorn.TestUnicorn.driver.api._
+import org.virtuslab.unicorn.TestUnicorn.profile.api._
 import org.virtuslab.unicorn.{ BaseTest, LongTestUnicorn }
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -15,9 +15,11 @@ class TypeMapperTest extends BaseTest[Long] with LongTestUnicorn {
 
   behavior of classOf[CustomTypeMappers].getSimpleName
 
-  case class JodaRow(dateTime: DateTime,
+  case class JodaRow(
+    dateTime: DateTime,
     duration: Duration,
-    localDate: LocalDate)
+    localDate: LocalDate
+  )
 
   class Joda(tag: Tag) extends BaseTable[JodaRow](tag, "JODA") {
 

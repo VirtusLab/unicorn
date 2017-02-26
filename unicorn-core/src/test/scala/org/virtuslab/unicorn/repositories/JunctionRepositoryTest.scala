@@ -1,7 +1,7 @@
 package org.virtuslab.unicorn.repositories
 
 import org.virtuslab.unicorn.LongUnicornIdentifiers.IdCompanion
-import org.virtuslab.unicorn.TestUnicorn.driver.api._
+import org.virtuslab.unicorn.TestUnicorn.profile.api._
 import org.virtuslab.unicorn.{ BaseId, BaseTest, LongTestUnicorn }
 
 import scala.concurrent.ExecutionContext.Implicits.global

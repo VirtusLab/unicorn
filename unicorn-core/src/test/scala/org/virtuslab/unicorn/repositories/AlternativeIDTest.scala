@@ -3,14 +3,14 @@ package org.virtuslab.unicorn.repositories
 import java.util.UUID
 
 import org.scalatest.{ FlatSpecLike, Matchers }
-import org.virtuslab.unicorn.TestUnicorn.driver.api._
+import org.virtuslab.unicorn.TestUnicorn.profile.api._
 import org.virtuslab.unicorn._
-import slick.driver.H2Driver
+import slick.jdbc.H2Profile
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-object UUIDUnicorn extends UnicornCore[UUID] with HasJdbcDriver {
-  override val driver = H2Driver
+object UUIDUnicorn extends UnicornCore[UUID] with HasJdbcProfile {
+  override val profile = H2Profile
 }
 
 object UUIDUnicornIdentifiers extends Identifiers[UUID] {
@@ -18,7 +18,7 @@ object UUIDUnicornIdentifiers extends Identifiers[UUID] {
 }
 
 trait UUIDTestUnicorn {
-  val unicorn: Unicorn[UUID] with HasJdbcDriver = UUIDUnicorn
+  val unicorn: Unicorn[UUID] with HasJdbcProfile = UUIDUnicorn
 }
 
 /**
