@@ -1,13 +1,14 @@
 package org.virtuslab.unicorn
 
-import com.google.inject.{ Inject, Singleton }
+import javax.inject.{ Inject, Singleton }
+
 import play.api.data.format.Formats._
 import play.api.data.format.Formatter
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.json.Format
 import play.api.mvc.{ PathBindable, QueryStringBindable }
-import slick.backend.DatabaseConfig
-import slick.driver.JdbcProfile
+import slick.basic.DatabaseConfig
+import slick.jdbc.{ JdbcBackend, JdbcProfile }
 
 trait UnicornWrapper[Underlying] {
   protected val unicorn: UnicornPlay[Underlying]
@@ -15,17 +16,18 @@ trait UnicornWrapper[Underlying] {
 
 abstract class UnicornPlayLike[Underlying](dbConfig: DatabaseConfig[JdbcProfile])
     extends Unicorn[Underlying]
-    with HasJdbcDriver {
+    with HasJdbcProfile {
 
-  val driver = dbConfig.driver
+  val profile: JdbcProfile = dbConfig.profile
 
-  val db = dbConfig.db
+  val db: JdbcBackend#DatabaseDef = dbConfig.db
 }
 
 abstract class UnicornPlay[Underlying](dbConfig: DatabaseConfig[JdbcProfile])
   extends UnicornPlayLike[Underlying](dbConfig)
 
-abstract class PlayIdentifiersImpl[Underlying](implicit val underlyingFormatter: Formatter[Underlying],
+abstract class PlayIdentifiersImpl[Underlying](implicit
+  val underlyingFormatter: Formatter[Underlying],
   val underlyingFormat: Format[Underlying],
   val underlyingQueryStringBinder: QueryStringBindable[Underlying],
   val underlyingPathBinder: PathBindable[Underlying],

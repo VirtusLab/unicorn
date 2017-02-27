@@ -1,7 +1,7 @@
 package org.virtuslab.unicorn.repositories
 
 import org.virtuslab.unicorn.TestUnicorn._
-import org.virtuslab.unicorn.TestUnicorn.driver.api._
+import org.virtuslab.unicorn.TestUnicorn.profile.api._
 import org.virtuslab.unicorn.{ BaseTest, LongTestUnicorn }
 import slick.dbio.Effect.Read
 

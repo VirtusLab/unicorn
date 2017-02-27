@@ -1,13 +1,13 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.{ HasJdbcDriver, Identifiers, Tables }
+import org.virtuslab.unicorn.{ HasJdbcProfile, Identifiers, Tables }
 
 import scala.concurrent.ExecutionContext
 
 protected[unicorn] trait JunctionRepositories[Underlying] {
-  self: HasJdbcDriver with Tables[Underlying] with Repositories[Underlying] =>
+  self: HasJdbcProfile with Tables[Underlying] with Repositories[Underlying] =>
 
-  import driver.api.{ Table => _, _ }
+  import profile.api.{ Table => _, _ }
 
   /**
    * Repository with basic methods for junction tables.

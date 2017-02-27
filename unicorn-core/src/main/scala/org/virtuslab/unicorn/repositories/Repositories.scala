@@ -1,15 +1,15 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.{ HasJdbcDriver, Tables }
+import org.virtuslab.unicorn.{ HasJdbcProfile, Tables }
 
 import scala.concurrent.ExecutionContext
 
 protected[unicorn] trait Repositories[Underlying]
     extends JunctionRepositories[Underlying]
     with IdRepositories[Underlying] {
-  self: HasJdbcDriver with Tables[Underlying] =>
+  self: HasJdbcProfile with Tables[Underlying] =>
 
-  import driver.api._
+  import profile.api._
 
   /**
    * Implementation detail - common methods for all repositories.

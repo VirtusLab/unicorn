@@ -3,7 +3,7 @@ package org.virtuslab.unicorn
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.time.{ Millis, Seconds, Span }
-import org.virtuslab.unicorn.TestUnicorn.driver.api._
+import org.virtuslab.unicorn.TestUnicorn.profile.api._
 import slick.dbio.{ DBIOAction }
 
 import scala.concurrent.Await
@@ -15,13 +15,13 @@ trait LongTestUnicorn {
 
 trait BaseTest[Underlying] extends FlatSpecLike with Matchers with BeforeAndAfterEach with ScalaFutures {
 
-  val unicorn: Unicorn[Underlying] with HasJdbcDriver
+  val unicorn: Unicorn[Underlying] with HasJdbcProfile
 
   val dbURL = "jdbc:h2:mem:unicorn"
 
   val dbDriver = "org.h2.Driver"
 
-  lazy val DB = unicorn.driver.backend.Database.forURL(dbURL, driver = dbDriver)
+  lazy val DB = unicorn.profile.backend.Database.forURL(dbURL, driver = dbDriver)
 
   implicit val defaultPatience =
     PatienceConfig(timeout = Span(5, Seconds), interval = Span(500, Millis))

@@ -7,9 +7,9 @@ import org.virtuslab.unicorn._
 import scala.concurrent.ExecutionContext
 
 protected[unicorn] trait IdRepositories[Underlying] {
-  self: HasJdbcDriver with Tables[Underlying] with Repositories[Underlying] =>
+  self: HasJdbcProfile with Tables[Underlying] with Repositories[Underlying] =>
 
-  import driver.api.{ Table => _, _ }
+  import profile.api.{ Table => _, _ }
   /**
    * Base class for all queries with an [[org.virtuslab.unicorn.BaseId]].
    *
