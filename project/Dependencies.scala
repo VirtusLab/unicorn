@@ -17,11 +17,11 @@ object Dependencies {
   def core(scalaVersion: String) = mainCore(scalaVersion) ++ testCore
 
   val mainPlay = Seq(
-    "com.typesafe.play" %% "play-slick" % "3.0.0-M2"
+    "com.typesafe.play" %% "play-slick" % "2.1.0"
   )
 
   val testPlay = Seq(
-    "com.typesafe.play" %% "play-test" % "2.6.0-M1" % "test"
+    "com.typesafe.play" %% "play-test" % "2.5.14" % "test"
   )
 
   val play = mainPlay ++ testPlay
