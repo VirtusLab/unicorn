@@ -47,6 +47,8 @@ libraryDependencies += "org.virtuslab" %% "unicorn-play" % "1.1.0"
 
 Or see [our Maven repository](http://maven-repository.com/artifact/org.virtuslab/).
 
+For Slick 3.2.x and play 2.5 see version [`1.2.x`](https://github.com/VirtusLab/unicorn/tree/v1.2.x-slick-3.2.x)
+
 For Slick 3.1.x and play 2.5 see version [`1.1.x`](https://github.com/VirtusLab/unicorn/tree/v1.1.x-slick-3.1.x)
 
 For Slick 3.1.x and play 2.4 see version [`1.0.x`](https://github.com/VirtusLab/unicorn/tree/v1.0.x-slick-3.1.x)
