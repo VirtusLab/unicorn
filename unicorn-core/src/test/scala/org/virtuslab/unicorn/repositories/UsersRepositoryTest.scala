@@ -14,6 +14,8 @@ trait AbstractUserTable {
   import unicorn.profile.api._
   import identifiers._
 
+  private def tableName = getClass.getSimpleName + "_USERS"
+
   case class UserId(id: Long) extends BaseId[Long]
 
   object UserId extends CoreCompanion[UserId]
@@ -25,7 +27,7 @@ trait AbstractUserTable {
     lastName: String
   ) extends WithId[Long, UserId]
 
-  class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
+  class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, tableName) {
 
     def email = column[String]("EMAIL")
 
