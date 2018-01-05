@@ -1,5 +1,6 @@
 package org.virtuslab.unicorn
 
+import org.virtuslab.unicorn.dsl.UnicornDSL
 import org.virtuslab.unicorn.repositories.Repositories
 import slick.jdbc.JdbcProfile
 
@@ -16,6 +17,7 @@ trait HasJdbcProfile {
  */
 trait Unicorn[Underlying]
     extends Tables[Underlying]
-    with Repositories[Underlying] {
+    with Repositories[Underlying]
+    with UnicornDSL[Underlying] {
   self: HasJdbcProfile =>
 }
