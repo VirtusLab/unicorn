@@ -22,8 +22,7 @@ trait AbstractUserTable {
     id: Option[UserId],
     email: String,
     firstName: String,
-    lastName: String
-  ) extends WithId[Long, UserId]
+    lastName: String) extends WithId[Long, UserId]
 
   class Users(tag: Tag) extends IdTable[UserId, UserRow](tag, "USERS") {
 
@@ -60,8 +59,7 @@ trait UsersRepositoryTest extends OptionValues {
       userOpt.value should have(
         'email(user.email),
         'firstName(user.firstName),
-        'lastName(user.lastName)
-      )
+        'lastName(user.lastName))
       userOpt.value.id shouldBe defined
     }
   }
@@ -96,8 +94,7 @@ trait UsersRepositoryTest extends OptionValues {
       user2 should have(
         'email(blankUser.email),
         'firstName(blankUser.firstName),
-        'lastName(blankUser.lastName)
-      )
+        'lastName(blankUser.lastName))
       user2.id shouldBe defined
     }
   }
@@ -119,8 +116,7 @@ trait UsersRepositoryTest extends OptionValues {
           'email("test@email.com"),
           'firstName("Jerzy"),
           'lastName("Muller"),
-          'id(Some(userId))
-        )
+          'id(Some(userId)))
     }
   }
 
@@ -128,8 +124,7 @@ trait UsersRepositoryTest extends OptionValues {
     val users = Seq(
       UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
       UserRow(None, "test2@email.com", "Janek", "Nowak"),
-      UserRow(None, "test3@email.com", "Marcin", "Nowak")
-    )
+      UserRow(None, "test3@email.com", "Marcin", "Nowak"))
 
     val actions = for {
       _ <- UsersRepository.create
@@ -147,8 +142,7 @@ trait UsersRepositoryTest extends OptionValues {
     val users = Seq(
       UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
       UserRow(None, "test2@email.com", "Janek", "Nowak"),
-      UserRow(None, "test3@email.com", "Marcin", "Nowak")
-    )
+      UserRow(None, "test3@email.com", "Marcin", "Nowak"))
 
     val actions = for {
       _ <- UsersRepository.create
@@ -167,8 +161,7 @@ trait UsersRepositoryTest extends OptionValues {
     val users = Seq(
       UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
       UserRow(None, "test2@email.com", "Janek", "Nowak"),
-      UserRow(None, "test3@email.com", "Marcin", "Nowak")
-    )
+      UserRow(None, "test3@email.com", "Marcin", "Nowak"))
 
     val actions = for {
       _ <- UsersRepository.create
@@ -205,8 +198,7 @@ trait UsersRepositoryTest extends OptionValues {
       copiedUser should have(
         'email(user.email),
         'firstName(user.firstName),
-        'lastName(user.lastName)
-      )
+        'lastName(user.lastName))
     }
   }
 
@@ -214,8 +206,7 @@ trait UsersRepositoryTest extends OptionValues {
     val users = Seq(
       UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
       UserRow(None, "test2@email.com", "Janek", "Nowak"),
-      UserRow(None, "test3@email.com", "Marcin", "Nowak")
-    )
+      UserRow(None, "test3@email.com", "Marcin", "Nowak"))
 
     val actions = for {
       _ <- UsersRepository.create
@@ -239,8 +230,7 @@ trait UsersRepositoryTest extends OptionValues {
     val users = Seq(
       UserRow(None, "test1@email.com", "Krzysztof", "Nowak"),
       UserRow(None, "test2@email.com", "Janek", "Nowak"),
-      UserRow(None, "test3@email.com", "Marcin", "Nowak")
-    )
+      UserRow(None, "test3@email.com", "Marcin", "Nowak"))
 
     val actions = for {
       _ <- UsersRepository.create

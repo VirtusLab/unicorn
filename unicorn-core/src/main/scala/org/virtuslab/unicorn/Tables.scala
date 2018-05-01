@@ -18,7 +18,7 @@ protected[unicorn] trait Tables[Underlying] extends TypeMappers {
    * @tparam Entity type of entities in table
    */
   abstract class IdTable[Id <: BaseId[Underlying], Entity <: WithId[Underlying, Id]](tag: Tag, schemaName: Option[String], tableName: String)(implicit val mapping: BaseColumnType[Id])
-      extends BaseTable[Entity](tag, schemaName, tableName) {
+    extends BaseTable[Entity](tag, schemaName, tableName) {
 
     /**
      * Auxiliary constructor without schema name.
@@ -49,8 +49,8 @@ protected[unicorn] trait Tables[Underlying] extends TypeMappers {
    * @tparam Entity type of entities in table
    */
   abstract class BaseTable[Entity](tag: Tag, schemaName: Option[String], tableName: String)
-      extends Table[Entity](tag, schemaName, tableName)
-      with CustomTypeMappers {
+    extends Table[Entity](tag, schemaName, tableName)
+    with CustomTypeMappers {
 
     /**
      * Auxiliary constructor without schema name.
@@ -68,7 +68,7 @@ protected[unicorn] trait Tables[Underlying] extends TypeMappers {
    * @tparam Second type of other entity
    */
   abstract class JunctionTable[First: BaseColumnType, Second: BaseColumnType](tag: Tag, schemaName: Option[String], tableName: String)
-      extends Table[(First, Second)](tag, schemaName, tableName) {
+    extends Table[(First, Second)](tag, schemaName, tableName) {
 
     /**
      * Auxiliary constructor without schema name.

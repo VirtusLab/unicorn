@@ -15,8 +15,8 @@ trait UnicornWrapper[Underlying] {
 }
 
 abstract class UnicornPlayLike[Underlying](dbConfig: DatabaseConfig[JdbcProfile])
-    extends Unicorn[Underlying]
-    with HasJdbcProfile {
+  extends Unicorn[Underlying]
+  with HasJdbcProfile {
 
   val profile: JdbcProfile = dbConfig.profile
 

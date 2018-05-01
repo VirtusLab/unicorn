@@ -18,8 +18,7 @@ class TypeMapperTest extends BaseTest[Long] with LongTestUnicorn {
   case class JodaRow(
     dateTime: DateTime,
     duration: Duration,
-    localDate: LocalDate
-  )
+    localDate: LocalDate)
 
   class Joda(tag: Tag) extends BaseTable[JodaRow](tag, "JODA") {
 
