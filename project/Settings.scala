@@ -18,6 +18,7 @@ object Settings {
 
     parallelExecution in Test := false,
     testOptions in Test += Tests.Argument("-oDF"),
+    autoAPIMappings := true,
 
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
       pomExtra := <url>https://github.com/VirtusLab/unicorn</url>
@@ -54,12 +55,16 @@ object Settings {
   )
 
   val play = common ++ Seq(
-    scalaVersion := scala_2_11
+    scalaVersion := scala_2_11,
+    crossScalaVersions := Seq(scala_2_11, scala_2_12),
+    releaseCrossBuild := true
   )
 
   // common settings for play and core modules
   val parent = common ++ Seq(
     scalaVersion := scala_2_11,
+    crossScalaVersions := Seq(scala_2_11, scala_2_12),
+    releaseCrossBuild := true,
     resolvers += Resolver.typesafeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("snapshots"),
@@ -72,5 +77,5 @@ object Settings {
     ),
     updateOptions := updateOptions.value.withCachedResolution(true),
     scoverage.ScoverageKeys.coverageFailOnMinimum := true
-  ) ++ SbtScalariform.scalariformSettings
+  )
 }
