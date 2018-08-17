@@ -7,8 +7,8 @@ import xerial.sbt.Sonatype
 
 object Settings {
 
-  val scala_2_11 = "2.11.8"
-  val scala_2_12 = "2.12.1"
+  val scala_2_11 = "2.11.12"
+  val scala_2_12 = "2.12.6"
 
   val alsoOnTest = "compile->compile;test->test"
 
