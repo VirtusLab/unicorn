@@ -46,8 +46,7 @@ class PlayCompanionTest extends BasePlayTest {
 
     implicit val reads: Reads[User] = (
       (JsPath \ "id").read[UserId] and
-      (JsPath \ "name").read[String]
-    )(User.apply _)
+      (JsPath \ "name").read[String])(User.apply _)
 
     jsonUser.validate[User].get shouldEqual user
 
@@ -55,8 +54,7 @@ class PlayCompanionTest extends BasePlayTest {
 
     implicit val writes: Writes[User] = (
       (JsPath \ "id").write[UserId] and
-      (JsPath \ "name").write[String]
-    )(unlift(User.unapply))
+      (JsPath \ "name").write[String])(unlift(User.unapply))
 
     Json.toJson(user) shouldEqual jsonUser
   }
@@ -71,9 +69,7 @@ class PlayCompanionTest extends BasePlayTest {
     val userForm = Form(
       mapping(
         "id" -> Forms.of[UserId],
-        "name" -> text
-      )(User.apply)(User.unapply)
-    )
+        "name" -> text)(User.apply)(User.unapply))
 
     // Reads
     userForm.bind(userMap).get shouldEqual user

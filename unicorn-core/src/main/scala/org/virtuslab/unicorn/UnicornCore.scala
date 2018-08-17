@@ -8,7 +8,7 @@ trait UnicornCoreLike[Underlying] extends Unicorn[Underlying] {
 }
 
 abstract class UnicornCore[Underlying](implicit val ordering: Ordering[Underlying])
-    extends UnicornCoreLike[Underlying] {
+  extends UnicornCoreLike[Underlying] {
   self: HasJdbcProfile =>
 }
 

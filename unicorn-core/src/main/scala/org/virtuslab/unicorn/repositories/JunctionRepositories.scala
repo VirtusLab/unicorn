@@ -15,7 +15,7 @@ protected[unicorn] trait JunctionRepositories[Underlying] {
    * @tparam Second type of other entity
    */
   class JunctionRepository[First: BaseColumnType, Second: BaseColumnType, Table <: JunctionTable[First, Second]](val query: TableQuery[Table])
-      extends CommonRepositoryMethods[(First, Second), Table](query) {
+    extends CommonRepositoryMethods[(First, Second), Table](query) {
 
     protected def findOneQueryFun(first: Rep[First], second: Rep[Second]) =
       query.filter(row => row.columns._1 === first && row.columns._2 === second)

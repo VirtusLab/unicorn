@@ -7,20 +7,19 @@ import play.api.inject.guice.GuiceApplicationBuilder
 import slick.jdbc.JdbcProfile
 
 trait BasePlayTest
-    extends FlatSpecLike
-    with OptionValues
-    with Matchers
-    with BeforeAndAfterEach
-    with BaseTest[Long]
-    with BeforeAndAfterAll {
+  extends FlatSpecLike
+  with OptionValues
+  with Matchers
+  with BeforeAndAfterEach
+  with BaseTest[Long]
+  with BeforeAndAfterAll {
 
   private val testDb: Map[String, Any] = Map(
     "slick.dbs.default.profile" -> "slick.jdbc.H2Profile$",
     "slick.dbs.default.db.driver" -> "org.h2.Driver",
     "slick.dbs.default.db.url" -> "jdbc:h2:mem:play",
     "slick.dbs.default.db.user" -> "sa",
-    "slick.dbs.default.db.password" -> ""
-  )
+    "slick.dbs.default.db.password" -> "")
 
   implicit val app = {
     val fake = new GuiceApplicationBuilder()

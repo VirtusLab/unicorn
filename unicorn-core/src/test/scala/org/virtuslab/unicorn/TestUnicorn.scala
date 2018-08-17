@@ -9,8 +9,8 @@ object LongUnicornIdentifiers extends Identifiers[Long] {
 }
 
 object TestUnicorn
-    extends LongUnicornCore
-    with HasJdbcProfile {
+  extends LongUnicornCore
+  with HasJdbcProfile {
 
   override lazy val profile = H2Profile
 }

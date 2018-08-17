@@ -5,8 +5,8 @@ import org.virtuslab.unicorn.{ HasJdbcProfile, Tables }
 import scala.concurrent.ExecutionContext
 
 protected[unicorn] trait Repositories[Underlying]
-    extends JunctionRepositories[Underlying]
-    with IdRepositories[Underlying] {
+  extends JunctionRepositories[Underlying]
+  with IdRepositories[Underlying] {
   self: HasJdbcProfile with Tables[Underlying] =>
 
   import profile.api._
@@ -48,7 +48,7 @@ protected[unicorn] trait Repositories[Underlying]
    * @param query base table query
    */
   abstract class BaseRepository[Entity, T <: Table[Entity]](val query: TableQuery[T])
-      extends CommonRepositoryMethods[Entity, T](query) {
+    extends CommonRepositoryMethods[Entity, T](query) {
 
     /**
      * Saves one element. Warning - if element already exist, it's not updated.
