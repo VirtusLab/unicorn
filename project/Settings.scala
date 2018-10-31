@@ -49,20 +49,20 @@ object Settings {
     Sonatype.sonatypeSettings
 
   val core = common ++ Seq(
-    scalaVersion := scala_2_11,
+    scalaVersion := scala_2_12,
     crossScalaVersions := Seq(scala_2_11, scala_2_12),
     releaseCrossBuild := true
   )
 
   val play = common ++ Seq(
-    scalaVersion := scala_2_11,
+    scalaVersion := scala_2_12,
     crossScalaVersions := Seq(scala_2_11, scala_2_12),
     releaseCrossBuild := true
   )
 
   // common settings for play and core modules
   val parent = common ++ Seq(
-    scalaVersion := scala_2_11,
+    scalaVersion := scala_2_12,
     crossScalaVersions := Seq(scala_2_11, scala_2_12),
     releaseCrossBuild := true,
     resolvers += Resolver.typesafeRepo("releases"),
