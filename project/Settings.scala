@@ -15,6 +15,9 @@ object Settings {
   // settings for ALL modules, including parent
   val common = Seq(
     organization := "org.virtuslab",
+    scalaVersion := scala_2_12,
+    crossScalaVersions := Seq(scala_2_11, scala_2_12),
+    releaseCrossBuild := true,
 
     parallelExecution in Test := false,
     testOptions in Test += Tests.Argument("-oDF"),

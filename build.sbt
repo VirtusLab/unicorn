@@ -25,5 +25,6 @@ val unicorn = project
   .settings(Settings.parent: _*)
   .enablePlugins(ScalaUnidocPlugin)
   .settings(
-    name := "unicorn"
+    name := "unicorn",
+    publishTo in ThisBuild := sonatypePublishTo.value,
   )
