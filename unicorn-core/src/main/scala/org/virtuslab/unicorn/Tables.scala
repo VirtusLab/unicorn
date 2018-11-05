@@ -38,7 +38,7 @@ protected[unicorn] trait Tables[Underlying] extends TypeMappers {
     protected val idColumnName: String = "id"
 
     /** @return id column representation of this table */
-    final def id: Rep[Id] = column[Id](idColumnName, O.PrimaryKey, O.AutoInc)
+    def id: Rep[Id] = column[Id](idColumnName, O.PrimaryKey, O.AutoInc)
   }
 
   /**
