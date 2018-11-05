@@ -1,6 +1,6 @@
 package org.virtuslab.unicorn.repositories
 
-import org.virtuslab.unicorn.{ HasJdbcProfile, Identifiers, Tables }
+import org.virtuslab.unicorn.{ HasJdbcProfile, Tables }
 
 import scala.concurrent.ExecutionContext
 

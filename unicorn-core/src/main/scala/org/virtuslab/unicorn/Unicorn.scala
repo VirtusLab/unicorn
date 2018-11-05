@@ -3,8 +3,6 @@ package org.virtuslab.unicorn
 import org.virtuslab.unicorn.repositories.Repositories
 import slick.jdbc.JdbcProfile
 
-import scala.language.higherKinds
-
 trait HasJdbcProfile {
 
   val profile: JdbcProfile
