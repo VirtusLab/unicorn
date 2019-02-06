@@ -324,9 +324,10 @@ Let's use `String` as our type for `id`. So we should bake unicorn with `String`
 
 Play example
 ------------
-```
+```scala
 @Singleton()
-class StringUnicornPlay @Inject() (dbConfig: DatabaseConfig[JdbcProfile]) extends UnicornPlay[String](dbConfig)
+class StringUnicornPlay @Inject() (databaseConfigProvider: DatabaseConfigProvider) 
+    extends UnicornPlay[String](databaseConfigProvider.get[JdbcProfile])
 
 object StringUnicornPlayIdentifiers extends PlayIdentifiersImpl[String] {
   override val ordering: Ordering[String] = implicitly[Ordering[String]]
@@ -336,7 +337,7 @@ object StringUnicornPlayIdentifiers extends PlayIdentifiersImpl[String] {
 
 Core example
 ------------ 
-```
+```scala
 object StringUnicornIdentifiers extends Identifiers[String] {
   override def ordering: Ordering[String] = implicitly[Ordering[String]]
 
