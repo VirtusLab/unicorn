@@ -8,17 +8,19 @@ import xerial.sbt.Sonatype
 object Settings {
 
   val scala_2_11 = "2.11.12"
-  val scala_2_12 = "2.12.6"
+  val scala_2_12 = "2.12.8"
+  val scala_2_13 = "2.13.0"
 
   val alsoOnTest = "compile->compile;test->test"
 
   // settings for ALL modules, including parent
   val common = Seq(
     organization := "org.virtuslab",
-    scalaVersion := scala_2_12,
-    crossScalaVersions := Seq(scala_2_11, scala_2_12),
+    scalaVersion := scala_2_13,
+    crossScalaVersions := Seq(scala_2_11, scala_2_12, scala_2_13),
     releaseCrossBuild := true,
 
+    fork in Test := true,
     parallelExecution in Test := false,
     testOptions in Test += Tests.Argument("-oDF"),
     autoAPIMappings := true,
@@ -51,23 +53,12 @@ object Settings {
   ) ++
     Sonatype.sonatypeSettings
 
-  val core = common ++ Seq(
-    scalaVersion := scala_2_12,
-    crossScalaVersions := Seq(scala_2_11, scala_2_12),
-    releaseCrossBuild := true
-  )
+  val core = common
 
-  val play = common ++ Seq(
-    scalaVersion := scala_2_12,
-    crossScalaVersions := Seq(scala_2_11, scala_2_12),
-    releaseCrossBuild := true
-  )
+  val play = common
 
   // common settings for play and core modules
   val parent = common ++ Seq(
-    scalaVersion := scala_2_12,
-    crossScalaVersions := Seq(scala_2_11, scala_2_12),
-    releaseCrossBuild := true,
     resolvers += Resolver.typesafeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("snapshots"),

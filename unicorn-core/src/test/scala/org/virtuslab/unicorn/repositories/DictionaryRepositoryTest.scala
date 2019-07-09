@@ -48,7 +48,7 @@ class DictionaryRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
       // then no new entry should be added
       find2 <- DictionaryRepository.findAll()
 
-      _ <- DictionaryRepository deleteAll ()
+      _ <- DictionaryRepository.deleteAll()
       find3 <- DictionaryRepository.findAll()
     } yield (find1, find2, find3)
 

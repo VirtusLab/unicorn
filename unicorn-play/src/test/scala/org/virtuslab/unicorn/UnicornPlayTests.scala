@@ -1,6 +1,6 @@
 package org.virtuslab.unicorn
 
-import org.virtuslab.unicorn.repositories.{ UsersRepositoryTest, AbstractUserTable }
+import org.virtuslab.unicorn.repositories.{ AbstractUserTable, UsersRepositoryTest }
 
 class UnicornPlayTests
   extends BasePlayTest

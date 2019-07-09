@@ -74,7 +74,7 @@ protected[unicorn] trait IdRepositories[Underlying] {
         elem <- findById(id)
         result <- elem match {
           case None => DBIO.failed(new NoSuchElementException(s"Element with $id doesn't exist"))
-          case Some(elem) => (queryReturningId += (elem))
+          case Some(e) => queryReturningId += e
         }
       } yield result
 
@@ -128,7 +128,7 @@ protected[unicorn] trait IdRepositories[Underlying] {
               s"for id: $id - $rowsUpdated rows updated, expected: 1. Entity: $elem")
           }
         case None =>
-          val result = queryReturningId += (elem)
+          val result = queryReturningId += elem
           result.map { rowsInserted =>
             afterSave(elem)
             rowsInserted

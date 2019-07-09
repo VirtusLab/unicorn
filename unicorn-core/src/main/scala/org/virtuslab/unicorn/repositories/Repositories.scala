@@ -58,11 +58,10 @@ protected[unicorn] trait Repositories[Underlying]
      */
     def save(elem: Entity)(implicit ec: ExecutionContext): DBIO[Entity] = exists(elem).flatMap {
       case true => DBIO.successful(elem)
-      case false => {
-        val insert = query += (elem)
+      case false =>
+        val insert = query += elem
         val result = insert.map(_ => elem)
         result
-      }
     }
 
     /**

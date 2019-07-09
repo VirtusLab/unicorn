@@ -11,11 +11,6 @@ Idea for type-safe ids was derived from Slick creator's [presentation on ScalaDa
 
 This library is used in [Advanced play-slick Typesafe Activator template](https://github.com/VirtusLab/activator-play-advanced-slick).
 
-
-ScalaDoc API:
-* [unicorn-core 1.1.0](http://virtuslab.github.io/unicorn/unicorn-v1.1.0/unicorn-core-api/)
-* [unicorn-play 1.1.0](http://virtuslab.github.io/unicorn/unicorn-v1.1.0/unicorn-play-api/)
-
 Unicorn is Open Source under [Apache 2.0 license](LICENSE).
 
 Contributors
@@ -33,19 +28,23 @@ Feel free to use it, test it and to contribute! For some helpful tips'n'tricks, 
 Getting unicorn
 ---------------
 
-For core latest version (Scala 2.11.x and Slick 3.1.x) use:
+For core latest version (Scala 2.12.x and Slick 3.3.x) use:
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn-core" % "1.1.0"
+libraryDependencies += "org.virtuslab" %% "unicorn-core" % "1.3.3"
 ```
 
-For play version (Scala 2.11.x, Slick 3.1.x, Play 2.5.x):
+For play version (Scala 2.12.x, Slick 3.3.x, Play 2.7.x):
 
 ```scala
-libraryDependencies += "org.virtuslab" %% "unicorn-play" % "1.1.0"
+libraryDependencies += "org.virtuslab" %% "unicorn-play" % "1.3.3"
 ```
 
 Or see [our Maven repository](http://maven-repository.com/artifact/org.virtuslab/).
+
+For Slick 3.3.x and play 2.7 see version [`1.3.3`](https://github.com/VirtusLab/unicorn/tree/v1.2.x-slick-3.2.x)
+
+For Slick 3.2.x and play 2.6 see version [`1.3.2`](https://github.com/VirtusLab/unicorn/tree/v1.2.x-slick-3.2.x)
 
 For Slick 3.2.x and play 2.5 see version [`1.2.x`](https://github.com/VirtusLab/unicorn/tree/v1.2.x-slick-3.2.x)
 
@@ -134,7 +133,7 @@ trait UserBaseRepositoryComponent {
 
     def lastName = column[String]("LAST_NAME")
 
-    override def * = (id.?, email, firstName, lastName) <>(UserRow.tupled, UserRow.unapply)
+    override def * = (id.?, email, firstName, lastName) <> (UserRow.tupled, UserRow.unapply)
 
   }
 

@@ -71,11 +71,10 @@ protected[unicorn] trait JunctionRepositories[Underlying] {
     def save(a: First, b: Second)(implicit ec: ExecutionContext): DBIO[Unit] = {
       exists(a, b).flatMap {
         case true => DBIO.successful(())
-        case false => {
+        case false =>
           val insert = query += ((a, b))
           val result = insert.map(_ => ())
           result
-        }
       }
     }
 
