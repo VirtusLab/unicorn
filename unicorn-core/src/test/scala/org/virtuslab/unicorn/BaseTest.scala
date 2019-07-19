@@ -30,11 +30,11 @@ trait BaseTest[Underlying] extends FlatSpecLike with Matchers with BeforeAndAfte
 
   def runWithRollback[R, S <: slick.dbio.NoStream, E <: slick.dbio.Effect](action: DBIOAction[R, S, E]): Unit = {
     try {
-      val block = action andThen DBIO.failed(new IntentionalRollbackException())
+      val block = action andThen DBIO.failed(IntentionalRollbackException())
       val future = DB.run(block.transactionally)
       Await.result(future, 5.seconds)
     } catch {
-      case e: IntentionalRollbackException => // Success
+      case _: IntentionalRollbackException => // Success
     }
   }
 

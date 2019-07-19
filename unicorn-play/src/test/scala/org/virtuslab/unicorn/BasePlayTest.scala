@@ -2,8 +2,9 @@ package org.virtuslab.unicorn
 
 import org.scalatest._
 import play.api.db.slick.DatabaseConfigProvider
-import play.api.{ Environment, Play }
+import play.api.{ Application, Configuration, Play }
 import play.api.inject.guice.GuiceApplicationBuilder
+import org.scalatestplus.play.guice.GuiceFakeApplicationFactory
 import slick.jdbc.JdbcProfile
 
 trait BasePlayTest
@@ -12,20 +13,18 @@ trait BasePlayTest
   with Matchers
   with BeforeAndAfterEach
   with BaseTest[Long]
-  with BeforeAndAfterAll {
+  with BeforeAndAfterAll
+  with GuiceFakeApplicationFactory {
 
-  private val testDb: Map[String, Any] = Map(
+  private val testDb = Configuration(
     "slick.dbs.default.profile" -> "slick.jdbc.H2Profile$",
     "slick.dbs.default.db.driver" -> "org.h2.Driver",
     "slick.dbs.default.db.url" -> "jdbc:h2:mem:play",
     "slick.dbs.default.db.user" -> "sa",
     "slick.dbs.default.db.password" -> "")
 
-  implicit val app = {
-    val fake = new GuiceApplicationBuilder()
-      .configure(testDb)
-      .in(Environment.simple())
-      .build
+  implicit val app: Application = {
+    val fake = new GuiceApplicationBuilder(configuration = testDb).build
     Play.start(fake)
     fake
   }

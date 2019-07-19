@@ -2,7 +2,7 @@
 val `unicorn-core` = project
   .settings(Settings.core: _*)
   .settings(
-    libraryDependencies ++= Dependencies.core(scalaVersion.value),
+    libraryDependencies ++= Dependencies.core,
     // cannot be higher due to tests not able to reproduce abnormal DB behavior
     coverageMinimum := 100,
     (scalastyleConfig in Test) := file("scalastyle-test-config.xml")
@@ -11,7 +11,7 @@ val `unicorn-core` = project
 val `unicorn-play` = project
   .settings(Settings.play: _*)
   .settings(
-    libraryDependencies ++= Dependencies.core(scalaVersion.value),
+    libraryDependencies ++= Dependencies.core,
     libraryDependencies ++= Dependencies.play,
     coverageMinimum := 100,
     (scalastyleConfig in Test) := file("scalastyle-test-config.xml")
@@ -26,5 +26,5 @@ val unicorn = project
   .enablePlugins(ScalaUnidocPlugin)
   .settings(
     name := "unicorn",
-    publishTo in ThisBuild := sonatypePublishTo.value,
+    publishTo in ThisBuild := sonatypePublishTo.value
   )
