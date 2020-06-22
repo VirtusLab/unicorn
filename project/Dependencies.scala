@@ -17,12 +17,12 @@ object Dependencies {
   val core: Seq[ModuleID] = mainCore ++ testCore
 
   val mainPlay = Seq(
-    "com.typesafe.play" %% "play-slick" % "4.0.2"
+    "com.typesafe.play" %% "play-slick" % "5.0.0"
   )
 
   val testPlay = Seq(
-    "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3" % Test,
-    "com.typesafe.play" %% "play-test" % "2.7.3" % "test"
+    "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % Test,
+    "com.typesafe.play" %% "play-test" % "2.8.2" % "test"
   )
 
   val play = mainPlay ++ testPlay
