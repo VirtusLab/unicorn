@@ -40,7 +40,7 @@ For play version (Scala 2.12.x, Slick 3.3.x, Play 2.7.x):
 libraryDependencies += "org.virtuslab" %% "unicorn-play" % "1.3.3"
 ```
 
-Or see [our Maven repository](http://maven-repository.com/artifact/org.virtuslab/).
+Or see [our Maven repository](https://mvnrepository.com/artifact/org.virtuslab/).
 
 For Slick 3.3.x and play 2.7 see version [`1.3.3`](https://github.com/VirtusLab/unicorn/tree/v1.2.x-slick-3.2.x)
 
