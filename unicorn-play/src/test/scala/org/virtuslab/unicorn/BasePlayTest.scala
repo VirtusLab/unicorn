@@ -1,6 +1,8 @@
 package org.virtuslab.unicorn
 
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpecLike
+import org.scalatest.matchers.should.Matchers
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.{ Application, Configuration, Play }
 import play.api.inject.guice.GuiceApplicationBuilder
@@ -8,7 +10,7 @@ import org.scalatestplus.play.guice.GuiceFakeApplicationFactory
 import slick.jdbc.JdbcProfile
 
 trait BasePlayTest
-  extends FlatSpecLike
+  extends AnyFlatSpecLike
   with OptionValues
   with Matchers
   with BeforeAndAfterEach
