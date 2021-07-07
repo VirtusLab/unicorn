@@ -197,7 +197,7 @@ Preparing Unicorn to work
 First you have to bake your own cake to provide `unicorn` with proper driver (in example case H2),
 as also build new object for Long ID support in entities:
 
-```
+```scala
 package infra
 
 object LongUnicornIdentifiers extends Identifiers[Long] {
@@ -323,7 +323,7 @@ Let's use `String` as our type for `id`. So we should bake unicorn with `String`
 
 Play example
 ------------
-```
+```scala
 @Singleton()
 class StringUnicornPlay @Inject() (dbConfig: DatabaseConfig[JdbcProfile]) extends UnicornPlay[String](dbConfig)
 
@@ -335,7 +335,7 @@ object StringUnicornPlayIdentifiers extends PlayIdentifiersImpl[String] {
 
 Core example
 ------------ 
-```
+```scala
 object StringUnicornIdentifiers extends Identifiers[String] {
   override def ordering: Ordering[String] = implicitly[Ordering[String]]
 
