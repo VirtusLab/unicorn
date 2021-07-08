@@ -19,4 +19,4 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: Run tests
-      run: sbt scalastyle clean coverage test unidoc "project unicorn-core" +test
+      run: sbt +test

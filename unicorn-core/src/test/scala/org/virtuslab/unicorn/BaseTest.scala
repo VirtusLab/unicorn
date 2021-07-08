@@ -2,9 +2,11 @@ package org.virtuslab.unicorn
 
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.flatspec.AnyFlatSpecLike
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.time.{ Millis, Seconds, Span }
 import org.virtuslab.unicorn.TestUnicorn.profile.api._
-import slick.dbio.{ DBIOAction }
+import slick.dbio.DBIOAction
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -13,7 +15,7 @@ trait LongTestUnicorn {
   lazy val unicorn = TestUnicorn
 }
 
-trait BaseTest[Underlying] extends FlatSpecLike with Matchers with BeforeAndAfterEach with ScalaFutures {
+trait BaseTest[Underlying] extends AnyFlatSpecLike with Matchers with BeforeAndAfterEach with ScalaFutures {
 
   val unicorn: Unicorn[Underlying] with HasJdbcProfile
 

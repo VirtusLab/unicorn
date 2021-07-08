@@ -7,9 +7,8 @@ import xerial.sbt.Sonatype
 
 object Settings {
 
-  val scala_2_11 = "2.11.12"
   val scala_2_12 = "2.12.8"
-  val scala_2_13 = "2.13.0"
+  val scala_2_13 = "2.13.6"
 
   val alsoOnTest = "compile->compile;test->test"
 
@@ -17,7 +16,7 @@ object Settings {
   val common = Seq(
     organization := "org.virtuslab",
     scalaVersion := scala_2_13,
-    crossScalaVersions := Seq(scala_2_11, scala_2_12, scala_2_13),
+    crossScalaVersions := Seq(scala_2_12, scala_2_13),
     releaseCrossBuild := true,
 
     fork in Test := true,

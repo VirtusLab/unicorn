@@ -1,8 +1,9 @@
 package org.virtuslab.unicorn.repositories
 
-import java.util.UUID
+import org.scalatest.flatspec.AnyFlatSpecLike
+import org.scalatest.matchers.should.Matchers
 
-import org.scalatest.{ FlatSpecLike, Matchers }
+import java.util.UUID
 import org.virtuslab.unicorn.TestUnicorn.profile.api._
 import org.virtuslab.unicorn._
 import slick.jdbc.H2Profile
@@ -52,8 +53,8 @@ trait UUIDTable extends UUIDTestUnicorn {
 
 }
 
-trait PersonUUIDTest extends FlatSpecLike {
-  self: FlatSpecLike with Matchers with BaseTest[UUID] with UUIDTable =>
+trait PersonUUIDTest extends AnyFlatSpecLike {
+  self: AnyFlatSpecLike with Matchers with BaseTest[UUID] with UUIDTable =>
 
   "Persons Repository" should "work fine with UUID id" in runWithRollback {
     val person = PersonRow(None, "Alexander")

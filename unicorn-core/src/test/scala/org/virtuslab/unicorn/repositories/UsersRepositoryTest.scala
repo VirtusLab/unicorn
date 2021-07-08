@@ -1,6 +1,8 @@
 package org.virtuslab.unicorn.repositories
 
-import org.scalatest.{ FlatSpecLike, Matchers, OptionValues }
+import org.scalatest.OptionValues
+import org.scalatest.flatspec.AnyFlatSpecLike
+import org.scalatest.matchers.should.Matchers
 import org.virtuslab.unicorn.{ BaseTest, _ }
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -42,7 +44,7 @@ trait AbstractUserTable {
 }
 
 trait UsersRepositoryTest extends OptionValues {
-  self: FlatSpecLike with Matchers with BaseTest[Long] with AbstractUserTable =>
+  self: AnyFlatSpecLike with Matchers with BaseTest[Long] with AbstractUserTable =>
 
   "Users Service" should "save and query users" in runWithRollback {
     val user = UserRow(None, "test@email.com", "Krzysztof", "Nowak")
