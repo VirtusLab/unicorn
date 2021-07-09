@@ -1,3 +1,16 @@
+inThisBuild(List(
+  organization := "org.virtuslab",
+  homepage := Some(url("https://github.com/VirtusLab/unicorn")),
+  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  developers := List(
+    Developer(
+      "jsroka",
+      "jsroka",
+      "jsroka@virtuslab.com",
+      url("https://virtuslab.com/")
+    )
+  )
+))
 
 val `unicorn-core` = project
   .settings(Settings.core: _*)
@@ -25,6 +38,5 @@ val unicorn = project
   .settings(Settings.parent: _*)
   .enablePlugins(ScalaUnidocPlugin)
   .settings(
-    name := "unicorn",
-    publishTo in ThisBuild := sonatypePublishTo.value
+    name := "unicorn"
   )
