@@ -17,7 +17,7 @@ object Dependencies {
   val core: Seq[ModuleID] = mainCore ++ testCore
 
   val mainPlay = Seq(
-    "com.typesafe.play" %% "play-slick" % "5.1.0"
+    "org.playframework" %% "play-slick" % "6.0.0"
   )
 
   val testPlay = Seq(
