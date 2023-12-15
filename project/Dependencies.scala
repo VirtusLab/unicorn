@@ -22,7 +22,8 @@ object Dependencies {
 
   val testPlay = Seq(
     "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % Test,
-    "com.typesafe.play" %% "play-test" % "2.8.20" % "test"
+    "org.apache.pekko" %% "pekko-stream" % "1.0.2" % Test,
+    "org.playframework" %% "play-test" % "3.0.0" % "test"
   )
 
   val play = mainPlay ++ testPlay
