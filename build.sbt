@@ -27,7 +27,11 @@ val `unicorn-play` = project
     libraryDependencies ++= Dependencies.core,
     libraryDependencies ++= Dependencies.play,
     coverageMinimum := 100,
-    Test / scalastyleConfig := file("scalastyle-test-config.xml")
+    Test / scalastyleConfig := file("scalastyle-test-config.xml"),
+    Test / javaOptions ++= Seq(
+      //FIXME This option isn't passed into IntelliJ run configurations
+      "--add-opens=java.base/java.lang=ALL-UNNAMED"
+    ),
   )
   .dependsOn(`unicorn-core` % Settings.alsoOnTest)
 
