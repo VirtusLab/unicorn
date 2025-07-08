@@ -18,5 +18,9 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+    - name: Set up sbt
+      uses: coursier/setup-action@v1
+      with:
+        apps: sbt
     - name: Run tests
       run: sbt +test
