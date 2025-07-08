@@ -37,7 +37,7 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
   it should "save pairs" in runWithRollback {
     val actions = for {
-      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.create()
       _ <- OrderCustomerRepository.save(OrderId(100), CustomerId(200))
       all <- OrderCustomerRepository.findAll()
     } yield all
@@ -49,10 +49,10 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
   it should "save pair only once" in runWithRollback {
     val actions = for {
-      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.create()
       _ <- OrderCustomerRepository.save(OrderId(100), CustomerId(200))
       _ <- OrderCustomerRepository.save(OrderId(100), CustomerId(200))
-      all <- OrderCustomerRepository.findAll
+      all <- OrderCustomerRepository.findAll()
     } yield all
 
     actions map { result =>
@@ -62,10 +62,10 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
   it should "find all pairs" in runWithRollback {
     val actions = for {
-      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.create()
       _ <- OrderCustomerRepository.save(OrderId(100), CustomerId(200))
       _ <- OrderCustomerRepository.save(OrderId(101), CustomerId(200))
-      all <- OrderCustomerRepository.findAll
+      all <- OrderCustomerRepository.findAll()
     } yield all
 
     actions map { result =>
@@ -76,7 +76,7 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
   it should "find by first" in runWithRollback {
     val orderId = OrderId(100)
     val actions = for {
-      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.create()
       _ <- OrderCustomerRepository.save(orderId, CustomerId(200))
       _ <- OrderCustomerRepository.save(orderId, CustomerId(201))
       _ <- OrderCustomerRepository.save(OrderId(101), CustomerId(201))
@@ -91,7 +91,7 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
   it should "find by second" in runWithRollback {
     val customerId = CustomerId(200)
     val actions = for {
-      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.create()
       _ <- OrderCustomerRepository.save(OrderId(100), customerId)
       _ <- OrderCustomerRepository.save(OrderId(101), customerId)
       _ <- OrderCustomerRepository.save(OrderId(101), CustomerId(100))
@@ -106,7 +106,7 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
   it should "delete by first" in runWithRollback {
     val orderId = OrderId(100)
     val actions = for {
-      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.create()
       _ <- OrderCustomerRepository.save(orderId, CustomerId(200))
       _ <- OrderCustomerRepository.save(orderId, CustomerId(201))
       _ <- OrderCustomerRepository.delete(orderId, CustomerId(200))
@@ -121,11 +121,11 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
   it should "delete all items with given first" in runWithRollback {
     val orderId = OrderId(100)
     val actions = for {
-      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.create()
       _ <- OrderCustomerRepository.save(orderId, CustomerId(200))
       _ <- OrderCustomerRepository.save(orderId, CustomerId(201))
       _ <- OrderCustomerRepository.deleteForA(orderId)
-      orders <- OrderCustomerRepository.findAll
+      orders <- OrderCustomerRepository.findAll()
     } yield orders
 
     actions map { result =>
@@ -136,11 +136,11 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
   it should "delete all items with given second" in runWithRollback {
     val customerId = CustomerId(200)
     val actions = for {
-      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.create()
       _ <- OrderCustomerRepository.save(OrderId(100), customerId)
       _ <- OrderCustomerRepository.save(OrderId(101), customerId)
       _ <- OrderCustomerRepository.deleteForB(customerId)
-      all <- OrderCustomerRepository.findAll
+      all <- OrderCustomerRepository.findAll()
     } yield all
 
     actions map { result =>
@@ -152,7 +152,7 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
     val customerId = CustomerId(200)
 
     val actions = for {
-      _ <- OrderCustomerRepository.create
+      _ <- OrderCustomerRepository.create()
       _ <- OrderCustomerRepository.save(OrderId(100), customerId)
       _ <- OrderCustomerRepository.save(OrderId(101), customerId)
       firstExist <- OrderCustomerRepository.exists(OrderId(200), customerId)

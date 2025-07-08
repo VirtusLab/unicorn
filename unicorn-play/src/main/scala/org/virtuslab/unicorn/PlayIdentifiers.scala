@@ -52,7 +52,7 @@ protected[unicorn] trait PlayIdentifiers[Underlying] {
         }
 
         underlyingFormatter.bind(key, data)
-          .right.map(apply)
+          .map(apply)
           .left.map(handleErrors)
       }
 

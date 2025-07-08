@@ -26,7 +26,7 @@ trait BasePlayTest
     "slick.dbs.default.db.password" -> "")
 
   implicit val app: Application = {
-    val fake = new GuiceApplicationBuilder(configuration = testDb).build
+    val fake = GuiceApplicationBuilder(configuration = testDb).build()
     Play.start(fake)
     fake
   }
