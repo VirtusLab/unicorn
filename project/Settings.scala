@@ -4,7 +4,6 @@ import sbtrelease.ReleasePlugin.autoImport._
 
 object Settings {
 
-  val scala_2_12 = "2.12.18"
   val scala_2_13 = "2.13.11"
 
   val alsoOnTest = "compile->compile;test->test"
@@ -13,7 +12,6 @@ object Settings {
   val common = Seq(
     organization := "org.virtuslab",
     scalaVersion := scala_2_13,
-    crossScalaVersions := Seq(scala_2_12, scala_2_13),
     releaseCrossBuild := true,
 
     fork in Test := true,
