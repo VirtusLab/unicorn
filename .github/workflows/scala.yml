@@ -20,5 +20,7 @@ jobs:
         distribution: 'adopt'
     - name: Set up sbt
       uses: coursier/setup-action@v1
+      with:
+        apps: sbt
     - name: Run tests
-      run: sbtn +test
+      run: sbt +test
