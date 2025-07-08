@@ -16,10 +16,11 @@ object Settings {
     crossScalaVersions := Seq(scala_2_12, scala_2_13),
     releaseCrossBuild := true,
 
-    fork in Test := true,
-    parallelExecution in Test := false,
-    testOptions in Test += Tests.Argument("-oDF"),
-    autoAPIMappings := true
+    Test / fork := true,
+    Test / parallelExecution := false,
+    Test / testOptions += Tests.Argument("-oDF"),
+    autoAPIMappings := true,
+    scalacOptions += "-deprecation"
   )
 
   val core = common
