@@ -21,4 +21,4 @@ jobs:
     - name: Set up sbt
       uses: coursier/setup-action@v1
     - name: Run tests
-      run: sbt +test
+      run: sbtn +test
