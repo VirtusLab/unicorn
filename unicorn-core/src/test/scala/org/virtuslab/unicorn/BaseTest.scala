@@ -12,7 +12,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 
 trait LongTestUnicorn {
-  lazy val unicorn = TestUnicorn
+  lazy val unicorn: LongUnicornCore with HasJdbcProfile = TestUnicorn
 }
 
 trait BaseTest[Underlying] extends AnyFlatSpecLike with Matchers with BeforeAndAfterEach with ScalaFutures {
@@ -23,9 +23,9 @@ trait BaseTest[Underlying] extends AnyFlatSpecLike with Matchers with BeforeAndA
 
   val dbDriver = "org.h2.Driver"
 
-  lazy val DB = unicorn.profile.backend.Database.forURL(dbURL, driver = dbDriver)
+  lazy val DB: unicorn.profile.backend.DatabaseDef = unicorn.profile.backend.Database.forURL(dbURL, driver = dbDriver)
 
-  implicit val defaultPatience =
+  implicit val defaultPatience: PatienceConfig =
     PatienceConfig(timeout = Span(5, Seconds), interval = Span(500, Millis))
 
   case class IntentionalRollbackException() extends Exception("Transaction intentionally aborted")

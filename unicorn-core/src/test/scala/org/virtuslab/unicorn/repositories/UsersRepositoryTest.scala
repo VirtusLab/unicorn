@@ -59,9 +59,9 @@ trait UsersRepositoryTest extends OptionValues {
       userOpt shouldBe defined
 
       userOpt.value should have(
-        'email(user.email),
-        'firstName(user.firstName),
-        'lastName(user.lastName))
+        Symbol("email")(user.email),
+        Symbol("firstName")(user.firstName),
+        Symbol("lastName")(user.lastName))
       userOpt.value.id shouldBe defined
     }
   }
@@ -94,9 +94,9 @@ trait UsersRepositoryTest extends OptionValues {
 
     actions map { user2 =>
       user2 should have(
-        'email(blankUser.email),
-        'firstName(blankUser.firstName),
-        'lastName(blankUser.lastName))
+        Symbol("email")(blankUser.email),
+        Symbol("firstName")(blankUser.firstName),
+        Symbol("lastName")(blankUser.lastName))
       user2.id shouldBe defined
     }
   }
@@ -115,10 +115,10 @@ trait UsersRepositoryTest extends OptionValues {
     actions map {
       case (userId, updatedUser) =>
         updatedUser should have(
-          'email("test@email.com"),
-          'firstName("Jerzy"),
-          'lastName("Muller"),
-          'id(Some(userId)))
+          Symbol("email")("test@email.com"),
+          Symbol("firstName")("Jerzy"),
+          Symbol("lastName")("Muller"),
+          Symbol("id")(Some(userId)))
     }
   }
 
@@ -198,9 +198,9 @@ trait UsersRepositoryTest extends OptionValues {
       copiedUser.id shouldNot be(user.id)
 
       copiedUser should have(
-        'email(user.email),
-        'firstName(user.firstName),
-        'lastName(user.lastName))
+        Symbol("email")(user.email),
+        Symbol("firstName")(user.firstName),
+        Symbol("lastName")(user.lastName))
     }
   }
 
