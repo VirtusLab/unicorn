@@ -31,8 +31,10 @@ trait BasePlayTest
     fake
   }
 
-  override lazy val unicorn: Unicorn[Long] with HasJdbcProfile =
-    new LongUnicornPlay(DatabaseConfigProvider.get[JdbcProfile](app))
+  override lazy val unicorn: Unicorn[Long] with HasJdbcProfile = {
+    val databaseConfigProvider = app.injector.instanceOf[DatabaseConfigProvider]
+    new LongUnicornPlay(databaseConfigProvider.get[JdbcProfile])
+  }
 
   import unicorn.profile.api._
 
