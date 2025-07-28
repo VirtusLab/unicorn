@@ -16,7 +16,7 @@ object StringUnicornPlayIdentifiers extends PlayIdentifiersImpl[String] {
 
 import StringUnicornPlayIdentifiers._
 
-case class UserId(id: String) extends BaseId[String]
+case class UserId(id: String) extends BaseId[String] with MappedToBase
 
 object UserId extends IdCompanion[UserId]
 
@@ -27,6 +27,9 @@ trait UserQuery {
 
   import unicorn._
   import unicorn.profile.api._
+
+  val ictc = new IsomorphicColumnTypeConversion
+  import ictc._
 
   class UserTable(tag: SlickTag) extends IdTable[UserId, UserRow](tag, "test") {
     def name = column[String]("name")

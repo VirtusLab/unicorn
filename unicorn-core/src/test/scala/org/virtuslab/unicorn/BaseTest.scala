@@ -23,7 +23,7 @@ trait BaseTest[Underlying] extends AnyFlatSpecLike with Matchers with BeforeAndA
 
   val dbDriver = "org.h2.Driver"
 
-  lazy val DB: unicorn.profile.backend.DatabaseDef = unicorn.profile.backend.Database.forURL(dbURL, driver = dbDriver)
+  lazy val DB: unicorn.profile.backend.JdbcDatabaseDef = unicorn.profile.backend.Database.forURL(dbURL, driver = dbDriver)
 
   implicit val defaultPatience: PatienceConfig =
     PatienceConfig(timeout = Span(5, Seconds), interval = Span(500, Millis))

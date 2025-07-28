@@ -20,7 +20,7 @@ abstract class UnicornPlayLike[Underlying](dbConfig: DatabaseConfig[JdbcProfile]
 
   val profile: JdbcProfile = dbConfig.profile
 
-  val db: JdbcBackend#DatabaseDef = dbConfig.db
+  val db: JdbcBackend#Database = dbConfig.db
 }
 
 abstract class UnicornPlay[Underlying](dbConfig: DatabaseConfig[JdbcProfile])
