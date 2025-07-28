@@ -16,6 +16,7 @@ val `unicorn-core` = project
   .settings(Settings.core *)
   .settings(
     libraryDependencies ++= Dependencies.core,
+    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
     // cannot be higher due to tests not able to reproduce abnormal DB behavior
     coverageMinimum := 100,
     Test / scalastyleConfig := file("scalastyle-test-config.xml"),
