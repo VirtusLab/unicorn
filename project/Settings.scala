@@ -4,8 +4,8 @@ import sbtrelease.ReleasePlugin.autoImport._
 
 object Settings {
 
-  val scala_2_12 = "2.12.20"
-  val scala_2_13 = "2.13.16"
+  val scala_2_12 = "2.12.21"
+  val scala_2_13 = "2.13.18"
 
   val alsoOnTest = "compile->compile;test->test"
 
