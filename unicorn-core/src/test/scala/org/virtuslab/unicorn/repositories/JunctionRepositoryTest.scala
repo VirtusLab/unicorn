@@ -2,7 +2,7 @@ package org.virtuslab.unicorn.repositories
 
 import org.virtuslab.unicorn.LongUnicornIdentifiers.IdCompanion
 import org.virtuslab.unicorn.TestUnicorn.profile.api._
-import org.virtuslab.unicorn.{ BaseId, BaseTest, LongTestUnicorn }
+import org.virtuslab.unicorn.{ BaseId, BaseTest, IsomorphicColumnTypeConversion, LongTestUnicorn, MappedToBase }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -10,13 +10,16 @@ class JunctionRepositoryTest extends BaseTest[Long] with LongTestUnicorn {
 
   import unicorn._
 
+  val ictc = new IsomorphicColumnTypeConversion
+  import ictc._
+
   behavior of classOf[JunctionRepository[_, _, _]].getSimpleName
 
-  case class OrderId(id: Long) extends BaseId[Long]
+  case class OrderId(id: Long) extends BaseId[Long] with MappedToBase
 
   object OrderId extends IdCompanion[OrderId]
 
-  case class CustomerId(id: Long) extends BaseId[Long]
+  case class CustomerId(id: Long) extends BaseId[Long] with MappedToBase
 
   object CustomerId extends IdCompanion[CustomerId]
 

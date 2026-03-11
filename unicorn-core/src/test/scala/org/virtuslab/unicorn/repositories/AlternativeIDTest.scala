@@ -30,7 +30,10 @@ trait UUIDTable extends UUIDTestUnicorn {
 
   import unicorn._
 
-  case class UniqueUserId(id: UUID) extends BaseId[UUID]
+  val ictc = new IsomorphicColumnTypeConversion
+  import ictc._
+
+  case class UniqueUserId(id: UUID) extends BaseId[UUID] with MappedToBase
 
   case class PersonRow(id: Option[UniqueUserId], name: String) extends WithId[UUID, UniqueUserId]
 

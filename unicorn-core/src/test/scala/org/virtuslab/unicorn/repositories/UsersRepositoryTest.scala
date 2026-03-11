@@ -16,7 +16,10 @@ trait AbstractUserTable {
   import unicorn.profile.api._
   import identifiers._
 
-  case class UserId(id: Long) extends BaseId[Long]
+  val ictc = new IsomorphicColumnTypeConversion
+  import ictc._
+
+  case class UserId(id: Long) extends BaseId[Long] with MappedToBase
 
   object UserId extends CoreCompanion[UserId]
 

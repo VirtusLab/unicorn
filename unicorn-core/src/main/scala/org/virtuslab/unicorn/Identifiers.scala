@@ -1,7 +1,5 @@
 package org.virtuslab.unicorn
 
-import slick.lifted.MappedTo
-
 /**
  * Base trait for implementing ids.
  * It is existential trait so it can have only defs.
